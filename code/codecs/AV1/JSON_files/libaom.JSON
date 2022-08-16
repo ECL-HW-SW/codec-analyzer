@@ -1,0 +1,16 @@
+{
+    "paths" : {
+        "libaom_enc" : "~/appfiles/libaom/aom/bin/aomenc",
+        "libaom_dec" : "~/appfiles/libaom/aom/bin/aomdec",
+        "libaom_encoded" : "home/edulodi/videocoding/videos",
+        "libaom_bitstream" : "home/edulodi/videocoding/bitstreams",
+        "libaom_options_enc" : "--passes 2 --rc 1",
+        "libaom_options_dec" : "",
+        "libaom_outgen" : "home/edulodi/videocoding/libaomenc_output",
+        "libaom_outtime" : "home/edulodi/videocoding/libaomenc_output",
+        "libaom_outcsv" : "home/edulodi/videocoding/libaomenc_output"
+    },
+    "options" : {
+        
+    }
+}

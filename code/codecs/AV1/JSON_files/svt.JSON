@@ -1,0 +1,16 @@
+{
+    "paths" : {
+        "svt_enc" : "SvtAv1EncApp",
+        "svt_dec" : "SvtAv1DecApp",
+        "svt_encoded" : "home/edulodi/videocoding/videos",
+        "svt_bitstream" : "home/edulodi/videocoding/bitstreams",
+        "svt_options_enc" : "--passes 2 --rc 1",
+        "svt_options_dec" : "",
+        "svt_outgen" : "home/edulodi/videocoding/svtenc_output",
+        "svt_outtime" : "home/edulodi/videocoding/svtenc_output",
+        "svt_outcsv" : "home/edulodi/videocoding/svtenc_output"
+    },
+    "options" : {
+        
+    }
+}
