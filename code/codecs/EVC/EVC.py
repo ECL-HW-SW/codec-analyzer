@@ -1,4 +1,4 @@
-from Codec import Codec
+from . import Codec
 import os
 import re
 class EVC(Codec):
