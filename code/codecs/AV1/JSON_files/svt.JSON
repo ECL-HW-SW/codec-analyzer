@@ -1,0 +1,16 @@
+{
+    "paths" : {
+        "svt_enc" : "SvtAv1EncApp",
+        "svt_dec" : "SvtAv1DecApp",
+        "svt_encoded" : "~/videocoding/videos",
+        "svt_bitstream" : "~/videocoding/bitstreams",
+        "svt_options_enc" : "--passes 2 --rc 1",
+        "svt_options_dec" : "",
+        "svt_outgen" : "~/videocoding/svtenc_output",
+        "svt_outtime" : "~/videocoding/svtenc_output",
+        "svt_outcsv" : "~/videocoding/svtenc_output"
+    },
+    "options" : {
+        
+    }
+}
