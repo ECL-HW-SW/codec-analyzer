@@ -6,22 +6,17 @@ class Codec(ABC):
         self.__bit_stream_path = bit_stream_path
         self.__output_path = output_path
 
-    @property
-    def bit_stream_path(self):
+    def get_bit_stream_path(self):
         return self.__bit_stream_path
 
-    @bit_stream_path.setter
-    def bit_stream_path(self, bit_stream_path):
+    def set_bit_stream_path(self, bit_stream_path):
         self.__bit_stream_path = bit_stream_path
 
-    @property
-    def output_path(self):
+    def get_output_path(self):
         return self.__output_path
 
-    @output_path.setter
-    def output_path(self, output_path):
+    def set_output_path(self, output_path):
         self.__output_path = output_path
-
 
     @abstractmethod
     def encode(self):
