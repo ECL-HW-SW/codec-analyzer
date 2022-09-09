@@ -1,3 +1,4 @@
+# TODO: migrar para classes relacioandas
 def parse_svt_output(pt1,pt2):
 
     BR_STRING = 'Total Frames	Average QP  	Y-PSNR   	U-PSNR   	V-PSNR		| 	Y-PSNR   	U-PSNR   	V-PSNR   	|	Y-SSIM   	U-SSIM   	V-SSIM   	|	Bitrate\n'

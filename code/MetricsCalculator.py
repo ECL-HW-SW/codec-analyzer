@@ -24,6 +24,7 @@ class MetricsCalculator():
         #os.system(cmdline)
 
     def lpips(self, videoref: str, videodis: str) -> float:
+        # TODO: caminhos hardcoded devem passar para constantes (usar singleton)
         cmdline = f"python3.7 ~/VC/tools/PerceptualSimilarity/lpips_2imgs.py \
                         -p0  {videoref} -p1 {videodis}"
         lpips = run([cmdline], shell=True, capture_output=True).stdout\

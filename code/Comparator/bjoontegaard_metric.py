@@ -1,6 +1,8 @@
 import numpy as np
 import scipy.interpolate
 
+
+# TODO: mover para MetricsCalculator
 def BD_PSNR(R1, PSNR1, R2, PSNR2, piecewise=0):
     lR1 = np.log(R1)
     lR2 = np.log(R2)

@@ -1,7 +1,7 @@
 import csv
 from csv_to_lists import csv2lists
 import bjoontegaard_metric 
-class comparator():
+class CodecComparator():
 
     def __init__(self):
         pass
