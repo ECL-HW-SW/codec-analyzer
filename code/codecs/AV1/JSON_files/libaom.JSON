@@ -1,14 +1,14 @@
 {
     "paths" : {
-        "libaom_enc" : "~/appfiles/libaom/aom/bin/aomenc",
-        "libaom_dec" : "~/appfiles/libaom/aom/bin/aomdec",
-        "libaom_encoded" : "~/videocoding/videos",
-        "libaom_bitstream" : "~/videocoding/bitstreams",
-        "libaom_options_enc" : "--passes=2 --limit=3",
-        "libaom_options_dec" : "",
-        "libaom_outgen" : "~/videocoding/libaomenc_output",
-        "libaom_outtime" : "~/videocoding/libaomenc_output",
-        "libaom_outcsv" : "~/videocoding/libaomenc_output"
+        "encoder" : "~/appfiles/libaom/aom/bin/aomenc",
+        "decoder" : "~/appfiles/libaom/aom/bin/aomdec",
+        "encoded" : "~/videocoding/videos",
+        "bitstream" : "~/videocoding/bitstreams",
+        "options_encoder" : "--passes=2 --limit=3",
+        "options_decoder" : "",
+        "outgen" : "~/videocoding/libaomenc_output",
+        "outtime" : "~/videocoding/libaomenc_output",
+        "outcsv" : "~/videocoding/libaomenc_output"
     },
     "options" : {
         
