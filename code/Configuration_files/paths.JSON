@@ -1,0 +1,14 @@
+{
+"raw": "/home/mangrich/code/lab/testes/raw",
+
+"evc":
+    {   
+    "encoder_path": "/home/filipi/evc/enc_app",
+    "bitstream": "/home/mangrich/code/lab/testes/bitstream",
+    "decoded": "/home/mangrich/code/lab/testes/decoded",
+    "txt": "/home/mangrich/code/lab/testes/txt",
+    "csv": "/home/mangrich/code/lab/testes/csv",
+    "images": "/home/mangrich/code/lab/testes/images"
+    }
+
+}
