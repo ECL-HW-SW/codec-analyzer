@@ -1,23 +1,37 @@
-from abc import ABC, abstractclassmethod, abstractmethod
+from abc import ABC, abstractmethod
+import json
+
 
 class Codec(ABC):
-    @abstractmethod
-    def __init__(self,bit_stream_path,output_path):
-        self._bit_stream_path = bit_stream_path
-        self._output_path = output_path
+    def __init__(self,codec):
+        codec = codec.lower()
+        with open('Configuration_files/paths.JSON') as json_file:
+            data = json.load(json_file)
+            self.__raw_path = data['raw']
+            self.__bitstream_path = data[codec]['bitstream']
+            self.__decoded_path = data[codec]['decoded']
+            self.__txts_path = data[codec]['txt']
+            self.__csvs_path = data[codec]['csv']
+            self.__images_path = data[codec]['images']
 
-    def get_bit_stream_path(self):
-        return self._bit_stream_path
+    def get_raw_path(self):
+        return self.__raw_path
 
-    def set_bit_stream_path(self, bit_stream_path):
-        self._bit_stream_path = bit_stream_path
+    def get_bitstream_path(self):
+        return self.__bitstream_path
 
-    def get_output_path(self):
-        return self._output_path
+    def get_decoded_path(self):
+        return self.__decoded_path
 
-    def set_output_path(self, output_path):
-        self._output_path = output_path
+    def get_txts_path(self):
+        return self.__txts_path
 
+    def get_csvs_path(self):
+        return self.__csvs_path
+
+    def get_images_paths(self):
+        return self.__images_path
+      
     @abstractmethod
     def encode(self):
         pass
@@ -31,5 +45,10 @@ class Codec(ABC):
         pass
 
     @abstractmethod
+    def add_to_csv(self):
+        pass
+
+    @abstractmethod
     def gen_config(self):
         pass
+
