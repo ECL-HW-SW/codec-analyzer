@@ -2,40 +2,81 @@ import os
 import json
 import csv
 from pathlib import Path
+import Codec
 
-class svt_codec:
+class svt_codec(Codec):
 
-    def __init__(self,rawvideo,configs):
-        with open(rawvideo, 'r') as video: 
-            self.__raw = json.load(video)
-        with open(configs,'r') as cfg:
-            self.data = json.load(cfg)
-        self.name = self.__raw["name"]
-        
+    def __init__(self):
+        super().__init__()
+        with open('/home/edulodi/videocoding/codec-research/code/codecs/AV1/JSON_files/paths.JSON') as json_file:
+            data = json.load(json_file)
+            self.__decoder = data['svt']['decoder']
+            self.__options_encoder = data['svt']['options_encoder']
+            self.__options_decoder = data['svt']['options_decoder']
+            self.__outtime = data['svt']['outtime']
+
+        with open('/home/edulodi/videocoding/codec-research/code/codecs/AV1/JSON_files/video.JSON') as json_video_file:
+            data = json.load(json_video_file)
+            self.__name = data['name']
+            self.__vidpath = data['path']
+            self.__resolution = data['resolution']
+            self.__fps = data['fps']
+            self.__framesnumber = data['framesnumber']
+            self.__format = data['format']
+
+    def get_videopath(self):
+        return self.__vidpath
+    
+    def  get_resolution(self):
+        return self.__resolution
+    
+    def get_fps(self):
+        return self.__fps
+
+    def get_framesnumber(self):
+        return self.__framesnumber
+
+    def get_format(self):
+        return self.__format
+
+    def get_videoname(self):
+        return self.__name
+
+    def get_decoder(self):
+        return self.__decoder
+
+    def get_options_encoder(self):
+        return self.__options_encoder
+    
+    def get_options_decoder(self):
+        return self.__options_decoder
+
+    def get_outtime(self):
+        return self.__outtime
 
     def encode(self):
-        svtpath = self.data["paths"]["encoder"]
-        options_svte = self.data["paths"]["options_encoder"]
-        encoded_out = self.data["paths"]["encoded"]+"/svtenc_"+self.name
-        outgen = self.data["paths"]["outgen"]+"/"+self.name+".log"
-        outtime = self.data["paths"]["outtime"]+"/"+self.name+".txt"
+        svtpath = self.get_encoder
+        options_svte = self.get_options_encoder
+        encoded_out = self.get_bitstream+"/svtenc_"+self.get_videoname
+        outgen = self.get_txts+"/"+self.get_videoname+".log"
+        outtime = self.get_outtime+"/"+self.get_videoname+".txt"
         cmdline = svtpath + ' --enable-stat-report 1 --stat-file ' + outgen  + ' ' + options_svte
-        cmdline += ' -i ' + self.__raw["path"] + ' -b ' + encoded_out + ' 2> ' + outtime 
+        cmdline += ' -i ' + self.get_videopath + ' -b ' + encoded_out + ' 2> ' + outtime 
         print(cmdline)
-        os.system(cmdline)
+        #os.system(cmdline)
 
     def decode(self):
-        svtpath = self.data["paths"]["decoder"]
-        options_svtd = self.data["paths"]["options_decoder"]
-        encoded_out = self.data["paths"]["encoded"]+"/svtenc_"+self.name
-        decoded_out = self.data["paths"]['bitstream']+"/svtdec_"+self.name
+        svtpath = self.get_decoder
+        options_svtd = self.get_options_decoder
+        encoded_out = self.get_bitstream+"/svtenc_"+self.get_videoname
+        decoded_out = self.get_decoded+"/svtdec_"+self.get_videoname
         cmdline = (svtpath + ' ' + options_svtd + ' -i ' + encoded_out + ' -o ' + decoded_out)
         print(cmdline)
-        os.system(cmdline)
+        #os.system(cmdline)
 
     def parse(self):
-        outgen = self.data["paths"]["outgen"]+"/"+self.name+".log"
-        outtime = self.data["paths"]["outtime"]+"/"+self.name+".txt"
+        outgen = self.get_txts+"/"+self.get_videoname+".log"
+        outtime = self.get_outtime+"/"+self.get_videoname+".txt"
         p = Path('~').expanduser()
         outgen=outgen.replace("~",str(p))
         outtime=outtime.replace("~",str(p))
@@ -43,8 +84,8 @@ class svt_codec:
         return bitrate, psnr, timems
 
     def parsed2csv(self):
-        outputcsvpapth = self.data['paths']['outcsv']
-        outputcsv = outputcsvpapth + '/' + self.name + ".csv"
+        outputcsvpapth = self.get_csvs
+        outputcsv = outputcsvpapth + '/' + self.get_videoname + ".csv"
         print(outputcsv)
         bitrate,psnr,timems = self.parse()
         p = Path('~').expanduser()
@@ -52,7 +93,7 @@ class svt_codec:
         with open(outputcsv, 'w', newline='') as metrics_file:
             metrics_writer = csv.writer(metrics_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             metrics_writer.writerow(['encoder','video','resolution','fps','number of frames','qp','bitrate', 'psnr', 'timems','optional settings'])
-            metrics_writer.writerow(["SVT-AV1",self.name,self.__raw["resolution"],self.__raw["fps"],self.__raw["framesnumber"],'',bitrate,psnr,timems,self.data["paths"]["svt_options_enc"]])
+            metrics_writer.writerow(["SVT-AV1",self.get_videoname,self.get_resolution,self.get_fps,self.get_framesnumber,'',bitrate,psnr,timems,self.get_options_encoder])
 
     def parse_svt_output(pt1,pt2):
 
@@ -69,3 +110,6 @@ class svt_codec:
                 continue
             timems_string = strtime.split()[3]
         return float(bitrate_string)*1024, float(psnr_string) , float(timems_string)
+
+test = svt_codec()
+test.encode()
