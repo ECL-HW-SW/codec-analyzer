@@ -39,7 +39,7 @@ class libaom_codec:
         bitrate, psnr, timems = self.parse_aom_output(outgen)
         return bitrate,psnr,timems
 
-    def parsed2csv(self):
+    def add_to_csv(self):
         outputcsvpapth = self.data['paths']['outcsv']
         outputcsv = outputcsvpapth + '/' + self.name + ".csv"
         p = Path('~').expanduser()

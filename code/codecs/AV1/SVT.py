@@ -2,12 +2,12 @@ import os
 import json
 import csv
 from pathlib import Path
-import Codec
+from Codec import Codec
 
 class svt_codec(Codec):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self,codec):
+        super().__init__(codec)
         with open('/home/edulodi/videocoding/codec-research/code/codecs/AV1/JSON_files/paths.JSON') as json_file:
             data = json.load(json_file)
             self.__decoder = data['svt']['decoder']
@@ -57,7 +57,7 @@ class svt_codec(Codec):
     def encode(self):
         svtpath = self.get_encoder
         options_svte = self.get_options_encoder
-        encoded_out = self.get_bitstream+"/svtenc_"+self.get_videoname
+        encoded_out = self.get_bitstream + "/svtenc_" + self.get_videoname
         outgen = self.get_txts+"/"+self.get_videoname+".log"
         outtime = self.get_outtime+"/"+self.get_videoname+".txt"
         cmdline = svtpath + ' --enable-stat-report 1 --stat-file ' + outgen  + ' ' + options_svte
@@ -83,7 +83,7 @@ class svt_codec(Codec):
         bitrate, psnr, timems = self.parse_svt_output(outgen,outtime)
         return bitrate, psnr, timems
 
-    def parsed2csv(self):
+    def add_to_csv(self):
         outputcsvpapth = self.get_csvs
         outputcsv = outputcsvpapth + '/' + self.get_videoname + ".csv"
         print(outputcsv)
@@ -111,5 +111,8 @@ class svt_codec(Codec):
             timems_string = strtime.split()[3]
         return float(bitrate_string)*1024, float(psnr_string) , float(timems_string)
 
-test = svt_codec()
-test.encode()
+    def gen_config(self):
+        pass
+
+test = svt_codec('svt')
+print(test.get_videopath)
