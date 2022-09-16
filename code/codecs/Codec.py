@@ -5,7 +5,7 @@ import json
 class Codec(ABC):
     def __init__(self,codec):
         codec = codec.lower()
-        with open('Configuration_files/paths.JSON') as json_file:
+        with open('/home/edulodi/video-coding/codec-research/code/codecs/AV1/JSON_files/paths.JSON') as json_file:
             data = json.load(json_file)
             self.__raw_path = data['raw']
             self.__encoder = data[codec]['encoder']
