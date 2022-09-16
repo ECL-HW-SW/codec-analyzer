@@ -1,6 +1,8 @@
 {
 "raw": "/home/mangrich/code/lab/testes/raw",
 
+"qp": "22",
+
 "evc":
     {   
         "encoder": "/home/filipi/evc/enc_app",
@@ -34,6 +36,7 @@
         "options_decoder" : "",
         "txt" : "~/videocoding/libaomenc_output",
         "outtime" : "~/videocoding/libaomenc_output",
-        "outcsv" : "~/videocoding/libaomenc_output"
+        "csv" : "~/videocoding/libaomenc_output",
+        "images" : ""
     }
 }
