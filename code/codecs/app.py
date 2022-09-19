@@ -1,9 +1,13 @@
 from SVT import svt_codec
-from LIBAOM import libaom_codec
+from CodecComparator import CodecComparator
 
-teste = libaom_codec()
-print(teste.get_qp())
-teste.set_qp(27)
-print(teste.get_qp())
-teste.encode()
-teste.decode()
+qps = [22,27,32,37]
+
+teste = svt_codec()
+for qp in qps:
+    teste.set_qp(qp)
+    teste.encode()
+    teste.add_to_csv()
+
+comp = CodecComparator()
+print(comp.bdrate(teste.get_csvs(),teste.get_csvs()))

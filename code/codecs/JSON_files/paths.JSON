@@ -19,11 +19,11 @@
         "decoder" : "SvtAv1DecApp",
         "bitstream" : "~/videocoding/videos",
         "decoded" : "~/videocoding/bitstreams",
-        "options_encoder" : "--passes 2 --rc 1",
+        "options_encoder" : "--passes 2 --rc 0",
         "options_decoder" : "",
         "txt" : "~/videocoding/svtenc_output",
         "outtime" : "~/videocoding/svtenc_output",
-        "csv" : "~/videocoding/svtenc_output",
+        "csv" : "~/videocoding/svtenc_output/csvs",
         "images" : ""
     },
 "aom":
@@ -36,7 +36,7 @@
         "options_decoder" : "",
         "txt" : "~/videocoding/libaomenc_output",
         "outtime" : "~/videocoding/libaomenc_output",
-        "csv" : "~/videocoding/libaomenc_output",
+        "csv" : "~/videocoding/libaomenc_output/csvs",
         "images" : ""
     }
 }

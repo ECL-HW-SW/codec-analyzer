@@ -8,12 +8,12 @@ class libaom_codec(Codec):
 
     def __init__(self):
         super().__init__('aom')
-        with open('code/codecs/AV1/JSON_files/paths.JSON') as json_file:
+        with open('code/codecs/JSON_files/paths.JSON') as json_file:
             data = json.load(json_file)
-            self.__decoder = data['svt']['decoder']
-            self.__options_encoder = data['svt']['options_encoder']
-            self.__options_decoder = data['svt']['options_decoder']
-            self.__outtime = data['svt']['outtime']
+            self.__decoder = data['aom']['decoder']
+            self.__options_encoder = data['aom']['options_encoder']
+            self.__options_decoder = data['aom']['options_decoder']
+            self.__outtime = data['aom']['outtime']
 
     def get_decoder(self):
         return self.__decoder
@@ -65,7 +65,7 @@ class libaom_codec(Codec):
         with open(outputcsv, 'w', newline='') as metrics_file:
             metrics_writer = csv.writer(metrics_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             metrics_writer.writerow(['encoder','video','resolution','fps','number of frames','qp','bitrate', 'psnr', 'timems','optional settings'])
-            metrics_writer.writerow(["LIBAOM-AV1",self.get_videoname(),self.get_resolution(),self.get_fps(),self.get_framesnumber(),'',bitrate,psnr,timems,self.get_options_encoder()])
+            metrics_writer.writerow(["LIBAOM-AV1",self.get_videoname(),self.get_resolution(),self.get_fps(),self.get_framesnumber(),self.get_qp(),bitrate,psnr,timems,self.get_options_encoder()])
 
     def parse_aom_output(st):
         with open(st, 'r') as output_text:

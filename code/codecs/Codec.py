@@ -5,7 +5,7 @@ import json
 class Codec(ABC):
     def __init__(self,codec):
         codec = codec.lower()
-        with open('code/codecs/AV1/JSON_files/paths.JSON') as json_file:
+        with open('code/codecs/JSON_files/paths.JSON') as json_file:
             data = json.load(json_file)
             self.__raw_path = data['raw']
             self.__qp = data['qp']
@@ -15,7 +15,7 @@ class Codec(ABC):
             self.__txts_path = data[codec]['txt']
             self.__csvs_path = data[codec]['csv']
             self.__images_path = data[codec]['images']
-        with open('code/codecs/AV1/JSON_files/video.JSON') as json_video_file:
+        with open('code/codecs/JSON_files/video.JSON') as json_video_file:
             data = json.load(json_video_file)
             self.__name = data['name']
             self.__vidpath = data['path']

@@ -8,7 +8,7 @@ class svt_codec(Codec):
 
     def __init__(self):
         super().__init__('svt')
-        with open('code/codecs/AV1/JSON_files/paths.JSON') as json_file:
+        with open('code/codecs/JSON_files/paths.JSON') as json_file:
             data = json.load(json_file)
             self.__decoder = data['svt']['decoder']
             self.__options_encoder = data['svt']['options_encoder']
@@ -34,12 +34,12 @@ class svt_codec(Codec):
         svtpath = self.get_encoder()
         options_svte = '--crf '+self.get_qp() + ' ' + self.get_options_encoder()
         encoded_out = self.get_bitstream() + "/svtenc_" + self.get_videoname()
-        outgen = self.get_txts()+"/"+self.get_videoname()+".log"
-        outtime = self.get_outtime()+"/"+self.get_videoname()+".txt"
-        cmdline = svtpath + ' --enable-stat-report 1 --stat-file ' + outgen  + ' ' + options_svte
+        outgen = self.get_txts()+"/"+self.get_videoname()+"_stat.txt"
+        outtime = self.get_outtime()+"/"+self.get_videoname()+"_time.txt"
+        cmdline = svtpath + ' --enable-stat-report 1  --stat-file ' + outgen  + ' ' + options_svte
         cmdline += ' -i ' + self.get_videopath() + ' -b ' + encoded_out + ' 2> ' + outtime 
         print(cmdline)    #@fix
-        #os.system(cmdline)    #@fix
+        os.system(cmdline)    #@fix
 
     def decode(self):
         svtpath = self.get_decoder()
@@ -48,13 +48,11 @@ class svt_codec(Codec):
         decoded_out = self.get_decoded()+"/svtdec_"+self.get_videoname()
         cmdline = (svtpath + ' ' + options_svtd + ' -i ' + encoded_out + ' -o ' + decoded_out)
         print(cmdline)     #@fix
-        #os.system(cmdline)    #@fix
+        os.system(cmdline)    #@fix
 
     def parse(self):
-        outgen = self.get_txts()+"/"+self.get_videoname()+".log"
-        outtime = self.get_outtime+"/"+self.get_videoname()+".txt"
-        print(outgen)
-        print(outtime)
+        outgen = self.get_txts()+"/"+self.get_videoname()+"_stat.txt"
+        outtime = self.get_outtime()+"/"+self.get_videoname()+"_time.txt"
         p = Path('~').expanduser()
         outgen=outgen.replace("~",str(p))
         outtime=outtime.replace("~",str(p))
@@ -63,17 +61,17 @@ class svt_codec(Codec):
 
     def add_to_csv(self):
         outputcsvpapth = self.get_csvs()
-        outputcsv = outputcsvpapth + '/' + self.get_videoname() + ".csv"
-        print(outputcsv)
+        outputcsv = outputcsvpapth + '/' + self.get_videoname() +'_'+ self.get_qp() + ".csv"
         bitrate,psnr,timems = self.parse()
         p = Path('~').expanduser()
         outputcsv = outputcsv.replace("~",str(p))
         with open(outputcsv, 'w', newline='') as metrics_file:
             metrics_writer = csv.writer(metrics_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             metrics_writer.writerow(['encoder','video','resolution','fps','number of frames','qp','bitrate', 'psnr', 'timems','optional settings'])
-            metrics_writer.writerow(["SVT-AV1",self.get_videoname(),self.get_resolution(),self.get_fps(),self.get_framesnumber(),'',bitrate,psnr,timems,self.get_options_encoder()])
+            metrics_writer.writerow(["SVT-AV1",self.get_videoname(),self.get_resolution(),self.get_fps(),self.get_framesnumber(),self.get_qp(),bitrate,psnr,timems,self.get_options_encoder()])
+            metrics_file.close()
 
-    def parse_svt_output(pt1,pt2):
+    def parse_svt_output(self,pt1,pt2):
 
         BR_STRING = 'Total Frames	Average QP  	Y-PSNR   	U-PSNR   	V-PSNR		| 	Y-PSNR   	U-PSNR   	V-PSNR   	|	Y-SSIM   	U-SSIM   	V-SSIM   	|	Bitrate\n'
         with open(pt1, 'r') as output_text:

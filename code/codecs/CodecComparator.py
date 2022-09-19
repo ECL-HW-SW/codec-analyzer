@@ -3,6 +3,7 @@ import numpy as np
 import scipy.interpolate
 import os
 from importlib.resources import path
+from pathlib import Path
 
 class CodecComparator():
 
@@ -38,11 +39,13 @@ class CodecComparator():
                                 psnr.append(row['psnr'])
                     line_count += 1
         else:
+            p = Path('~').expanduser()
+            csv_path = csv_path.replace("~",str(p))
             for filecod in os.listdir(csv_path):
-                if path.endswith("/"):
-                    fullpath = path + filecod
+                if csv_path.endswith("/"):
+                    fullpath = csv_path + filecod
                 else:
-                    fullpath = path + '/' + filecod
+                    fullpath = csv_path + '/' + filecod
                 with open(fullpath, 'r') as csv_input:
                     csv_reader = csv.DictReader(csv_input, delimiter=',')
                     for row in csv_reader:
