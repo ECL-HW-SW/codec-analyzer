@@ -1,5 +1,5 @@
 {
-"raw": "/home/mangrich/code/lab/testes/raw",
+"raw": "~/VC/data/video-samples",
 
 "qp": "22",
 
@@ -26,6 +26,7 @@
         "csv" : "~/videocoding/svtenc_output/csvs",
         "images" : ""
     },
+
 "aom":
     {
         "encoder" : "~/appfiles/libaom/aom/bin/aomenc",
@@ -38,5 +39,24 @@
         "outtime" : "~/videocoding/libaomenc_output",
         "csv" : "~/videocoding/libaomenc_output/csvs",
         "images" : ""
+    },
+
+"vvcodec":
+    {
+        "encoder" : "~/VC/tools/vvenc/bin/release-static/vvencapp",
+        "decoder" : "~/VC/tools/vvdec/bin/release-static/vvdecapp",
+        "bitstream" : "~/VC/data/video-samples",
+        "decoded" : "~/VC/data/decoded-videos",
+        "options_encoder" : "--threads 8",
+        "options_decoder" : "",
+        "txt" : "~/VC/data/vvenc_output/txt",
+        "csv" : "~/VC/data/vvenc_output/csv",
+        "images" : "",
+        "nframes" : 300
+    },
+
+"vtm":
+    {
+        "encoder" : "~/VC/tools/VTM/source/App/EncoderApp"
     }
 }
