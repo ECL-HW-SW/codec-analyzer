@@ -3,26 +3,29 @@ import json
 
 
 class Codec(ABC):
-    def __init__(self,codec):
+    def __init__(self, codec, vidpath):
         codec = codec.lower()
-        with open('code/codecs/JSON_files/paths.JSON') as json_file:
+        with open('/home/arthurscarpatto/VC/codec-research/code/codecs/JSON_files/paths.JSON') as json_file:
             data = json.load(json_file)
             self.__raw_path = data['raw']
             self.__qp = data['qp']
             self.__encoder = data[codec]['encoder']
+            self.__decoder = data[codec]['decoder']
             self.__bitstream_path = data[codec]['bitstream']
             self.__decoded_path = data[codec]['decoded']
             self.__txts_path = data[codec]['txt']
             self.__csvs_path = data[codec]['csv']
             self.__images_path = data[codec]['images']
-        with open('code/codecs/JSON_files/video.JSON') as json_video_file:
-            data = json.load(json_video_file)
-            self.__name = data['name']
-            self.__vidpath = data['path']
-            self.__resolution = data['resolution']
-            self.__fps = data['fps']
-            self.__framesnumber = data['framesnumber']
-            self.__format = data['format']
+            self.__options_encoder = data[codec]['options_encoder']
+
+            self.__vidpath = vidpath
+            vidpath_split = vidpath.split('/')[-1]
+            self.__name = vidpath_split[:vidpath.index('_')]
+            self.__resolution = vidpath_split[vidpath.index('_')+1:vidpath.rindex('_')]
+            self.__fps = vidpath_split[vidpath.rindex('_')+1:vidpath.index('.')]
+            self.__framesnumber = data[codec]["nframes"]
+            #self.__format = data['format']
+
 ##### get from video.json##########
     def get_videopath(self):
         return self.__vidpath
@@ -50,8 +53,14 @@ class Codec(ABC):
     def get_raw(self):
         return self.__raw_path
 
+    def get_options_encoder(self):
+        return self.__options_encoder
+
     def get_encoder(self):
         return self.__encoder
+
+    def get_decoder(self):
+        return self.__decoder
 
     def get_bitstream(self):
         return self.__bitstream_path
