@@ -36,14 +36,15 @@ class Video():
                 
         except Exception as e:
             print(f'Erro: {e}')
-        
+
+        f = eval(str(fps)[2:-1].replace(':', '/'))
         data = {
             "path": file,
             "name": name,
             "resolution": str(width) + 'x' + str(height),
-            "fps": str(fps),
-            "framesnumber": 0,
-            "format": "YUV420"
+            "fps": str("%.2f" % f),
+            "framesnumber": 0, # contar no arquivo?
+            "format": "YUV420" # qual o padrão?
         }
 
         json_object = json.dumps(data, indent=4)
@@ -52,3 +53,7 @@ class Video():
 
     def gen_config():
         pass
+
+
+v = Video()
+v.parse_y4m('/home/gabriela/Downloads/bowing_cif.y4m', 'bowing')
