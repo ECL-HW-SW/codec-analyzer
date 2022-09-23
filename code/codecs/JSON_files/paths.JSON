@@ -45,14 +45,13 @@
     {
         "encoder" : "~/VC/tools/vvenc/bin/release-static/vvencapp",
         "decoder" : "~/VC/tools/vvdec/bin/release-static/vvdecapp",
-        "bitstream" : "~/VC/data/video-samples",
+        "bitstream" : "/home/arthurscarpatto/VC/data/video-samples",
         "decoded" : "~/VC/data/decoded-videos",
-        "options_encoder" : "--threads 8",
+        "options_encoder" : "--threads 8 --preset faster",
         "options_decoder" : "",
         "txt" : "~/VC/data/vvenc_output/txt",
-        "csv" : "~/VC/data/vvenc_output/csv",
-        "images" : "",
-        "nframes" : 300
+        "csv" : "/home/arthurscarpatto/VC/data/vvenc_output/csv",
+        "images" : ""
     },
 
 "vtm":
