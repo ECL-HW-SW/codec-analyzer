@@ -3,7 +3,7 @@ import json
 
 
 class Codec(ABC):
-    def __init__(self, codec, vidpath):
+    def __init__(self, codec, videocfg = '/home/arthurscarpatto/VC/codec-research/code/codecs/JSON_files/video.JSON'):
         codec = codec.lower()
         with open('/home/arthurscarpatto/VC/codec-research/code/codecs/JSON_files/paths.JSON') as json_file:
             data = json.load(json_file)
@@ -17,14 +17,16 @@ class Codec(ABC):
             self.__csvs_path = data[codec]['csv']
             self.__images_path = data[codec]['images']
             self.__options_encoder = data[codec]['options_encoder']
+            self.__options_decoder = data[codec]['options_decoder']
 
-            self.__vidpath = vidpath
-            vidpath_split = vidpath.split('/')[-1]
-            self.__name = vidpath_split[:vidpath.index('_')]
-            self.__resolution = vidpath_split[vidpath.index('_')+1:vidpath.rindex('_')]
-            self.__fps = vidpath_split[vidpath.rindex('_')+1:vidpath.index('.')]
-            self.__framesnumber = data[codec]["nframes"]
-            #self.__format = data['format']
+        with open(videocfg) as json_video_file:
+            data = json.load(json_video_file)
+            self.__name = data['name']
+            self.__vidpath = data['path']
+            self.__resolution = data['resolution']
+            self.__fps = data['fps']
+            self.__framesnumber = data['framesnumber']
+            self.__format = data['format']
 
 ##### get from video.json##########
     def get_videopath(self):
@@ -53,17 +55,20 @@ class Codec(ABC):
     def get_raw(self):
         return self.__raw_path
 
-    def get_options_encoder(self):
-        return self.__options_encoder
-
     def get_encoder(self):
         return self.__encoder
 
     def get_decoder(self):
         return self.__decoder
 
+    def get_options_encoder(self):
+        return self.__options_encoder
+
+    def get_options_decoder(self):
+        return self.__options_decoder
+
     def get_bitstream(self):
-        return self.__bitstream_path
+        return self.__bitstream_path +'/'+ self.__name
 
     def get_decoded(self):
         return self.__decoded_path
@@ -72,11 +77,12 @@ class Codec(ABC):
         return self.__txts_path
 
     def get_csvs(self):
-        return self.__csvs_path
+        return self.__csvs_path +'/'+ self.__name
 
     def get_images(self):
         return self.__images_path
 ##### end of section ##################   
+
 ##### set qp ##########################
     def set_qp(self,qps):
         self.__qp = str(qps)
@@ -90,14 +96,9 @@ class Codec(ABC):
         pass
 
     @abstractmethod
-    def parse(self):
+    def _parse(self):
         pass
 
     @abstractmethod
     def add_to_csv(self):
         pass
-
-    @abstractmethod
-    def gen_config(self):
-        pass
-
