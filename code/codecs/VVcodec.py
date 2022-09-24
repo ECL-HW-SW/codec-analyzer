@@ -10,7 +10,6 @@ class VVcodec(Codec):
     def encode(self):
         bitstream_path = self.get_bitstream()
         if not os.path.exists(bitstream_path):
-            print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n\nn\n\n=")
             os.mkdir(bitstream_path)
         
         part1 = f'{self.get_encoder()} -i {self.get_videopath()} -q {self.get_qp()} {self.get_options_encoder()} '
