@@ -20,12 +20,12 @@ class EVC(Codec):
     def decode(self,input,output,preset):
         os.system(f'xevd_app -i {self.get_bitstream_path()}/{input} -o {self.get_decoded_path()}/{preset}_{output}')
     
-    def parse(self):
-        
+
+    def parse(self):        
         pattern = re.compile(r"\d+\s+\d{0,4}\s+\([IB]\)\s+\d+\s+\d+\.\d+\s+\d+\.\d+\s+\d+\.\d+\s+\d+\s+\d+")
         pattern2 = re.compile(r"\d+\.\d+\skbps")
         parameters_lines = []
-
+        
         with open(f'{self.get_txts()}/{self.get_videoname()}.txt') as temp:
             text = temp.read()
             result = pattern.findall(text)

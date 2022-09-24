@@ -10,11 +10,15 @@ class Codec(ABC):
             self.__raw_path = data['raw']
             self.__qp = data['qp']
             self.__encoder = data[codec]['encoder']
+            self.__decoder = data[codec]['decoder']
             self.__bitstream_path = data[codec]['bitstream']
             self.__decoded_path = data[codec]['decoded']
             self.__txts_path = data[codec]['txt']
             self.__csvs_path = data[codec]['csv']
             self.__images_path = data[codec]['images']
+            self.__options_encoder = data[codec]['options_encoder']
+            self.__options_decoder = data[codec]['options_decoder']
+
         with open(videocfg) as json_video_file:
             data = json.load(json_video_file)
             self.__name = data['name']
@@ -23,6 +27,7 @@ class Codec(ABC):
             self.__fps = data['fps']
             self.__framesnumber = data['framesnumber']
             self.__format = data['format']
+            
 ##### get from video.json##########
     def get_videopath(self):
         return self.__vidpath
@@ -52,6 +57,15 @@ class Codec(ABC):
 
     def get_encoder(self):
         return self.__encoder
+       
+    def get_decoder(self):
+        return self.__decoder
+
+    def get_options_encoder(self):
+        return self.__options_encoder
+
+    def get_options_decoder(self):
+        return self.__options_decoder
 
     def get_bitstream(self):
         return self.__bitstream_path +'/'+ self.__name
@@ -68,10 +82,12 @@ class Codec(ABC):
     def get_images(self):
         return self.__images_path
 ##### end of section ##################   
+
 ##### set qp ##########################
     def set_qp(self,qps):
         self.__qp = str(qps)
 ##### end of section ##################   
+
     @abstractmethod
     def encode(self):
         pass
@@ -81,14 +97,9 @@ class Codec(ABC):
         pass
 
     @abstractmethod
-    def parse(self):
+    def _parse(self):
         pass
 
     @abstractmethod
     def add_to_csv(self):
         pass
-
-    @abstractmethod
-    def gen_config(self):
-        pass
-

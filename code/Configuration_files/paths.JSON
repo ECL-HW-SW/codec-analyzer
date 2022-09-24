@@ -3,12 +3,37 @@
 
 "evc":
     {   
-    "encoder_path": "/home/filipi/evc/enc_app",
-    "bitstream": "/home/mangrich/code/lab/testes/bitstream",
-    "decoded": "/home/mangrich/code/lab/testes/decoded",
-    "txt": "/home/mangrich/code/lab/testes/txt",
-    "csv": "/home/mangrich/code/lab/testes/csv",
-    "images": "/home/mangrich/code/lab/testes/images"
-    }
+        "encoder": "/home/filipi/evc/enc_app",
+        "bitstream": "/home/mangrich/code/lab/testes/bitstream",
+        "decoded": "/home/mangrich/code/lab/testes/decoded",
+        "txt": "/home/mangrich/code/lab/testes/txt",
+        "csv": "/home/mangrich/code/lab/testes/csv",
+        "images": "/home/mangrich/code/lab/testes/images"
+    },
 
+"svt":
+    {
+        "encoder" : "SvtAv1EncApp",
+        "decoder" : "SvtAv1DecApp",
+        "bitstream" : "~/videocoding/videos",
+        "decoded" : "~/videocoding/bitstreams",
+        "options_encoder" : "--passes 2 --rc 1",
+        "options_decoder" : "",
+        "txt" : "~/videocoding/svtenc_output",
+        "outtime" : "~/videocoding/svtenc_output",
+        "csv" : "~/videocoding/svtenc_output",
+        "images" : ""
+    },
+"aom":
+    {
+        "encoder" : "~/appfiles/libaom/aom/bin/aomenc",
+        "decoder" : "~/appfiles/libaom/aom/bin/aomdec",
+        "bitstream" : "~/videocoding/videos",
+        "decoded" : "~/videocoding/bitstreams",
+        "options_encoder" : "--passes=2 --limit=3",
+        "options_decoder" : "",
+        "txt" : "~/videocoding/libaomenc_output",
+        "outtime" : "~/videocoding/libaomenc_output",
+        "outcsv" : "~/videocoding/libaomenc_output"
+    }
 }

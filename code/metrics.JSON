@@ -1,15 +1,6 @@
-// TODO: mover dados dos videos para outro JSON. Aqui somente binarios
 {
-"paths" : {
+    "paths" : {
     "vmaf" : "",
     "ffmpeg" : ""
-},
-"video":{
-    "path": "~/videocoding/videos/bowing_cif.y4m",
-    "name": "bowing",
-    "resolution": "352x288",
-    "fps": "29.97",
-    "framesnumber": "300",
-    "format": "YUV420"
 }
 }
