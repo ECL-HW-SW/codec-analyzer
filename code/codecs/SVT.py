@@ -15,18 +15,6 @@ class svt_codec(Codec):
             self.__options_decoder = data['svt']['options_decoder']
             self.__outtime = data['svt']['outtime']
 
-    def gen_config(self):
-        pass
-
-    def get_decoder(self):
-        return self.__decoder
-
-    def get_options_encoder(self):
-        return self.__options_encoder
-    
-    def get_options_decoder(self):
-        return self.__options_decoder
-
     def get_outtime(self):
         return self.__outtime
 
