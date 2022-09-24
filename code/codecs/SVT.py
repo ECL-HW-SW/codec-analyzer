@@ -33,7 +33,12 @@ class svt_codec(Codec):
     def encode(self):
         svtpath = self.get_encoder()
         options_svte = '--crf '+self.get_qp() + ' ' + self.get_options_encoder()
-        encoded_out = self.get_bitstream() + "/svtenc_" + self.get_videoname()
+        bitstream_path = self.get_bitstream()
+        p = Path('~').expanduser()
+        bitstream_path = bitstream_path.replace("~",str(p))
+        if not(os.path.exists(bitstream_path)):
+            os.mkdir(bitstream_path)
+        encoded_out = self.get_bitstream() + "/svtenc_" + self.get_videoname() + "_" + self.get_qp()
         outgen = self.get_txts()+"/"+self.get_videoname()+"_stat.txt"
         outtime = self.get_outtime()+"/"+self.get_videoname()+"_time.txt"
         cmdline = svtpath + ' --enable-stat-report 1  --stat-file ' + outgen  + ' ' + options_svte
@@ -60,10 +65,13 @@ class svt_codec(Codec):
         return bitrate, psnr, timems
 
     def add_to_csv(self):
-        outputcsvpapth = self.get_csvs()
-        outputcsv = outputcsvpapth + '/' + self.get_videoname() +'_'+ self.get_qp() + ".csv"
-        bitrate,psnr,timems = self.parse()
+        outputcsvpath = self.get_csvs()
         p = Path('~').expanduser()
+        outputcsvpath = outputcsvpath.replace("~",str(p))
+        if not(os.path.exists(outputcsvpath)):
+            os.mkdir(outputcsvpath)
+        outputcsv = outputcsvpath + '/' + self.get_videoname() +'_'+ self.get_qp() + ".csv"
+        bitrate,psnr,timems = self.parse()
         outputcsv = outputcsv.replace("~",str(p))
         with open(outputcsv, 'w', newline='') as metrics_file:
             metrics_writer = csv.writer(metrics_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)

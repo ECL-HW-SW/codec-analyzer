@@ -3,9 +3,9 @@ import json
 
 
 class Codec(ABC):
-    def __init__(self, codec, videocfg = '/home/arthurscarpatto/VC/codec-research/code/codecs/JSON_files/video.JSON'):
+    def __init__(self,codec, videocfg = 'code/codecs/JSON_files/video.JSON'):
         codec = codec.lower()
-        with open('/home/arthurscarpatto/VC/codec-research/code/codecs/JSON_files/paths.JSON') as json_file:
+        with open('code/codecs/JSON_files/paths.JSON') as json_file:
             data = json.load(json_file)
             self.__raw_path = data['raw']
             self.__qp = data['qp']
@@ -27,7 +27,7 @@ class Codec(ABC):
             self.__fps = data['fps']
             self.__framesnumber = data['framesnumber']
             self.__format = data['format']
-
+            
 ##### get from video.json##########
     def get_videopath(self):
         return self.__vidpath
@@ -57,7 +57,7 @@ class Codec(ABC):
 
     def get_encoder(self):
         return self.__encoder
-
+       
     def get_decoder(self):
         return self.__decoder
 
@@ -87,6 +87,7 @@ class Codec(ABC):
     def set_qp(self,qps):
         self.__qp = str(qps)
 ##### end of section ##################   
+
     @abstractmethod
     def encode(self):
         pass

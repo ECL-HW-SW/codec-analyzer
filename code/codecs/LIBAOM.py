@@ -33,7 +33,7 @@ class libaom_codec(Codec):
     def encode(self):
         aompath = self.get_encoder()
         options_aome = self.get_options_encoder()
-        encoded_out = self.get_bitstream() +"/encaom_"+self.get_videoname()
+        encoded_out = self.get_bitstream() +"/encaom_"+self.get_videoname() + '_' + self.get_qp()
         outgen = self.get_txts() +"/aom"+self.get_videoname()+".log"
         cmdline = aompath + ' --verbose --psnr --cq-level= ' + self.get_qp() +' '+ options_aome 
         cmdline += ' -o ' + encoded_out + ' ' + self.get_videopath()

@@ -1,5 +1,7 @@
 {
-"raw": "~/VC/data/video-samples",
+
+"raw": "/home/mangrich/code/lab/testes/raw",
+
 
 "qp": "22",
 
@@ -17,13 +19,13 @@
     {
         "encoder" : "SvtAv1EncApp",
         "decoder" : "SvtAv1DecApp",
-        "bitstream" : "~/videocoding/videos",
-        "decoded" : "~/videocoding/bitstreams",
+        "bitstream" : "/home/mangrich/code/lab/av1/bitstream",
+        "decoded" : "/home/mangrich/code/lab/av1/decoded",
         "options_encoder" : "--passes 2 --rc 0",
         "options_decoder" : "",
-        "txt" : "~/videocoding/svtenc_output",
-        "outtime" : "~/videocoding/svtenc_output",
-        "csv" : "~/videocoding/svtenc_output/csvs",
+        "txt" : "/home/mangrich/code/lab/av1/txt",
+        "outtime" : "/home/mangrich/code/lab/av1/txt",
+        "csv" : "/home/mangrich/code/lab/av1/csv",
         "images" : ""
     },
 

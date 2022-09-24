@@ -51,8 +51,10 @@ class CodecComparator():
                     for row in csv_reader:
                         bitrate.append(row["bitrate"])
                         psnr.append(row["psnr"])
+                        break
         floats_bitrate = [float(x) for x in bitrate]
         floats_psnr = [float(x) for x in psnr]         
+        
         return floats_bitrate, floats_psnr
 
 #the following code was taken from https://github.com/shengbinmeng/Bjontegaard_metric/blob/master/bjontegaard_metric.py
@@ -124,4 +126,6 @@ class CodecComparator():
         # find avg diff
         avg_exp_diff = (int2-int1)/(max_int-min_int)
         avg_diff = (np.exp(avg_exp_diff)-1)*100
+
         return avg_diff
+
