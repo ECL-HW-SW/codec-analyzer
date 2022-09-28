@@ -7,12 +7,17 @@
 
 "evc":
     {   
-        "encoder": "/home/filipi/evc/enc_app",
-        "bitstream": "/home/mangrich/code/lab/testes/bitstream",
-        "decoded": "/home/mangrich/code/lab/testes/decoded",
-        "txt": "/home/mangrich/code/lab/testes/txt",
-        "csv": "/home/mangrich/code/lab/testes/csv",
-        "images": "/home/mangrich/code/lab/testes/images"
+        "encoder": "~/VC/tools/xeve/build/bin/xeve_app",
+        "decoder": "~/VC/tools/xevd/build/bin/xevd_app",
+        "bitstream": "~/VC/data/video-samples",
+        "decoded": "~/VC/data/decoded-videos",
+        "options_encoder": "",
+        "options_decoder": "",
+        "txt": "~/VC/data/evc-output/txt",
+        "csv": "~/VC/data/evc-output/csv",
+        "images": "~/VC/data/images",
+        "original_images": "~/VC/data/images/original-images/evc",
+        "decoded_images": "~/VC/data/images/decoded-images/evc"
     },
 
 "svt":
@@ -47,13 +52,15 @@
     {
         "encoder" : "~/VC/tools/vvenc/bin/release-static/vvencapp",
         "decoder" : "~/VC/tools/vvdec/bin/release-static/vvdecapp",
-        "bitstream" : "/home/arthurscarpatto/VC/data/video-samples",
+        "bitstream" : "~/VC/data/video-samples",
         "decoded" : "~/VC/data/decoded-videos",
         "options_encoder" : "--threads 8 --preset faster",
         "options_decoder" : "",
-        "txt" : "~/VC/data/vvenc_output/txt",
-        "csv" : "/home/arthurscarpatto/VC/data/vvenc_output/csv",
-        "images" : ""
+        "txt" : "~/VC/data/vvcodec-output/txt",
+        "csv" : "~/VC/data/vvcodec-output/csv",
+        "images" : "~/VC/data/images",
+        "original_images": "~/VC/data/images/original-images/vvcodec",
+        "decoded_images": "~/VC/data/images/decoded-images/vvcodec"
     },
 
 "vtm":

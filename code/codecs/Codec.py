@@ -3,9 +3,9 @@ import json
 
 
 class Codec(ABC):
-    def __init__(self,codec, videocfg = 'code/codecs/JSON_files/video.JSON'):
+    def __init__(self,codec, videocfg = '/home/arthurscarpatto/VC/codec-research/code/codecs/JSON_files/video.JSON'):
         codec = codec.lower()
-        with open('code/codecs/JSON_files/paths.JSON') as json_file:
+        with open('/home/arthurscarpatto/VC/codec-research/code/codecs/JSON_files/paths.JSON') as json_file:
             data = json.load(json_file)
             self.__raw_path = data['raw']
             self.__qp = data['qp']
@@ -18,6 +18,8 @@ class Codec(ABC):
             self.__images_path = data[codec]['images']
             self.__options_encoder = data[codec]['options_encoder']
             self.__options_decoder = data[codec]['options_decoder']
+            self.__decoded_images = data[codec]['decoded_images']
+            self.__original_images = data[codec]['original_images']
 
         with open(videocfg) as json_video_file:
             data = json.load(json_video_file)
@@ -51,6 +53,12 @@ class Codec(ABC):
 ###### get from paths.JSON ###########
     def get_qp(self):
         return self.__qp
+
+    def get_original_images(self) -> str:
+        return self.__original_images
+
+    def get_decoded_images(self) -> str:
+        return self.__decoded_images
 
     def get_raw(self):
         return self.__raw_path
@@ -97,7 +105,7 @@ class Codec(ABC):
         pass
 
     @abstractmethod
-    def _parse(self):
+    def parse(self):
         pass
 
     @abstractmethod

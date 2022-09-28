@@ -43,13 +43,13 @@ class svt_codec(Codec):
         print(cmdline)     #@fix
         os.system(cmdline)    #@fix
 
-    def parse(self):
+    def _parse(self):
         outgen = self.get_txts()+"/"+self.get_videoname()+"_stat.txt"
         outtime = self.get_outtime()+"/"+self.get_videoname()+"_time.txt"
         p = Path('~').expanduser()
         outgen=outgen.replace("~",str(p))
         outtime=outtime.replace("~",str(p))
-        bitrate, psnr, timems = self.parse_svt_output(outgen,outtime)
+        bitrate, psnr, timems = self._parse_svt_output(outgen,outtime)
         return bitrate, psnr, timems
 
     def add_to_csv(self):
@@ -59,7 +59,7 @@ class svt_codec(Codec):
         if not(os.path.exists(outputcsvpath)):
             os.mkdir(outputcsvpath)
         outputcsv = outputcsvpath + '/' + self.get_videoname() +'_'+ self.get_qp() + ".csv"
-        bitrate,psnr,timems = self.parse()
+        bitrate,psnr,timems = self._parse()
         outputcsv = outputcsv.replace("~",str(p))
         with open(outputcsv, 'w', newline='') as metrics_file:
             metrics_writer = csv.writer(metrics_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
@@ -67,7 +67,7 @@ class svt_codec(Codec):
             metrics_writer.writerow(["SVT-AV1",self.get_videoname(),self.get_resolution(),self.get_fps(),self.get_framesnumber(),self.get_qp(),bitrate,psnr,timems,self.get_options_encoder()])
             metrics_file.close()
 
-    def parse_svt_output(self,pt1,pt2):
+    def _parse_svt_output(self,pt1,pt2):
 
         BR_STRING = 'Total Frames	Average QP  	Y-PSNR   	U-PSNR   	V-PSNR		| 	Y-PSNR   	U-PSNR   	V-PSNR   	|	Y-SSIM   	U-SSIM   	V-SSIM   	|	Bitrate\n'
         with open(pt1, 'r') as output_text:

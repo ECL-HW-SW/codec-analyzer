@@ -7,8 +7,10 @@ class VVcodec(Codec):
     def __init__(self):
         super().__init__("vvcodec")
 
-    def encode(self):
-        bitstream_path = self.get_bitstream()
+    def encode(self) -> str:        
+        bitstream_path = self.get_decoded()
+        p = Path('~').expanduser()
+        bitstream_path = bitstream_path.replace('~', str(p))
         if not os.path.exists(bitstream_path):
             os.mkdir(bitstream_path)
         
@@ -19,16 +21,28 @@ class VVcodec(Codec):
         os.system(part1+part2+part3) 
 
     def decode(self):
+        decoded_path = self.get_decoded()
+        p = Path('~').expanduser()
+        decoded_path = decoded_path.replace('~', str(p))
+
         bitstream_path = self.get_bitstream()
+        p = Path('~').expanduser()
+        bitstream_path = bitstream_path.replace('~', str(p))
         if not os.path.exists(bitstream_path):
             print("Bitstream path does not exist.")
 
-        part1 = f'{self.get_decoder()} -i {self.get_bitstream()}/vvcodec_{self.get_videoname}_{self.get_qp()} {self.get_options_decoder()} '
-        part2 = f'-o {self.get_decoded()}/vvcodec_{self.get_videoname()}_{self.get_qp()}'
+        part1 = f'{self.get_decoder()} -b {bitstream_path}/vvcodec_{self.get_videoname()}_{self.get_qp()} {self.get_options_decoder()} '
+        part2 = f'-v 0 -f {self.get_framesnumber()} -o {decoded_path}/vvcodec_{self.get_videoname()}_{self.get_qp()}'
 
         os.system(part1+part2)
 
-    def _parse(self):
+    def _parse(self) -> tuple:
+        """
+        Parses the txt output from the encode() method.
+
+        @return (bitrate, psnr, total time taken to encode)
+        """
+
         p = Path('~').expanduser()
         txtoutput = f"{self.get_txts()}/{self.get_videoname()}.txt" # TODO: mudar isso dps
         txtoutput = txtoutput.replace('~', str(p))
@@ -48,18 +62,24 @@ class VVcodec(Codec):
         return bitrate, psnr, total_time
     
     def add_to_csv(self):
+        """
+        Adds to csv: 
+        encoder name | video name | video resolution | fps | frame count | qp | bitrate | PSNR | time taken to encode | optional settings
+
+        These csvs are stored in /VC/data/vvcodec-output/csv/{videoname}/
+        """
         outputcsvpath = self.get_csvs()
+        p = Path('~').expanduser()
+        outputcsvpath = outputcsvpath.replace('~', str(p))
         if not os.path.exists(outputcsvpath):
             os.mkdir(outputcsvpath)
 
         outputcsv = outputcsvpath + '/' + self.get_videoname() +'_'+ self.get_qp() + ".csv"
-        p = Path('~').expanduser()
-        outputcsv = outputcsv.replace("~",str(p))
-
         bitrate, psnr, timems = self._parse()
 
         with open(outputcsv, 'w', newline='') as metrics_file:
             metrics_writer = csv.writer(metrics_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             metrics_writer.writerow(['encoder','video','resolution','fps','number of frames','qp','bitrate', 'psnr', 'timems','optional settings'])
-            metrics_writer.writerow(["VVENC",self.get_videoname(),self.get_resolution(),self.get_fps(),self.get_framesnumber(),self.get_qp(),bitrate,psnr,timems,self.get_options_encoder()])
+            metrics_writer.writerow(["VVENC",self.get_videoname(),self.get_resolution(),self.get_fps(),
+                                        self.get_framesnumber(),self.get_qp(),bitrate,psnr,timems,self.get_options_encoder()])
             metrics_file.close()

@@ -2,6 +2,7 @@ from Codec import Codec
 import os
 import re
 import csv
+from pathlib import Path
 
 class EVC(Codec):
     def __init__(self):
@@ -11,15 +12,25 @@ class EVC(Codec):
         bitstream_path = self.get_bitstream()
         if not(os.path.exists(bitstream_path)):
             os.mkdir(bitstream_path)
+
         part1 = f'xeve_app -i {self.get_videopath()} -v 3 -q {self.get_qp()} --preset fast '
         part2 = f'-o {self.get_bitstream()}/{self.get_videoname()}{self.get_qp()}.evc'
         part3 = f'> {self.get_txts()}/{self.get_videoname()}.txt'
+
         print(part1+part2+part3)
         os.system(part1+part2+part3)
 
-    def decode(self,input,output,preset):
-        os.system(f'xevd_app -i {self.get_bitstream_path()}/{input} -o {self.get_decoded_path()}/{preset}_{output}')
-    
+    def decode(self):
+        decoded_path = self.get_decoded()
+        p = Path('~').expanduser()
+        decoded_path = decoded_path.replace('~', str(p))
+        
+        part1 = f'xevd_app -i {self.get_bitstream}/evc_{self.get_videoname()}_{self.get_qp()} '
+        part2 = f'-o {decoded_path}/evc_{self.get_videoname()}_{self.get_qp()}'
+
+        print(part1+part2)
+        os.system(part1+part2)
+
 
     def parse(self):        
         pattern = re.compile(r"\d+\s+\d{0,4}\s+\([IB]\)\s+\d+\s+\d+\.\d+\s+\d+\.\d+\s+\d+\.\d+\s+\d+\s+\d+")
