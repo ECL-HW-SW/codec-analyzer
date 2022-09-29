@@ -11,7 +11,10 @@
         "decoder": "~/VC/tools/xevd/build/bin/xevd_app",
         "bitstream": "~/VC/data/video-samples",
         "decoded": "~/VC/data/decoded-videos",
-        "options_encoder": "",
+        "options_encoder": {
+            "--preset": "fast",
+            "--threads": "8"
+        },
         "options_decoder": "",
         "txt": "~/VC/data/evc-output/txt",
         "csv": "~/VC/data/evc-output/csv",
@@ -22,16 +25,23 @@
 
 "svt":
     {
-        "encoder" : "SvtAv1EncApp",
-        "decoder" : "SvtAv1DecApp",
-        "bitstream" : "/home/mangrich/code/lab/av1/bitstream",
-        "decoded" : "/home/mangrich/code/lab/av1/decoded",
-        "options_encoder" : "--passes 2 --rc 0",
+        "encoder" : "~/VC/tools/SVT-AV1/Bin/Release/SvtAv1EncApp",
+        "decoder" : "~/VC/tools/SVT-AV1/Bin/Release/SvtAv1DecApp",
+        "bitstream" : "~/VC/data/video-samples",
+        "decoded" : "~/VC/data/decoded-videos",
+        "options_encoder": {
+            "--passes": "2",
+            "--rc": "0",
+            "--preset": "10",
+            "--lp": "8"
+        },
         "options_decoder" : "",
-        "txt" : "/home/mangrich/code/lab/av1/txt",
-        "outtime" : "/home/mangrich/code/lab/av1/txt",
-        "csv" : "/home/mangrich/code/lab/av1/csv",
-        "images" : ""
+        "txt" : "~/VC/data/svt-output/txt",
+        "outtime" : "~/VC/data/svt-output/txt",
+        "csv" : "~/VC/data/svt-output/csv",
+        "images" : "~/VC/data/images",
+        "original_images": "~/VC/data/images/decoded-images/svt",
+        "decoded_images": "~/VC/data/images/decoded-images/svt"
     },
 
 "aom":
@@ -40,7 +50,10 @@
         "decoder" : "~/appfiles/libaom/aom/bin/aomdec",
         "bitstream" : "~/videocoding/videos",
         "decoded" : "~/videocoding/bitstreams",
-        "options_encoder" : "--passes=2 --limit=3",
+        "options_encoder" : {
+            "--passes": "2",
+            "--limit": "3"
+        },
         "options_decoder" : "",
         "txt" : "~/videocoding/libaomenc_output",
         "outtime" : "~/videocoding/libaomenc_output",
@@ -54,7 +67,10 @@
         "decoder" : "~/VC/tools/vvdec/bin/release-static/vvdecapp",
         "bitstream" : "~/VC/data/video-samples",
         "decoded" : "~/VC/data/decoded-videos",
-        "options_encoder" : "--threads 8 --preset faster",
+        "options_encoder": {
+            "--threads": "8",
+            "--preset": "fast"
+        },
         "options_decoder" : "",
         "txt" : "~/VC/data/vvcodec-output/txt",
         "csv" : "~/VC/data/vvcodec-output/csv",
