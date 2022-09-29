@@ -1,11 +1,18 @@
 from abc import ABC, abstractmethod
 import json
-
+from pathlib import Path
 
 class Codec(ABC):
-    def __init__(self,codec, videocfg = '/home/arthurscarpatto/VC/codec-research/code/codecs/JSON_files/video.JSON'):
-        codec = codec.lower()
-        with open('/home/arthurscarpatto/VC/codec-research/code/codecs/JSON_files/paths.JSON') as json_file:
+    def __init__(self, codec, videocfg = '~/VC/codec-research/code/codecs/JSON_files/video.JSON'):
+        self.__codec = codec
+        
+        p1 = Path('~').expanduser()
+        videocfg = videocfg.replace('~', str(p1))
+
+        pathfile = "~/VC/codec-research/code/codecs/JSON_files/paths.JSON"
+        p2 = Path('~').expanduser()
+        pathfile = pathfile.replace("~", str(p2))      
+        with open(pathfile) as json_file:
             data = json.load(json_file)
             self.__raw_path = data['raw']
             self.__qp = data['qp']
@@ -16,10 +23,11 @@ class Codec(ABC):
             self.__txts_path = data[codec]['txt']
             self.__csvs_path = data[codec]['csv']
             self.__images_path = data[codec]['images']
-            self.__options_encoder = data[codec]['options_encoder']
-            self.__options_decoder = data[codec]['options_decoder']
+            self._options_encoder = data[codec]['options_encoder']
+            self._options_decoder = data[codec]['options_decoder']
             self.__decoded_images = data[codec]['decoded_images']
             self.__original_images = data[codec]['original_images']
+            self.__preset = self._options_encoder["--preset"]
 
         with open(videocfg) as json_video_file:
             data = json.load(json_video_file)
@@ -29,7 +37,11 @@ class Codec(ABC):
             self.__fps = data['fps']
             self.__framesnumber = data['framesnumber']
             self.__format = data['format']
-            
+
+
+    def get_codec(self):
+        return self.__codec
+
 ##### get from video.json##########
     def get_videopath(self):
         return self.__vidpath
@@ -54,6 +66,9 @@ class Codec(ABC):
     def get_qp(self):
         return self.__qp
 
+    def get_preset(self):
+        return self.__preset
+
     def get_original_images(self) -> str:
         return self.__original_images
 
@@ -70,10 +85,10 @@ class Codec(ABC):
         return self.__decoder
 
     def get_options_encoder(self):
-        return self.__options_encoder
+        return self._options_encoder
 
     def get_options_decoder(self):
-        return self.__options_decoder
+        return self._options_decoder
 
     def get_bitstream(self):
         return self.__bitstream_path +'/'+ self.__name
@@ -91,9 +106,9 @@ class Codec(ABC):
         return self.__images_path
 ##### end of section ##################   
 
-##### set qp ##########################
-    def set_qp(self,qps):
-        self.__qp = str(qps)
+##### setters ##########################
+    def set_qp(self, qp: int):
+        self.__qp = str(qp)
 ##### end of section ##################   
 
     @abstractmethod
