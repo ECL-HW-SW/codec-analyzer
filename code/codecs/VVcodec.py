@@ -18,7 +18,10 @@ class VVcodec(Codec):
         part2 = f'--output {self.get_bitstream()}/vvcodec_{self.get_videoname()}_{self.get_qp()}'
         part3 = f'> {self.get_txts()}/{self.get_videoname()}.txt' # TODO: mudar isso dps
         
-        os.system(part1+part2+part3) 
+        cmd_str  =part1+part2+part3 
+        os.system(cmd_str)
+
+        print(cmd_str) 
 
     def decode(self):
         decoded_path = self.get_decoded()
@@ -33,10 +36,12 @@ class VVcodec(Codec):
 
         part1 = f'{self.get_decoder()} -b {bitstream_path}/vvcodec_{self.get_videoname()}_{self.get_qp()} {self.get_options_decoder()} '
         part2 = f'-v 0 -f {self.get_framesnumber()} -o {decoded_path}/vvcodec_{self.get_videoname()}_{self.get_qp()}'
+        cmdline = part1+part2 
 
-        os.system(part1+part2)
+        os.system(cmdline)
+        print(cmdline) 
 
-    def _parse(self) -> tuple:
+    def parse(self) -> tuple:
         """
         Parses the txt output from the encode() method.
 
@@ -75,7 +80,7 @@ class VVcodec(Codec):
             os.mkdir(outputcsvpath)
 
         outputcsv = outputcsvpath + '/' + self.get_videoname() +'_'+ self.get_qp() + ".csv"
-        bitrate, psnr, timems = self._parse()
+        bitrate, psnr, timems = self.parse()
 
         with open(outputcsv, 'w', newline='') as metrics_file:
             metrics_writer = csv.writer(metrics_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
