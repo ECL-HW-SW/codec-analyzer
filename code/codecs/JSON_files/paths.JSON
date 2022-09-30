@@ -7,26 +7,41 @@
 
 "evc":
     {   
-        "encoder": "/home/filipi/evc/enc_app",
-        "bitstream": "/home/mangrich/code/lab/testes/bitstream",
-        "decoded": "/home/mangrich/code/lab/testes/decoded",
-        "txt": "/home/mangrich/code/lab/testes/txt",
-        "csv": "/home/mangrich/code/lab/testes/csv",
-        "images": "/home/mangrich/code/lab/testes/images"
+        "encoder": "~/VC/tools/xeve/build/bin/xeve_app",
+        "decoder": "~/VC/tools/xevd/build/bin/xevd_app",
+        "bitstream": "~/VC/data/video-samples",
+        "decoded": "~/VC/data/decoded-videos",
+        "options_encoder": {
+            "--preset": "fast",
+            "--threads": "8"
+        },
+        "options_decoder": "",
+        "txt": "~/VC/data/evc-output/txt",
+        "csv": "~/VC/data/evc-output/csv",
+        "images": "~/VC/data/images",
+        "original_images": "~/VC/data/images/original-images/evc",
+        "decoded_images": "~/VC/data/images/decoded-images/evc"
     },
 
 "svt":
     {
-        "encoder" : "SvtAv1EncApp",
-        "decoder" : "SvtAv1DecApp",
-        "bitstream" : "/home/mangrich/code/lab/av1/bitstream",
-        "decoded" : "/home/mangrich/code/lab/av1/decoded",
-        "options_encoder" : "--passes 2 --rc 0",
+        "encoder" : "~/VC/tools/SVT-AV1/Bin/Release/SvtAv1EncApp",
+        "decoder" : "~/VC/tools/SVT-AV1/Bin/Release/SvtAv1DecApp",
+        "bitstream" : "~/VC/data/video-samples",
+        "decoded" : "~/VC/data/decoded-videos",
+        "options_encoder": {
+            "--passes": "2",
+            "--rc": "0",
+            "--preset": "5",
+            "--lp": "8"
+        },
         "options_decoder" : "",
-        "txt" : "/home/mangrich/code/lab/av1/txt",
-        "outtime" : "/home/mangrich/code/lab/av1/txt",
-        "csv" : "/home/mangrich/code/lab/av1/csv",
-        "images" : ""
+        "txt" : "~/VC/data/svt-output/txt",
+        "outtime" : "~/VC/data/svt-output/txt",
+        "csv" : "~/VC/data/svt-output/csv",
+        "images" : "~/VC/data/images",
+        "original_images": "~/VC/data/images/decoded-images/svt",
+        "decoded_images": "~/VC/data/images/decoded-images/svt"
     },
 
 "aom":
@@ -35,7 +50,10 @@
         "decoder" : "~/appfiles/libaom/aom/bin/aomdec",
         "bitstream" : "~/videocoding/videos",
         "decoded" : "~/videocoding/bitstreams",
-        "options_encoder" : "--passes=2 --limit=3",
+        "options_encoder" : {
+            "--passes": "2",
+            "--limit": "3"
+        },
         "options_decoder" : "",
         "txt" : "~/videocoding/libaomenc_output",
         "outtime" : "~/videocoding/libaomenc_output",
@@ -47,13 +65,18 @@
     {
         "encoder" : "~/VC/tools/vvenc/bin/release-static/vvencapp",
         "decoder" : "~/VC/tools/vvdec/bin/release-static/vvdecapp",
-        "bitstream" : "/home/arthurscarpatto/VC/data/video-samples",
+        "bitstream" : "~/VC/data/video-samples",
         "decoded" : "~/VC/data/decoded-videos",
-        "options_encoder" : "--threads 8 --preset faster",
+        "options_encoder": {
+            "--threads": "8",
+            "--preset": "faster"
+        },
         "options_decoder" : "",
-        "txt" : "~/VC/data/vvenc_output/txt",
-        "csv" : "/home/arthurscarpatto/VC/data/vvenc_output/csv",
-        "images" : ""
+        "txt" : "~/VC/data/vvcodec-output/txt",
+        "csv" : "~/VC/data/vvcodec-output/csv",
+        "images" : "~/VC/data/images",
+        "original_images": "~/VC/data/images/original-images/vvcodec",
+        "decoded_images": "~/VC/data/images/decoded-images/vvcodec"
     },
 
 "vtm":
