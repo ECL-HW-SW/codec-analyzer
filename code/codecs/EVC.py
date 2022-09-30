@@ -11,13 +11,17 @@ class EVC(Codec):
     def encode(self):
         print("\nENCODING EVC...\n")
 
+        options_encoder = ''
+        for key, val in self.get_options_encoder().items():
+            options_encoder += f"{key} {val} "
+        
         bitstream_path = self.get_bitstream()
         p = Path('~').expanduser()
         bitstream_path = bitstream_path.replace("~", str(p))
         if not(os.path.exists(bitstream_path)):
             os.mkdir(bitstream_path)
 
-        part1 = f'xeve_app -i {self.get_videopath()} -v 3 -q {self.get_qp()} --preset fast '
+        part1 = f'xeve_app -i {self.get_videopath()} -v 3 -q {self.get_qp()} {options_encoder} '
         part2 = f'-o {self.get_bitstream()}/evc_{self.get_videoname()}_{self.get_qp()}'
         part3 = f'> {self.get_txts()}/{self.get_videoname()}.txt'
 
@@ -87,8 +91,9 @@ class EVC(Codec):
             Brate_fullvideo = float(text[-6].split()[2])*1024
             Brate_fullvideo = f'{Brate_fullvideo:.4f}'
             total_frames = text[-5].split()[4]
+            time = text[-4].split()[6]
             geral_parameters = [name,resolution,fps,total_frames,QP,PSNR_Y_fullvideo,PSNR_U_fullvideo,PSNR_V_fullvideo,psnr,Brate_fullvideo]
-        return sorted(parameters_lines),geral_parameters
+        return sorted(parameters_lines),geral_parameters, time
 
     def add_to_csv(self):
         parameters = self.parse()
@@ -109,5 +114,13 @@ class EVC(Codec):
                 writer.writerow(line)
         csvfile.close()
 
+    def set_threads(self, threads: int):
+        self.__threads = str(threads)
+        self._options_encoder["--threads"] = str(threads)
+    
+    def get_threads(self) -> str:
+        return self.__threads
+    
     def gen_config(self):
         pass
+    

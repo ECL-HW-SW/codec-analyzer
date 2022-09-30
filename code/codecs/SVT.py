@@ -48,7 +48,7 @@ class svt_codec(Codec):
         os.system(cmdline)    #@fix
 
     def decode(self):     
-        print("DECODING SVT...")
+        print("\nDECODING SVT...\n")
 
         decoded_path = self.get_decoded()
         p1 = Path('~').expanduser()
@@ -76,7 +76,7 @@ class svt_codec(Codec):
         outtime=outtime.replace("~",str(p))
         
         bitrate, psnr, timems = self._parse_svt_output(outgen,outtime)
-        return bitrate, psnr, timems
+        return bitrate, psnr, timems/1000
 
     def add_to_csv(self):
         outputcsvpath = self.get_csvs()
@@ -110,6 +110,9 @@ class svt_codec(Codec):
         return float(bitrate_string)*1024, float(psnr_string) , float(timems_string)
 
     def set_threads(self, threads: int):
-        self.__lp = str(threads)
+        self.__threads = str(threads)
         self._options_encoder["--lp"] = str(threads)
+
+    def get_threads(self) -> str: # TODO: arrumar isso dps
+        return self.__threads
 

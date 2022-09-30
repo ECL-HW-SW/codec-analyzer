@@ -28,6 +28,7 @@ class Codec(ABC):
             self.__decoded_images = data[codec]['decoded_images']
             self.__original_images = data[codec]['original_images']
             self.__preset = self._options_encoder["--preset"]
+            self.__threads = ''
 
         with open(videocfg) as json_video_file:
             data = json.load(json_video_file)
@@ -66,6 +67,9 @@ class Codec(ABC):
     def get_qp(self):
         return self.__qp
 
+    def get_threads(self) -> str:
+        return self.__threads
+
     def get_preset(self):
         return self.__preset
 
@@ -74,7 +78,7 @@ class Codec(ABC):
 
     def get_decoded_images(self) -> str:
         return self.__decoded_images
-
+        
     def get_raw(self):
         return self.__raw_path
 
@@ -109,6 +113,9 @@ class Codec(ABC):
 ##### setters ##########################
     def set_qp(self, qp: int):
         self.__qp = str(qp)
+    
+    def set_threads(self, threads: int):
+        self.__threads = str(threads)
 ##### end of section ##################   
 
     @abstractmethod

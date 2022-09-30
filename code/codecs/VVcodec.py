@@ -8,29 +8,40 @@ class VVcodec(Codec):
         super().__init__("vvcodec")
 
     def encode(self) -> str:        
+        print("\nENCODING VVCODEC...\n")
+        
+        p = str(Path('~').expanduser())     
+
+        txt_path = self.get_txts()
+        txt_path = txt_path.replace('~', p)
+
+        options_encoder = ''
+        for key, val in self.get_options_encoder().items():
+            options_encoder += f"{key} {val} "
+
         bitstream_path = self.get_decoded()
-        p = Path('~').expanduser()
-        bitstream_path = bitstream_path.replace('~', str(p))
+        bitstream_path = bitstream_path.replace('~', p)
         if not os.path.exists(bitstream_path):
             os.mkdir(bitstream_path)
         
-        part1 = f'{self.get_encoder()} -i {self.get_videopath()} -q {self.get_qp()} {self.get_options_encoder()} '
+        part1 = f'{self.get_encoder()} -i {self.get_videopath()} -q {self.get_qp()} {options_encoder} '
         part2 = f'--output {self.get_bitstream()}/vvcodec_{self.get_videoname()}_{self.get_qp()}'
-        part3 = f'> {self.get_txts()}/{self.get_videoname()}.txt' # TODO: mudar isso dps
-        
-        cmd_str  =part1+part2+part3 
-        os.system(cmd_str)
+        part3 = f'> {txt_path}/{self.get_videoname()}.txt' # TODO: mudar isso dps
+        cmdline  =part1+part2+part3 
 
-        print(cmd_str) 
+        os.system(cmdline)
+        print(cmdline) 
 
     def decode(self):
+        print("\nDECODING VVCODEC...\n")
+
+        p = str(Path('~').expanduser())
+
         decoded_path = self.get_decoded()
-        p = Path('~').expanduser()
-        decoded_path = decoded_path.replace('~', str(p))
+        decoded_path = decoded_path.replace('~', p)
 
         bitstream_path = self.get_bitstream()
-        p = Path('~').expanduser()
-        bitstream_path = bitstream_path.replace('~', str(p))
+        bitstream_path = bitstream_path.replace('~', p)
         if not os.path.exists(bitstream_path):
             print("Bitstream path does not exist.")
 
@@ -88,3 +99,10 @@ class VVcodec(Codec):
             metrics_writer.writerow(["VVENC",self.get_videoname(),self.get_resolution(),self.get_fps(),
                                         self.get_framesnumber(),self.get_qp(),bitrate,psnr,timems,self.get_options_encoder()])
             metrics_file.close()
+
+    def set_threads(self, threads: int):
+        self.__threads = str(threads)
+        self._options_encoder["--threads"] = str(threads)
+    
+    def get_threads(self) -> str:
+        return self.__threads
