@@ -32,7 +32,7 @@
         "options_encoder": {
             "--passes": "2",
             "--rc": "0",
-            "--preset": "10",
+            "--preset": "5",
             "--lp": "8"
         },
         "options_decoder" : "",
@@ -69,7 +69,7 @@
         "decoded" : "~/VC/data/decoded-videos",
         "options_encoder": {
             "--threads": "8",
-            "--preset": "fast"
+            "--preset": "faster"
         },
         "options_decoder" : "",
         "txt" : "~/VC/data/vvcodec-output/txt",
