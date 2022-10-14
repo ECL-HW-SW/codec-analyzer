@@ -1,0 +1,12 @@
+{
+    "raw_videos_path": "/Users/grellert/PESQUISA/YUV",
+    "proj_root": "/Users/grellert/PESQUISA/codec_research",
+    "codecs_path": "/Users/grellert/PESQUISA/codecs",
+   
+    "output_dir": "output",
+    "bitstream_dir": "bitstream",
+    "decoded_dir": "decoded_seqs",
+    "report_dir": "report",
+    "csv_dir": "csv",
+    "images_dir": "images"
+}
