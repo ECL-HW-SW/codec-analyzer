@@ -1,0 +1,55 @@
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [version]:	SVT-AV1 Encoder Lib v0.9.0
+Svt[info]: SVT [build]  :	GCC 11.2.0	 64 bit
+Svt[info]: LIB Build date: Feb 11 2022 20:34:35
+Svt[info]: -------------------------------------------
+Svt[info]: Number of logical cores available: 4
+Svt[info]: Number of PPCS 37
+Svt[info]: [asm level on system : up to avx2]
+Svt[info]: [asm level selected : up to avx2]
+Svt[info]: -------------------------------------------
+Svt[info]: SVT [config]: Main Profile	Tier (auto)	Level (auto)
+Svt[info]: SVT [config]: Preset 							: 7
+Svt[info]: SVT [config]: EncoderBitDepth / EncoderColorFormat / CompressedTenBitFormat	: 8 / 1 / 0
+Svt[info]: SVT [config]: SourceWidth / SourceHeight					: 352 / 288
+Svt[info]: SVT [config]: Fps_Numerator / Fps_Denominator / Gop Size / IntraRefreshType 	: 30000 / 1001 / 65 / 2
+Svt[info]: SVT [config]: HierarchicalLevels  / PredStructure				: 4 / 2
+Svt[info]: SVT [config]: BRC Mode / Rate Factor / SceneChange				: CRF / 32 / 0
+Svt[info]: -------------------------------------------
+SvtMalloc[info]: SVT Memory Usage:
+SvtMalloc[info]:     total allocated memory:       156.04 MB
+SvtMalloc[info]:         malloced memory:          56.95 MB
+SvtMalloc[info]:         callocated memory:        28.80 MB
+SvtMalloc[info]:         allocated aligned memory: 70.30 MB
+SvtMalloc[info]:     mutex count: 1427
+SvtMalloc[info]:     semaphore count: 460
+SvtMalloc[info]:     thread count: 104
+SvtMalloc[info]:     hash table fulless: 0.028189, hash bucket is healthy
+SvtMalloc[info]: top 10 malloced memory locations:
+SvtMalloc[info]: (22.92 MB): ./Source/Lib/Common/Codec/EbBitstreamUnit.c:36
+SvtMalloc[info]: (8.12 MB): ./Source/Lib/Encoder/Codec/EbModeDecisionProcess.c:187
+SvtMalloc[info]: (4.87 MB): ./Source/Lib/Encoder/Codec/EbPictureControlSet.c:545
+SvtMalloc[info]: (4.02 MB): ./Source/Lib/Encoder/Codec/EbCodingUnit.c:75
+SvtMalloc[info]: (2.67 MB): ./Source/Lib/Encoder/Codec/EbModeDecisionProcess.c:190
+SvtMalloc[info]: (1.94 MB): ./Source/Lib/Encoder/Codec/EbModeDecisionProcess.c:195
+SvtMalloc[info]: (1.32 MB): ./Source/Lib/Encoder/Codec/EbPictureControlSet.c:121
+SvtMalloc[info]: (1.22 MB): ./Source/Lib/Encoder/Codec/EbPictureDecisionQueue.c:24
+SvtMalloc[info]: (1.22 MB): ./Source/Lib/Encoder/Codec/EbPictureManagerQueue.c:31
+SvtMalloc[info]: (1.22 MB): ./Source/Lib/Encoder/Codec/EbPictureDecisionQueue.c:23
+Encoding                  1        2        3        4        5        6        7        8        9       10       11       12       13       14       15       16       17       18       19       20       21       22       23       24       25       26       27       28       29       30
+SUMMARY --------------------------------- Channel 1  --------------------------------
+Total Frames		Frame Rate		Byte Count		Bitrate
+          30		29.97 fps		     14696		117.45 kbps
+
+		Average PSNR (using per-frame PSNR)		|	Overall PSNR (using per-frame MSE)		|	Average SSIM
+Average QP	Y-PSNR		U-PSNR		V-PSNR		|	Y-PSNR		U-PSNR		V-PSNR		|	Y-SSIM	U-SSIM	V-SSIM
+      28.73	48.09 dB	49.10 dB	50.68 dB	|	48.09 dB	49.10 dB	50.67 dB	|	0.99101	0.98888	0.99261
+
+
+Channel 1
+Average Speed:		172.981 fps
+Total Encoding Time:	173 ms
+Total Execution Time:	791 ms
+Average Latency:	166 ms
+Max Latency:		170 ms
+SvtMalloc[info]: you have no memory leak

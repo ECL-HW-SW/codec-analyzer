@@ -50,7 +50,7 @@ class VVcodec(Codec):
         part2 = f'--output {self.__bitstream_path} '
         part3 = f'> {self.__report_path}' # TODO: mudar isso dps
         cmdline  =part1+part2+part3 
-
+        print(cmdline)
         os.system(cmdline)
         log.info(cmdline) 
 

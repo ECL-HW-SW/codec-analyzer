@@ -1,7 +1,7 @@
 {
-    "raw_videos_path": "/Users/grellert/PESQUISA/YUV",
-    "proj_root": "/Users/grellert/PESQUISA/codec_research",
-    "codecs_path": "/Users/grellert/PESQUISA/codecs",
+    "raw_videos_path": "path to the folder with the raw video files",
+    "proj_root": "path to the codec-research repo in your computer",
+    "codecs_path": "",
    
     "output_dir": "output",
     "bitstream_dir": "bitstream",
