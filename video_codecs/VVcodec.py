@@ -5,24 +5,32 @@ from pathlib import Path
 import csv
 from Logger import Logger
 
+
 class VVcodec(Codec):
+    
     def __init__(self, config_path):
         super().__init__("vvcodec", config_path)
     
+
     def set_qp(self, val):
         self._options_encoder["qp"] = val
     
+
     def get_qp(self):
         return self._options_encoder["qp"] 
+
 
     def set_num_frames(self, val):
         self._options_encoder["frames"] = val
     
+
     def set_preset(self, val):
         self._options_encoder["preset"] = val
     
+
     def get_num_frames(self):
         return self._options_encoder["frames"]
+
 
     def encode(self, video, force_rerun = 0) -> str: 
         log = Logger()       
@@ -54,6 +62,7 @@ class VVcodec(Codec):
         os.system(cmdline)
         log.info(cmdline) 
 
+
     def decode(self):
         print("\nDECODING VVCODEC...\n")
 
@@ -74,14 +83,13 @@ class VVcodec(Codec):
         os.system(cmdline)
         print(cmdline) 
 
+
     def parse(self) -> tuple:
         """
         Parses the txt output from the encode() method.
 
-        @return (bitrate, psnr, total time taken to encode)
+        @returns (bitrate, psnr, total time taken to encode)
         """
-
-        
 
         with open(self.__report_path, 'r') as txt:
             text = txt.read().split("\n")
@@ -96,7 +104,33 @@ class VVcodec(Codec):
             total_time = line_time[2]
 
         return bitrate, psnr, total_time
+
     
+    def parse_extra(self) -> tuple:
+        """
+        Parses the .txt output from the encode() method and returns more information than the usual parse()
+
+        @returns (bitrate, yuvpsnr, total time taken to encode, ypsnr, upsnr, vpsnr)
+        """
+        
+        with open(self.__report_path, 'r') as txt:
+            text = txt.read().split("\n")
+            for line in text:
+                if "YUV-PSNR" in line.split():
+                    data_line = text[text.index(line)+1].split()
+                    break
+            txt.close()
+            bitrate = data_line[2]
+            yuvpsnr = data_line[6]
+            ypsnr = data_line[3]
+            upsnr = data_line[4]
+            vpsnr = data_line[5]
+            line_time = text[-2].split()
+            total_time = line_time[2]
+
+        return bitrate, yuvpsnr, total_time, ypsnr, upsnr, vpsnr
+    
+
     def add_to_csv(self, video):
         """
         Adds to csv: 
@@ -114,6 +148,30 @@ class VVcodec(Codec):
             metrics_writer.writerow(["VVENC",video.get_name(),video.get_resolution(),video.get_fps(),
                                         video.get_framesnumber(),self.get_qp(),bitrate,psnr,timems,self._options_encoder])
             metrics_file.close()
+
+
+    def get_encoding_info(self, video) -> dict:
+        """
+        Creates a dictionary with the same encoding info that is written to the csv file
+        so that it can be sent in an HTTP request and stored into the database
+        """
+
+        bitrate, yuvpsnr, timems, ypsnr, upsnr, vpsnr = self.parse_extra()
+        info_vvenc = {
+            "codec": "vvenc",
+            "video": video.get_name(),
+            "resolution": video.get_resolution(),
+            "fps": video.get_fps(),
+            "nFrames": video.get_framesnumber(),
+            "qp": video.get_qp(),
+            "yPSNR": ypsnr,
+            "uPSNR": upsnr,
+            "vPSNR": vpsnr,
+            "yuvPSNR": yuvpsnr,
+            "bitrate": bitrate,
+            "time": timems }
+        return info_vvenc
+
 
     def set_threads(self, threads: int):
         self.__threads = str(threads)
