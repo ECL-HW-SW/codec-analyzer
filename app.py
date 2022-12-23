@@ -1,7 +1,7 @@
 #from EVC import EVC
 from CodecComparator import CodecComparator
-#from SVT import svt_codec
 from video_codecs.VVcodec import VVcodec
+from video_codecs.SVT import svt_codec
 from Logger import Logger
 from GlobalPaths import GlobalPaths
 import utils
@@ -11,11 +11,12 @@ qps = [22,27,32,37]
 num_frames = 30
 paths = GlobalPaths("config/Paths.JSON").get_paths()
 
-
+svt = svt_codec("config/SVT.JSON")
 vvenc = VVcodec("config/VVEnc.JSON")
-codecs = [vvenc]
+codecs = [vvenc, svt]
 
 video = Video("config/Bowing.JSON")
+
 tests = {}
 for codec in codecs:
     for preset in ["faster", "fast", "medium", "slow", "slower"]:
@@ -36,3 +37,4 @@ comp = CodecComparator()
 # print("SVT-EVC BDRATE:", comp.bdrate(svt.get_csvs(), evc.get_csvs()))
 # print("VVENC-EVC BDRATE:", comp.bdrate(vvenc.get_csvs(), evc.get_csvs()))
 # print("VVENC-SVT BDRATE:", comp.bdrate(vvenc.get_csvs(), evc.get_csvs()))
+

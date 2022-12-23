@@ -2,7 +2,7 @@ import os
 import json
 import csv
 from pathlib import Path
-from Codec import Codec
+from .Codec import Codec
 
 class svt_codec(Codec):
 
