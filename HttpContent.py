@@ -2,6 +2,8 @@ import requests
 import json
 import ast
 
+
+
 class HttpContent:
     """
     A Class for handling all the HTTP requests to the Codec Analyzer Database.
@@ -72,8 +74,10 @@ class HttpContent:
     GETTERS AND SETTERS BELOW
     """
 
+
     def set_base_url(self, base_url: str) -> None:
         self.base_url = base_url
+
 
     def get_base_url(self) -> str:
         return self.base_url

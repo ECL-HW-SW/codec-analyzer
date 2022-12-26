@@ -7,6 +7,8 @@ class Codec(ABC):
     def __init__(self, codec, codec_config):
         self._codec = codec
         paths = GlobalPaths().get_paths()
+
+        # TODO: add hash dos codecs (erro se n tiver)
  
         with open(codec_config, "r") as json_file:
             data = json.load(json_file)
