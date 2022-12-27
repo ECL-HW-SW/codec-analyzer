@@ -1,7 +1,7 @@
 {
-    "raw_videos_path": "/Users/grellert/PESQUISA/YUV",
-    "proj_root": "/Users/grellert/PESQUISA/codec_research",
-    "codecs_path": "/Users/grellert/PESQUISA/codecs",
+    "raw_videos_path": "/home/art/video-coding/data/video-samples",
+    "proj_root": "/home/art/video-coding/codec-research",
+    "codecs_path": "/home/art/video-coding/tools",
    
     "output_dir": "output",
     "bitstream_dir": "bitstream",
