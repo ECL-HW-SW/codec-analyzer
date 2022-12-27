@@ -25,6 +25,8 @@ class HttpContent:
     def POST(self, info: dict) -> requests.Response:
         payload = json.dumps({
             "codec": info["codec"],
+            "commitHash": info["commitHash"],
+            "uniqueConfig": info["uniqueConfig"],
             "video": info["video"],
             "resolution": info["resolution"],
             "fps": info["fps"],
@@ -45,6 +47,8 @@ class HttpContent:
     def PUT(self, id: str, info: dict) -> requests.Response:
         payload = json.dumps({
             "codec": info["codec"],
+            "commitHash": info["commitHash"],
+            "uniqueConfig": info["uniqueConfig"],
             "video": info["video"],
             "resolution": info["resolution"],
             "fps": info["fps"],
@@ -69,7 +73,21 @@ class HttpContent:
         response = requests.request("DELETE", url, headers=headers)
         return response
 
+
+    def hasEntry(self, unique_config, commit_hash) -> bool:
+        """
+        Checks if there is an entry with the given parameters as columns in the Database
+
+        @param str unique_config: unique configuration string to represent the codification process
+        @param str commit_hash: the github commit hash for the codec
+        @returns bool
+        """
+
+        url = f"{self.base_url}/statsUnique?commitHash={commit_hash}&uniqueConfig={unique_config}"
+        response = requests.request("GET", url, headers={}, data={})
+        return response.content
     
+
     """
     GETTERS AND SETTERS BELOW
     """
