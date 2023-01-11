@@ -1,6 +1,6 @@
 {
-    "encoder_path" : "vvenc/bin/release-static/vvencapp",
-    "decoder_path" : "vvdec/bin/release-static/vvdecapp",
+    "encoder_path" : "vvencapp",
+    "decoder_path" : "vvdecapp",
     
     "options_encoder": {
         "threads": "8",

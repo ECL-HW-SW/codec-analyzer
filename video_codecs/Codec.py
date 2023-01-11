@@ -4,7 +4,7 @@ from GlobalPaths import GlobalPaths
 import os
 
 class Codec(ABC):
-    def __init__(self, codec, codec_config):
+    def __init__(self, codec, codec_config, commit_hash):
         self._codec = codec
         paths = GlobalPaths().get_paths()
  

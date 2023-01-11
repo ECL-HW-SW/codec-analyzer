@@ -1,0 +1,3 @@
+video,resolution,fps,number of frames,qp,PSNR-Y,PSNR-U,PSNR-V,psnr,bitrate
+bowing,352x288,/,30,32,30,30,30,30.0,50143.2320
+POC,Ftype,QP,PSNR-Y,PSNR-U,PSNR-V,Bits,EncT(ms),Bitratekbps

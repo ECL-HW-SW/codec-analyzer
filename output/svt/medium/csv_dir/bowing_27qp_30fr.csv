@@ -1,2 +1,2 @@
-encoder,video,resolution,fps,number of frames,qp,bitrate,psnr,timems,optional settings
-SVT-AV1,bowing,352x288,29.97,300,27,141363.2,48.47,0.187,"{'threads': '4', 'preset': 'medium', 'frames': 30, 'qp': 27}"
+codec,video,resolution,fps,number of frames,qp,ypsnr,upsnr,vpsnr,bitrate,psnr,timems,optional settings
+VVENC,bowing,352x288,29.97,30,27,48.13,49.13,50.66,48.72,120555.52,0.309,bowing_27qp_30fr_29.97fps_medium-preset_4t

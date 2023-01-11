@@ -1,55 +1,34 @@
 Svt[info]: -------------------------------------------
-Svt[info]: SVT [version]:	SVT-AV1 Encoder Lib v0.9.0
-Svt[info]: SVT [build]  :	GCC 11.2.0	 64 bit
-Svt[info]: LIB Build date: Feb 11 2022 20:34:35
+Svt[info]: SVT [version]:	SVT-AV1 Encoder Lib 91832ee
+Svt[info]: SVT [build]  :	GCC 11.3.0	 64 bit
+Svt[info]: LIB Build date: Dec 27 2022 13:56:10
 Svt[info]: -------------------------------------------
+Svt[warn]: Instances 1: Enabling StatReport can decrease encoding speed
 Svt[info]: Number of logical cores available: 4
-Svt[info]: Number of PPCS 36
+Svt[info]: Number of PPCS 69
 Svt[info]: [asm level on system : up to avx2]
 Svt[info]: [asm level selected : up to avx2]
 Svt[info]: -------------------------------------------
-Svt[info]: SVT [config]: Main Profile	Tier (auto)	Level (auto)
-Svt[info]: SVT [config]: Preset 							: 10
-Svt[info]: SVT [config]: EncoderBitDepth / EncoderColorFormat / CompressedTenBitFormat	: 8 / 1 / 0
-Svt[info]: SVT [config]: SourceWidth / SourceHeight					: 352 / 288
-Svt[info]: SVT [config]: Fps_Numerator / Fps_Denominator / Gop Size / IntraRefreshType 	: 30000 / 1001 / 65 / 2
-Svt[info]: SVT [config]: HierarchicalLevels  / PredStructure				: 4 / 2
-Svt[info]: SVT [config]: BRC Mode / Rate Factor / SceneChange				: CRF / 37 / 0
+Svt[info]: SVT [config]: main profile	tier (auto)	level (auto)
+Svt[info]: SVT [config]: width / height / fps numerator / fps denominator 		: 352 / 288 / 30000 / 1001
+Svt[info]: SVT [config]: bit-depth / color format 					: 8 / YUV420
+Svt[info]: SVT [config]: preset / tune / pred struct 					: 10 / PSNR / random access
+Svt[info]: SVT [config]: gop size / mini-gop size / key-frame type 			: 161 / 32 / key frame
+Svt[info]: SVT [config]: BRC mode / rate factor 					: CRF / 37 
 Svt[info]: -------------------------------------------
-SvtMalloc[info]: SVT Memory Usage:
-SvtMalloc[info]:     total allocated memory:       151.41 MB
-SvtMalloc[info]:         malloced memory:          56.44 MB
-SvtMalloc[info]:         callocated memory:        28.73 MB
-SvtMalloc[info]:         allocated aligned memory: 66.24 MB
-SvtMalloc[info]:     mutex count: 1403
-SvtMalloc[info]:     semaphore count: 454
-SvtMalloc[info]:     thread count: 103
-SvtMalloc[info]:     hash table fulless: 0.027954, hash bucket is healthy
-SvtMalloc[info]: top 10 malloced memory locations:
-SvtMalloc[info]: (22.92 MB): ./Source/Lib/Common/Codec/EbBitstreamUnit.c:36
-SvtMalloc[info]: (8.12 MB): ./Source/Lib/Encoder/Codec/EbModeDecisionProcess.c:187
-SvtMalloc[info]: (4.87 MB): ./Source/Lib/Encoder/Codec/EbPictureControlSet.c:545
-SvtMalloc[info]: (4.02 MB): ./Source/Lib/Encoder/Codec/EbCodingUnit.c:75
-SvtMalloc[info]: (2.67 MB): ./Source/Lib/Encoder/Codec/EbModeDecisionProcess.c:190
-SvtMalloc[info]: (1.45 MB): ./Source/Lib/Encoder/Codec/EbModeDecisionProcess.c:195
-SvtMalloc[info]: (1.32 MB): ./Source/Lib/Encoder/Codec/EbPictureControlSet.c:121
-SvtMalloc[info]: (1.22 MB): ./Source/Lib/Encoder/Codec/EbPictureDecisionQueue.c:23
-SvtMalloc[info]: (1.22 MB): ./Source/Lib/Encoder/Codec/EbPictureDecisionQueue.c:24
-SvtMalloc[info]: (1.22 MB): ./Source/Lib/Encoder/Codec/EbPictureManagerQueue.c:30
 Encoding                  1        2        3        4        5        6        7        8        9       10       11       12       13       14       15       16       17       18       19       20       21       22       23       24       25       26       27       28       29       30
 SUMMARY --------------------------------- Channel 1  --------------------------------
 Total Frames		Frame Rate		Byte Count		Bitrate
-          30		29.97 fps		     13342		106.63 kbps
+          30		29.97 fps		     12425		99.30 kbps
 
 		Average PSNR (using per-frame PSNR)		|	Overall PSNR (using per-frame MSE)		|	Average SSIM
 Average QP	Y-PSNR		U-PSNR		V-PSNR		|	Y-PSNR		U-PSNR		V-PSNR		|	Y-SSIM	U-SSIM	V-SSIM
-      33.67	26.37 dB	27.28 dB	28.02 dB	|	8.34 dB	8.78 dB	9.03 dB	|	0.49564	0.49437	0.49594
+      34.27	47.38 dB	47.95 dB	49.51 dB	|	47.38 dB	47.87 dB	49.48 dB	|	0.99021	0.98569	0.99058
 
 
 Channel 1
-Average Speed:		469.667 fps
-Total Encoding Time:	64 ms
-Total Execution Time:	705 ms
-Average Latency:	58 ms
-Max Latency:		60 ms
-SvtMalloc[info]: you have no memory leak
+Average Speed:		184.579 fps
+Total Encoding Time:	163 ms
+Total Execution Time:	211 ms
+Average Latency:	141 ms
+Max Latency:		153 ms

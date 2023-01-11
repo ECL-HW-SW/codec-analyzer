@@ -1,6 +1,6 @@
 {
-    "raw_videos_path": "path to the folder with the raw video files",
-    "proj_root": "path to the codec-research repo in your computer",
+    "raw_videos_path": "/home/edulodi/videocoding/videos",
+    "proj_root": "home/edulodi/videocoding/codec-research",
     "codecs_path": "",
    
     "output_dir": "output",
