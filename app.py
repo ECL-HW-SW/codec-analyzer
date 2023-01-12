@@ -13,9 +13,9 @@ paths = GlobalPaths("config/Paths.JSON").get_paths()
 video = Video("config/Bowing.JSON")
 
 svt = svt_codec("config/SVT.JSON","COMMIT_HASH", video)
-#evc = EVC("config/EVC.JSON")
+evc = EVC("config/EVC.JSON", "COMMIT_HASH", video)
 vvenc = VVcodec("config/VVEnc.JSON","COMMIT_HASH",video)
-codecs = [vvenc, svt]
+codecs = [svt,evc,vvenc]
 
 tests = {}
 for codec in codecs:

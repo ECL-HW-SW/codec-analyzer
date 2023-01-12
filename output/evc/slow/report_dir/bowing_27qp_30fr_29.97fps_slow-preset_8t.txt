@@ -1,0 +1,66 @@
+XEVE: eXtra-fast Essential Video Encoder
+=== Configurations =============================================================
+Input : /home/edulodi/videocoding/videos/bowing_cif.y4m 
+Output : ./output/evc/slow/bitstream_dir/bowing_27qp_30fr_29.97fps_slow-preset_8t.bin 
+	profile                  = baseline
+	preset                   = slow
+	width                    = 352
+	height                   = 288
+	FPS                      = 30
+	intra picture period     = 0
+	QP                       = 27
+	frames                   = 30
+	deblocking filter        = enabled
+	GOP type                 = open
+	hierarchical GOP         = enabled
+	rate-control type        = CQP
+Note: PSNR is calculated as 10-bit (Input YUV bitdepth: 8)
+
+AMVR: 0, MMVD: 0, AFFINE: 0, DMVR: 0, DBF.ADDB: 1.0, ALF: 0, ADMVP: 0, HMVP: 0, HTDF: 0 EIPD: 0, IQT: 0, CM_INIT: 0, ADCC: 0, IBC: 0, ATS: 0, RPL: 0, POCS: 0, CONSTRAINED_INTRA_PRED: 0, Uniform Tile Spacing: 0, Number of Tile Columns: 1, Number of Tile  Rows: 1, Number of Slices: 1, Loop Filter Across Tile Enabled: 0, ChromaQPTable: 0, DRA: 0 
+=== Stat =======================================================================
+POC   Tid   Ftype   QP   PSNR-Y    PSNR-U    PSNR-V    Bits      EncT(ms)  Ref. List
+================================================================================
+0      0    (I)     24   44.0557   46.7663   47.6845   61168     206       
+[ 0 / 30 frames ] [ 4.85 frame/sec ] [ 1835.0400 kbps ] [  0h  0m  0s ] 16     0    (B)     28   43.4325   46.5221   47.4581   232       53        [L0 0 ] [L1 0 ] 
+[ 1 / 30 frames ] [ 7.69 frame/sec ] [ 921.0000 kbps ] [  0h  0m  0s ] 8      1    (B)     29   43.4114   46.4849   47.4804   216       51        [L0 0 ] [L1 16 ] 
+[ 2 / 30 frames ] [ 9.68 frame/sec ] [ 616.1600 kbps ] [  0h  0m  0s ] 4      2    (B)     32   43.4093   46.4305   47.3042   200       46        [L0 0 ] [L1 8 ] 
+[ 3 / 30 frames ] [ 11.24 frame/sec ] [ 463.6200 kbps ] [  0h  0m  0s ] 12     2    (B)     32   43.4390   46.4531   47.5001   200       42        [L0 8 ] [L1 16 ] 
+[ 4 / 30 frames ] [ 12.56 frame/sec ] [ 372.0960 kbps ] [  0h  0m  0s ] 2      3    (B)     34   43.4611   46.5285   47.4191   192       41        [L0 0 ] [L1 4 ] 
+[ 5 / 30 frames ] [ 13.70 frame/sec ] [ 311.0400 kbps ] [  0h  0m  0s ] 6      3    (B)     34   43.4133   46.3846   47.4484   192       42        [L0 4 ] [L1 8 ] 
+[ 6 / 30 frames ] [ 14.58 frame/sec ] [ 267.4286 kbps ] [  0h  0m  0s ] 10     3    (B)     34   43.4441   46.5727   47.4320   192       41        [L0 8 ] [L1 12 ] 
+[ 7 / 30 frames ] [ 15.36 frame/sec ] [ 234.7200 kbps ] [  0h  0m  0s ] 14     3    (B)     34   43.4392   46.3693   47.4623   192       42        [L0 12 ] [L1 16 ] 
+[ 8 / 30 frames ] [ 15.99 frame/sec ] [ 209.2800 kbps ] [  0h  0m  0s ] 1      4    (B)     36   43.4723   46.2730   47.1766   192       26        [L0 0 ] [L1 2 ] 
+[ 9 / 30 frames ] [ 16.98 frame/sec ] [ 188.9280 kbps ] [  0h  0m  0s ] 3      4    (B)     36   43.4236   46.3522   47.4074   192       26        [L0 2 ] [L1 4 ] 
+[ 10 / 30 frames ] [ 17.92 frame/sec ] [ 172.2764 kbps ] [  0h  0m  0s ] 5      4    (B)     36   43.3959   46.3161   47.1307   192       25        [L0 4 ] [L1 6 ] 
+[ 11 / 30 frames ] [ 18.75 frame/sec ] [ 158.4000 kbps ] [  0h  0m  0s ] 7      4    (B)     36   43.4205   46.2991   47.3173   192       25        [L0 6 ] [L1 8 ] 
+[ 12 / 30 frames ] [ 19.55 frame/sec ] [ 146.6585 kbps ] [  0h  0m  0s ] 9      4    (B)     36   43.4185   46.4080   47.3313   192       25        [L0 8 ] [L1 10 ] 
+[ 13 / 30 frames ] [ 20.29 frame/sec ] [ 136.5943 kbps ] [  0h  0m  0s ] Entering bumping process...
+11     4    (B)     36   43.4023   46.3893   47.2426   192       26        [L0 10 ] [L1 12 ] 
+[ 14 / 30 frames ] [ 20.95 frame/sec ] [ 127.8720 kbps ] [  0h  0m  0s ] 13     4    (B)     36   43.3956   46.4276   47.4096   192       25        [L0 12 ] [L1 14 ] 
+[ 15 / 30 frames ] [ 21.59 frame/sec ] [ 120.2400 kbps ] [  0h  0m  0s ] 15     4    (B)     36   43.4227   46.2280   47.3192   192       25        [L0 14 ] [L1 16 ] 
+[ 16 / 30 frames ] [ 22.19 frame/sec ] [ 113.5059 kbps ] [  0h  0m  0s ] 24     1    (B)     29   43.4307   46.5727   47.4505   216       43        [L0 16 ] [L1 16 ] 
+[ 17 / 30 frames ] [ 22.25 frame/sec ] [ 107.5600 kbps ] [  0h  0m  0s ] 20     2    (B)     32   43.4295   46.4036   47.4827   192       41        [L0 16 ] [L1 24 ] 
+[ 18 / 30 frames ] [ 22.38 frame/sec ] [ 102.2021 kbps ] [  0h  0m  0s ] 28     2    (B)     32   43.3762   46.5061   47.4463   232       43        [L0 24 ] [L1 24 ] 
+[ 19 / 30 frames ] [ 22.42 frame/sec ] [ 97.4400 kbps ] [  0h  0m  0s ] 18     3    (B)     34   43.4338   46.5320   47.4856   192       39        [L0 16 ] [L1 20 ] 
+[ 20 / 30 frames ] [ 22.56 frame/sec ] [ 93.0743 kbps ] [  0h  0m  0s ] 22     3    (B)     34   43.4100   46.5978   47.5412   192       41        [L0 20 ] [L1 24 ] 
+[ 21 / 30 frames ] [ 22.63 frame/sec ] [ 89.1055 kbps ] [  0h  0m  0s ] 26     3    (B)     34   43.4106   46.4007   47.4865   192       39        [L0 24 ] [L1 28 ] 
+[ 22 / 30 frames ] [ 22.75 frame/sec ] [ 85.4817 kbps ] [  0h  0m  1s ] 17     4    (B)     36   43.4329   46.3454   47.3761   192       28        [L0 16 ] [L1 18 ] 
+[ 23 / 30 frames ] [ 23.10 frame/sec ] [ 82.1600 kbps ] [  0h  0m  1s ] 19     4    (B)     36   43.4279   46.4282   47.4249   192       27        [L0 18 ] [L1 20 ] 
+[ 24 / 30 frames ] [ 23.47 frame/sec ] [ 79.1040 kbps ] [  0h  0m  1s ] 21     4    (B)     36   43.4373   46.3398   47.4008   192       27        [L0 20 ] [L1 22 ] 
+[ 25 / 30 frames ] [ 23.81 frame/sec ] [ 76.2831 kbps ] [  0h  0m  1s ] 23     4    (B)     36   43.4208   46.4383   47.2767   192       27        [L0 22 ] [L1 24 ] 
+[ 26 / 30 frames ] [ 24.13 frame/sec ] [ 73.6711 kbps ] [  0h  0m  1s ] 25     4    (B)     36   43.3776   46.3122   47.3267   192       28        [L0 24 ] [L1 26 ] 
+[ 27 / 30 frames ] [ 24.41 frame/sec ] [ 71.2457 kbps ] [  0h  0m  1s ] 27     4    (B)     36   43.4015   46.2252   47.1628   192       28        [L0 26 ] [L1 28 ] 
+[ 28 / 30 frames ] [ 24.68 frame/sec ] [ 68.9876 kbps ] [  0h  0m  1s ] 29     4    (B)     36   43.3291   46.6169   47.3398   192       29        [L0 28 ] [L1 28 ] 
+[ 29 / 30 frames ] [ 24.94 frame/sec ] [ 66.8800 kbps ] [  0h  0m  1s ] === Summary ====================================================================
+  PSNR Y(dB)       : 43.4392
+  PSNR U(dB)       : 46.4308
+  PSNR V(dB)       : 47.3908
+  Total bits(bits) : 66880
+  Labeles          : br,kbps	PSNR,Y	PSNR,U	PSNR,V	
+  Summary          : 66.8800	43.4392	46.4308	47.3908
+Bitrate                           = 66.8800 kbps
+Encoded frame count               = 30
+Total encoding time               = 1203.000 msec, 1.203 sec
+Average encoding time for a frame = 40.100 msec
+Average encoding speed            = 24.938 frames/sec
+================================================================================

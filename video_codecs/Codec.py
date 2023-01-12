@@ -15,28 +15,21 @@ class Codec(ABC):
             self._options_encoder = data['options_encoder']
             self._options_decoder = data['options_decoder']
 
-
+#################GETTERS & SETTERS#######################################
     def get_codec(self):
         return self._codec
+
     def get_encoder_path(self):
         return self._encoder_path
+
     def get_decoder_path(self):
         return self._decoder_path
     
-##### setters ##########################
     def set_encoder_option(self, name, val):
         self._options_encoder[name] = val
    
     def set_decoder_option(self, name, val):
         self._options_encoder[name] = val
-
-    @abstractmethod
-    def set_qp(self, val):
-        pass
-    
-    @abstractmethod
-    def set_num_frames(self, val):
-        pass
 
 ##### end of section ##################   
 

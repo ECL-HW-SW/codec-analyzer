@@ -11,7 +11,7 @@ class svt_codec(Codec):
         self._video = video
         self.__threads = self._options_encoder["threads"]
 
-    ############################GETTERS & SETTERS###########################################
+    #############################GETTERS & SETTERS###########################################
     def get_threads(self) -> str:
         return self.__threads
 
@@ -51,7 +51,7 @@ class svt_codec(Codec):
 
     def get_video(self):
         return self._video
-    ###################################################################################################
+    ####################################################################################################
 
     def encode(self, force_rerun = 0) -> str:
         log = Logger()
@@ -61,6 +61,7 @@ class svt_codec(Codec):
 
         ##############SETTING PATHS VARIABLES################
         base_output_name = self.get_unique_config()
+        log.info(base_output_name)
         self.__bitstream_path = os.path.join(paths[self._codec]["bitstream_dir"], base_output_name + ".bin")
         self.__report_path = os.path.join(paths[self._codec]["report_dir"], base_output_name + ".txt")
         self.__report_path_time = os.path.join(paths[self._codec]["report_dir"], base_output_name + "_time.txt")
@@ -131,7 +132,7 @@ class svt_codec(Codec):
 
         with open(self.__csv_path, 'w', newline='') as metrics_file:
             metrics_writer = csv.writer(metrics_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            metrics_writer.writerow(['codec','video','resolution','fps','number of frames','qp','ypsnr','upsnr','vpsnr','bitrate', 'psnr', 'timems','optional settings'])
+            metrics_writer.writerow(['codec','video','resolution','fps','number of frames','qp','ypsnr','upsnr','vpsnr','bitrate', 'psnr', 'time(s)','optional settings'])
             metrics_writer.writerow(["VVENC",self._video.get_name(),self._video.get_resolution(),self._video.get_fps(),
                                         self.get_num_frames(),self.get_qp(),psnry,psnru,psnrv,psnryuv,bitrate,time_s,self.get_unique_config()])
             metrics_file.close()

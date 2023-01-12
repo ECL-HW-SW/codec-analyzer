@@ -1,1 +1,0 @@
-vvencapp: Fraunhofer VVC Encoder ver. 1.7.0 [Linux][GCC 11.3.0][64 bit][SIMD=AVX2]

@@ -185,7 +185,7 @@ class VVcodec(Codec):
 
         with open(self.__csv_path, 'w', newline='') as metrics_file:
             metrics_writer = csv.writer(metrics_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            metrics_writer.writerow(['codec','video','resolution','fps','number of frames','qp','ypsnr','upsnr','vpsnr','bitrate', 'psnr', 'timems','optional settings'])
+            metrics_writer.writerow(['codec','video','resolution','fps','number of frames','qp','ypsnr','upsnr','vpsnr','bitrate', 'psnr', 'time(s)','optional settings'])
             metrics_writer.writerow(["VVENC",self._video.get_name(),self._video.get_resolution(),self._video.get_fps(),
                                         self.get_num_frames(),self.get_qp(),ypsnr,upsnr,vpsnr,psnr,bitrate,timems,self.get_unique_config()])
             # TODO: I CHANGED video.get_framesnumber() ABOVE TO self.get_num_frames() --

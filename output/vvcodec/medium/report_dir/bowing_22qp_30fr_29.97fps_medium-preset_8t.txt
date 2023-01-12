@@ -6,7 +6,7 @@ FAST TOOL CFG: ECU:0 FEN:3 FDM:1 FastSearch:4 (SCC:2) LCTUFast:1 FastMrg:2 PBInt
 RATE CONTROL CFG: RateControl:0 LookAhead:0 
 PARALLEL PROCESSING CFG: NumThreads:8 MaxParallelFrames:4 WppBitEqual:1 WF:0 
 
-started @ Wed Jan 11 17:11:57 2023
+started @ Thu Jan 12 18:01:45 2023
 
 POC     0 TId: 0 (  IDR_N_LP, I-SLICE, QP 11, TF 3)     126888 bits [Y 50.1666 dB    U 50.7764 dB    V 52.1973 dB] [ET     4 ] [L0 ] [L1 ]
 POC    16 TId: 1 (      STSA, B-SLICE, QP 13, TF 2)       7704 bits [Y 48.8421 dB    U 50.3556 dB    V 51.7870 dB] [ET     0 ] [L0 0 ] [L1 0 ]
@@ -41,6 +41,6 @@ POC    29 TId: 5 (      STSA, B-SLICE, QP 22)              528 bits [Y 48.5563 d
 
 	Total Frames |   Bitrate     Y-PSNR    U-PSNR    V-PSNR    YUV-PSNR   
 	       30    a     154.3097   48.7590   49.9439   51.5890   49.3029
-finished @ Wed Jan 11 17:12:06 2023
+finished @ Thu Jan 12 18:01:53 2023
 
-Total Time: 8.491 sec. Fps(avg): 3.533 encoded Frames 30
+Total Time: 8.467 sec. Fps(avg): 3.543 encoded Frames 30
