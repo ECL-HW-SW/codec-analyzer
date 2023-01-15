@@ -49,6 +49,7 @@ class Codec(ABC):
     def set_commit_hash(self, commit_hash: str) -> None:
         self._commit_hash = commit_hash
 
+
     """ABSTRACT METHODS"""
     @abstractmethod
     def set_qp(self, val):
@@ -72,6 +73,16 @@ class Codec(ABC):
 
     @abstractmethod
     def parse(self):
+        pass
+
+
+    @abstractmethod
+    def parse_extra(self):
+        pass
+
+
+    @abstractmethod
+    def get_encoding_config(self):
         pass
 
 

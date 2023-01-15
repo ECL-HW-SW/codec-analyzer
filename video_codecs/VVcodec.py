@@ -1,4 +1,5 @@
 from GlobalPaths import GlobalPaths
+from Video import Video
 from .Codec import Codec
 import os
 from pathlib import Path
@@ -14,30 +15,21 @@ class VVcodec(Codec):
     
     
     # TODO: transfer these getters and setters to the parent class if possible to reduce repetition
-    # -----------------------------------------------------------------------
-    # FIXME: not really anything to fix, i just needed a colourful annotation
-    # things i've changed:
-    #    1. Video class is now passed in as a constructor parameter, and changing the current video is done via setter
-    #        --> this is so the method get_unique_config() works separately from encode()
-    #    2. added get_preset() 
-    #    3. added more information to the unique_config, for better database integration
-    #    4. added get_unique_config() to return the unique_config
-    #    5. added hasEntry to HttpContent to make use of the bool and check on app.py whether it should encode with those unique_configs
 
 
-    def set_qp(self, val):
+    def set_qp(self, val) -> None:
         self._options_encoder["qp"] = val
     
 
-    def get_qp(self):
+    def get_qp(self) -> int:
         return self._options_encoder["qp"] 
 
 
-    def set_num_frames(self, val):
+    def set_num_frames(self, val) -> None:
         self._options_encoder["frames"] = val
     
 
-    def set_preset(self, val):
+    def set_preset(self, val) -> None:
         self._options_encoder["preset"] = val
 
     
@@ -45,7 +37,7 @@ class VVcodec(Codec):
         return self._options_encoder["preset"]
     
 
-    def get_num_frames(self):
+    def get_num_frames(self) -> int:
         return self._options_encoder["frames"]
 
 
@@ -60,11 +52,11 @@ class VVcodec(Codec):
         self._video = video
 
 
-    def get_video(self):
+    def get_video(self) -> Video:
         return self._video
 
 
-    def encode(self, video, force_rerun = 0) -> str: 
+    def encode(self, force_rerun = 0) -> None: 
         log = Logger()       
         log.info("ENCODING VVCODEC...")
         paths = GlobalPaths().get_paths()
@@ -91,16 +83,16 @@ class VVcodec(Codec):
                 log.info("Error parsing " + self.__report_path + " re-encoding")
 
 
-        part1 = f'{self._encoder_path} -i {video.get_abs_path()} -q {self.get_qp()} {options_str} '
+        part1 = f'{self._encoder_path} -i {self._video.get_abs_path()} -q {self.get_qp()} {options_str} '
         part2 = f'--output {self.__bitstream_path} '
-        part3 = f'> {self.__report_path}' # TODO: mudar isso dps (o que?)
+        part3 = f'> {self.__report_path}' # TODO: mudar isso dps (o que?) ((ainda não cnosegui lembrar o q estava errado))
         cmdline = part1+part2+part3 
 
         os.system(cmdline)
         log.info(cmdline) 
 
 
-    def decode(self):
+    def decode(self) -> None:
         log = Logger()
         log.info("\nDECODING VVCODEC...\n")
 
@@ -169,7 +161,7 @@ class VVcodec(Codec):
         return bitrate, yuvpsnr, total_time, ypsnr, upsnr, vpsnr
     
 
-    def add_to_csv(self, video):
+    def add_to_csv(self, video) -> None:
         """
         Adds to csv: 
         encoder name | video name | video resolution | fps | frame count | qp | bitrate | PSNR | time taken to encode | optional settings
