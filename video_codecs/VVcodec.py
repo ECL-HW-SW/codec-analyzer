@@ -97,31 +97,29 @@ class VVcodec(Codec):
                 log.info("Error parsing " + self.__report_path + " re-encoding")
 
 
-        part1 = f'{self._encoder_path} -i {self._video.get_abs_path()} -q {self.get_qp()} {options_str} '
+        part1 = f'{self.get_encoder_path()} -i {self._video.get_abs_path()} -q {self.get_qp()} {options_str} '
         part2 = f'--output {self.__bitstream_path} '
         part3 = f'> {self.__report_path}' # TODO: mudar isso dps (o que?)
         cmdline = part1+part2+part3 
 
         os.system(cmdline)
-        log.info(cmdline) 
+        log.info(cmdline)
 
 
     def decode(self):
         log = Logger()
         log.info("\nDECODING VVCODEC...\n")
+        paths = GlobalPaths().get_paths()
 
-        p = str(Path('~').expanduser())
+        base_output_name = self.get_unique_config()
+        self.__bitstream_path = os.path.join(paths[self._codec]["bitstream_dir"], base_output_name + ".bin")
+        self.__decoded_path = os.path.join(paths[self._codec]["decoded_dir"], base_output_name)
 
-        decoded_path = self.get_decoded()
-        decoded_path = decoded_path.replace('~', p)
-
-        bitstream_path = self.get_bitstream()
-        bitstream_path = bitstream_path.replace('~', p)
-        if not os.path.exists(bitstream_path):
+        if not os.path.exists(self.__bitstream_path):
             log.info("Bitstream path does not exist.")
 
-        part1 = f'{self.get_decoder()} -b {bitstream_path}/vvcodec_{self.get_videoname()}_{self.get_qp()} {self.get_options_decoder()} '
-        part2 = f'-v 0 -f {self.get_framesnumber()} -o {decoded_path}/vvcodec_{self.get_videoname()}_{self.get_qp()}'
+        part1 = f'{self.get_decoder_path()} -b {self.__bitstream_path} '
+        part2 = f'-v 0 -f {self._video.get_framesnumber()} -o {self.__decoded_path}'
         cmdline = part1+part2 
 
         os.system(cmdline)

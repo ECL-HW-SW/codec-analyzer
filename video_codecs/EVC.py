@@ -73,7 +73,6 @@ class EVC(Codec):
         self.__report_path = os.path.join(paths[self._codec]["report_dir"], base_output_name + ".txt")
         self.__report_path2 = os.path.join(paths[self._codec]["report_dir"], base_output_name + "_parsed.txt")
         self.__csv_path = os.path.join(paths[self._codec]["csv_dir"], base_output_name + ".csv")
-        self.__decoded_path = os.path.join(paths[self._codec]["decoded_dir"], base_output_name + ".yuv")
         ######################################################
 
         ####################CHECK RERUN#######################
@@ -94,14 +93,20 @@ class EVC(Codec):
         os.system(cmdline)
 
     def decode(self):
-        print("\nDECODING EVC...\n")
+        log = Logger()
+        log.info("\nDECODING VVCODEC...\n")
+        paths = GlobalPaths().get_paths()
 
-        decoded_path = self.get_decoded()
-        p = Path('~').expanduser()
-        decoded_path = decoded_path.replace('~', str(p))
+        base_output_name = self.get_unique_config()
+        self.__bitstream_path = os.path.join(paths[self._codec]["bitstream_dir"], base_output_name + ".bin")
+        self.__decoded_path = os.path.join(paths[self._codec]["decoded_dir"], base_output_name)
+
+        bitstream_path = self.__bitstream_path
+        if not os.path.exists(bitstream_path):
+            log.info("Bitstream path does not exist.")
         
-        part1 = f'xevd_app -i {self.get_bitstream()}/evc_{self.get_videoname()}_{self.get_qp()} '
-        part2 = f'-o {decoded_path}/evc_{self.get_videoname()}_{self.get_qp()}.y4m'
+        part1 = f'{self.get_decoder_path()} -i {self.__bitstream_path} '
+        part2 = f'-o {self.__decoded_path()}'
 
         print(part1+part2)
         os.system(part1+part2)

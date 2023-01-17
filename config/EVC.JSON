@@ -1,6 +1,6 @@
 {
     "encoder_path" : "xeveb_app",
-    "decoder_path" : "xeved_app",
+    "decoder_path" : "/home/edulodi/appfiles/xevevc/build/bin/xevd_app",
     
     "options_encoder": {
         "threads": "8",

@@ -104,16 +104,20 @@ class svt_codec(Codec):
         ##########################################################
 
     def decode(self):     
-        print("\nDECODING SVT...\n")
+        log = Logger()
+        log.info("\nDECODING VVCODEC...\n")
+        paths = GlobalPaths().get_paths()
 
-        decoded_path = self.__decoded_path
+        base_output_name = self.get_unique_config()
+        self.__bitstream_path = os.path.join(paths[self._codec]["bitstream_dir"], base_output_name + ".bin")
+        self.__decoded_path = os.path.join(paths[self._codec]["decoded_dir"], base_output_name)
 
         bitstream_path = self.__bitstream_path
         if not os.path.exists(bitstream_path):
-            print("Bitstream path does not exist.")
+            log.info("Bitstream path does not exist.")
 
         part1 = f"{self.get_decoder_path()} {self._options_decoder} -i {bitstream_path} " #@TODO fix options encoder
-        part2 = f"-o {decoded_path}"
+        part2 = f"-o {self.__decoded_path}"
         cmdline = part1+part2
 
         print(cmdline)
