@@ -85,7 +85,7 @@ class VVcodec(Codec):
         
         base_output_name = self.get_unique_config()
         log.info(base_output_name)
-        self.__bitstream_path = os.path.join(paths[self._codec]["bitstream_dir"], base_output_name + ".bin")
+        self.__bitstream_path = os.path.join(paths[self._codec]["bitstream_dir"],base_output_name + ".bin")
         self.__report_path = os.path.join(paths[self._codec]["report_dir"], base_output_name + ".txt")
         self.__csv_path = os.path.join(paths[self._codec]["csv_dir"], base_output_name + ".csv")
 

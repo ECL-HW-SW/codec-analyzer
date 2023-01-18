@@ -72,7 +72,7 @@ class EVC(Codec):
         self.__bitstream_path = os.path.join(paths[self._codec]["bitstream_dir"], base_output_name + ".bin")
         self.__report_path = os.path.join(paths[self._codec]["report_dir"], base_output_name + ".txt")
         self.__report_path2 = os.path.join(paths[self._codec]["report_dir"], base_output_name + "_parsed.txt")
-        self.__csv_path = os.path.join(paths[self._codec]["csv_dir"], base_output_name + ".csv")
+        self.__csv_path = os.path.join(paths[self._codec]["csv_dir"],base_output_name + ".csv")
         ######################################################
 
         ####################CHECK RERUN#######################

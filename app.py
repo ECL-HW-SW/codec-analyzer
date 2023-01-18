@@ -23,7 +23,7 @@ codecs = [vvenc,svt,evc]
 tests = {}
 for codec in codecs:
     for preset in ["fast", "medium", "slow"]:
-        utils.create_output_dirs(paths, codec.get_codec(), preset)
+        utils.create_output_dirs(paths, codec.get_codec(),video.get_name(), preset)
         tests[preset] = {}
         for qp in qps:
             codec.set_qp(qp)
