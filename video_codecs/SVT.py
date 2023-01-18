@@ -10,6 +10,7 @@ class svt_codec(Codec):
         super().__init__('svt', config_path, commit_hash=commit_hash)
         self._video = video
         self.__threads = self._options_encoder["threads"]
+        self.__paths = GlobalPaths().get_paths()
 
     #############################GETTERS & SETTERS###########################################
     def get_threads(self) -> str:
@@ -26,7 +27,11 @@ class svt_codec(Codec):
         self._options_encoder["qp"] = val
 
     def get_csv_path(self):
-        return self.__csv_path
+        return self.__csv_path        
+
+    def get_csvs_path(self):
+        self.__csvs_path = os.path.join(self.__paths[self._codec]["csv_dir"])
+        return self.__csvs_path
 
     def get_preset(self) -> str:
         return self._options_encoder["preset"]
@@ -135,7 +140,7 @@ class svt_codec(Codec):
 
         with open(self.__csv_path, 'w', newline='') as metrics_file:
             metrics_writer = csv.writer(metrics_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            metrics_writer.writerow(['codec','video','resolution','fps','number of frames','qp','ypsnr','upsnr','vpsnr','bitrate', 'psnr', 'time(s)','optional settings'])
+            metrics_writer.writerow(['codec','video','resolution','fps','number of frames','qp','ypsnr','upsnr','vpsnr', 'psnr','bitrate', 'time(s)','optional settings'])
             metrics_writer.writerow(["VVENC",self._video.get_name(),self._video.get_resolution(),self._video.get_fps(),
                                         self.get_num_frames(),self.get_qp(),psnry,psnru,psnrv,psnryuv,bitrate,time_s,self.get_unique_config()])
             metrics_file.close()

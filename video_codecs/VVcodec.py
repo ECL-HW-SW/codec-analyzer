@@ -12,6 +12,7 @@ class VVcodec(Codec):
         super().__init__("vvcodec", config_path, commit_hash=commit_hash)
         self._video = video
         self.__threads = self._options_encoder["threads"]
+        self.__paths = GlobalPaths().get_paths()
     
     
     
@@ -41,8 +42,16 @@ class VVcodec(Codec):
     def set_qp(self, val):
         self._options_encoder["qp"] = val
 
+    def get_csvs_path(self):
+        self.__csvs_path = os.path.join(self.__paths[self._codec]["csv_dir"])
+        return self.__csvs_path
+
     def get_csv_path(self):
         return self.__csv_path
+
+    def get_csvs_path(self):
+        self.__csvs_path = os.path.join(self.__paths[self._codec]["csv_dir"])
+        return self.__csvs_path
 
     def get_preset(self) -> str:
         return self._options_encoder["preset"]
@@ -73,7 +82,7 @@ class VVcodec(Codec):
     def encode(self, force_rerun = 0) -> str: 
         log = Logger()       
         log.info("ENCODING VVCODEC...")
-        paths = GlobalPaths().get_paths()
+        paths = self.__paths
 
         options_str = ''
         for key, val in self._options_encoder.items():
@@ -160,7 +169,7 @@ class VVcodec(Codec):
                     data_line = text[text.index(line)+1].split()
                     break
             txt.close()
-            bitrate = data_line[2]
+            bitrate = float(data_line[2])*1024
             yuvpsnr = data_line[6]
             ypsnr = data_line[3]
             upsnr = data_line[4]
@@ -183,7 +192,7 @@ class VVcodec(Codec):
 
         with open(self.__csv_path, 'w', newline='') as metrics_file:
             metrics_writer = csv.writer(metrics_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            metrics_writer.writerow(['codec','video','resolution','fps','number of frames','qp','ypsnr','upsnr','vpsnr','bitrate', 'psnr', 'time(s)','optional settings'])
+            metrics_writer.writerow(['codec','video','resolution','fps','number of frames','qp','ypsnr','upsnr','vpsnr', 'psnr','bitrate', 'time(s)','optional settings'])
             metrics_writer.writerow(["VVENC",self._video.get_name(),self._video.get_resolution(),self._video.get_fps(),
                                         self.get_num_frames(),self.get_qp(),ypsnr,upsnr,vpsnr,psnr,bitrate,timems,self.get_unique_config()])
             # TODO: I CHANGED video.get_framesnumber() ABOVE TO self.get_num_frames() --
