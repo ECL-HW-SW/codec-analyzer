@@ -27,8 +27,8 @@ Average QP	Y-PSNR		U-PSNR		V-PSNR		|	Y-PSNR		U-PSNR		V-PSNR		|	Y-SSIM	U-SSIM	V-S
 
 
 Channel 1
-Average Speed:		77.607 fps
-Total Encoding Time:	387 ms
-Total Execution Time:	438 ms
-Average Latency:	347 ms
-Max Latency:		363 ms
+Average Speed:		113.745 fps
+Total Encoding Time:	264 ms
+Total Execution Time:	317 ms
+Average Latency:	243 ms
+Max Latency:		255 ms

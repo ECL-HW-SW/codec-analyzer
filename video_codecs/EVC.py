@@ -99,16 +99,15 @@ class EVC(Codec):
 
         base_output_name = self.get_unique_config()
         self.__bitstream_path = os.path.join(paths[self._codec]["bitstream_dir"], base_output_name + ".bin")
-        self.__decoded_path = os.path.join(paths[self._codec]["decoded_dir"], base_output_name)
+        self.__decoded_path = os.path.join(paths[self._codec]["decoded_dir"], base_output_name + ".y4m")
 
         bitstream_path = self.__bitstream_path
         if not os.path.exists(bitstream_path):
             log.info("Bitstream path does not exist.")
         
         part1 = f'{self.get_decoder_path()} -i {self.__bitstream_path} '
-        part2 = f'-o {self.__decoded_path()}'
+        part2 = f'-o {self.__decoded_path}'
 
-        print(part1+part2)
         os.system(part1+part2)
 
 

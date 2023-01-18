@@ -110,7 +110,7 @@ class svt_codec(Codec):
 
         base_output_name = self.get_unique_config()
         self.__bitstream_path = os.path.join(paths[self._codec]["bitstream_dir"], base_output_name + ".bin")
-        self.__decoded_path = os.path.join(paths[self._codec]["decoded_dir"], base_output_name)
+        self.__decoded_path = os.path.join(paths[self._codec]["decoded_dir"], base_output_name +".yuv")
 
         bitstream_path = self.__bitstream_path
         if not os.path.exists(bitstream_path):
@@ -120,7 +120,6 @@ class svt_codec(Codec):
         part2 = f"-o {self.__decoded_path}"
         cmdline = part1+part2
 
-        print(cmdline)
         os.system(cmdline)  
 
     def parse(self) -> tuple:

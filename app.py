@@ -15,8 +15,11 @@ video = Video("config/Bowing.JSON")
 svt = svt_codec("config/SVT.JSON","COMMIT_HASH", video)
 evc = EVC("config/EVC.JSON", "COMMIT_HASH", video)
 vvenc = VVcodec("config/VVEnc.JSON","COMMIT_HASH",video)
-codecs = [svt,evc,vvenc]
+codecs = [vvenc,svt,evc]
 
+#TODO: change the output directories model to one where all the files are kept inside a folder with the name of the video, during the process i noticed that
+#the directories are being named with a _dir (refering to the JSON key instead of the value), the problem seems to be in the utils.py file.
+#TODO: test all the methods used for computing methods, from the CodecComparator.py and MetricsCalculator.py files.
 tests = {}
 for codec in codecs:
     for preset in ["fast", "medium", "slow"]:
@@ -28,6 +31,7 @@ for codec in codecs:
             codec.set_preset(preset)
             codec.encode(1)
             codec.add_to_csv()
+            codec.decode()
             tests[preset][qp] = codec.get_csv_path()
     
 

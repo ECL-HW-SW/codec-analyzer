@@ -1,6 +1,6 @@
 {
     "encoder_path" : "vvencapp",
-    "decoder_path" : "vvdecapp",
+    "decoder_path" : "/home/edulodi/appfiles/vvdec/bin/release-static/vvdecapp",
     
     "options_encoder": {
         "threads": "8",
