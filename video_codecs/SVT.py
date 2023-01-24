@@ -27,7 +27,10 @@ class svt_codec(Codec):
         self._options_encoder["qp"] = val
 
     def get_csv_path(self):
-        return self.__csv_path        
+        return self.__csv_path          
+
+    def get_decodeds_path(self):
+        return os.path.join(self.__paths[self._codec]["decoded_dir"])
 
     def get_csvs_path(self):
         self.__csvs_path = os.path.join(self.__paths[self._codec]["csv_dir"])
@@ -125,7 +128,8 @@ class svt_codec(Codec):
         part2 = f"-o {self.__decoded_path}"
         cmdline = part1+part2
 
-        os.system(cmdline)  
+        os.system(cmdline)
+        return self.__decoded_path
 
     def parse(self) -> tuple:
         outgen = self.__report_path

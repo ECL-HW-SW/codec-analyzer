@@ -36,6 +36,9 @@ class EVC(Codec):
         self.__csvs_path = os.path.join(self.__paths[self._codec]["csv_dir"])
         return self.__csvs_path
 
+    def get_decodeds_path(self):
+        return os.path.join(self.__paths[self._codec]["decoded_dir"])            
+
     def get_preset(self) -> str:
         return self._options_encoder["preset"]
         
@@ -114,6 +117,7 @@ class EVC(Codec):
         part2 = f'-o {self.__decoded_path}'
 
         os.system(part1+part2)
+        return self.__decoded_path
 
 
     def parse(self):        

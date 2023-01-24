@@ -42,16 +42,15 @@ class VVcodec(Codec):
     def set_qp(self, val):
         self._options_encoder["qp"] = val
 
-    def get_csvs_path(self):
-        self.__csvs_path = os.path.join(self.__paths[self._codec]["csv_dir"])
-        return self.__csvs_path
-
     def get_csv_path(self):
         return self.__csv_path
 
     def get_csvs_path(self):
         self.__csvs_path = os.path.join(self.__paths[self._codec]["csv_dir"])
         return self.__csvs_path
+
+    def get_decodeds_path(self):
+        return os.path.join(self.__paths[self._codec]["decoded_dir"])        
 
     def get_preset(self) -> str:
         return self._options_encoder["preset"]
@@ -132,7 +131,8 @@ class VVcodec(Codec):
         cmdline = part1+part2 
 
         os.system(cmdline)
-        log.info(cmdline) 
+        log.info(cmdline)
+        return self.__decoded_path
 
 
     def parse(self) -> tuple:

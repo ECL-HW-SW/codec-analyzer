@@ -34,13 +34,14 @@ class Video():
     def get_framesnumber(self):
       return  self.__framesnumber
 
-    def to_y4m(self):
-        output_path = self.__abs_path.replace(".yuv", ".y4m")
+    def to_y4m(self, vidpath):
+        output_path = vidpath.replace(".yuv", ".y4m")
         part1 = 'ffmpeg -hide_banner -loglevel error -f rawvideo -vcodec rawvideo '
         part2 = f'-s {self.__resolution} \
                   -r {self.__fps} \
-                  -pix_fmt {pfmt} \
-                  -i {self.__abs_path} {output_path} -y'
+                  -pix_fmt {self.__format} \
+                  -i {vidpath} {output_path} -y'
+        print("LALALALALALALALALAL"+part1+part2)
         os.system(part1+part2)
     
     def parse_y4m(self, file, name):
