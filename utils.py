@@ -9,6 +9,9 @@ def create_output_dirs(paths, codec_name, video, mode, *sub_dirs):
     if mode == "metrics":
         for metric in ["VMAF","XPSNR", "LPIPS", "MSSIM"]:
             os.makedirs(os.path.join("./", output_dir,"metrics", metric, video), exist_ok=True)
+            if metric == "VMAF":
+                os.makedirs(os.path.join("./", output_dir,"metrics", metric, video,"averageVMAFs"), exist_ok=True)
+
     else:    
         for sub_dir in sub_dirs:
             dirs = [paths[_] for _ in paths.keys() if "_dir"  in _ and output_dir not in _]

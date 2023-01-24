@@ -1,4 +1,5 @@
 from subprocess import run
+from statistics import mean
 #from skvideo.measure import msssim
 import PIL.Image as im
 import numpy as np
