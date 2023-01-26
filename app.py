@@ -17,7 +17,7 @@ video = Video("config/Bowing.JSON")
 svt = svt_codec("config/SVT.JSON","COMMIT_HASH", video)
 evc = EVC("config/EVC.JSON", "COMMIT_HASH", video)
 vvenc = VVcodec("config/VVEnc.JSON","COMMIT_HASH",video)
-codecs = [svt,evc,vvenc]
+codecs = [vvenc]
 
 metrics2calculate = ["VMAF","BDBR","BDPSNR"]
 
@@ -25,6 +25,7 @@ metrics = MetricsCalculator()
 
 #TODO: test all the methods used for computing methods, from the CodecComparator.py and MetricsCalculator.py files.
 #TODO: test.py in output/evc/metrics/vmaf/bowing
+#TODO: fix vvc decoder outputing files with different bitdepth (detectec during vmaf calculation)
 tests = {}
     
 for codec in codecs:
@@ -61,7 +62,7 @@ for codec in codecs:
             if (os.path.splitext(decoded_seqs)[1]) == ".y4m":
                 outputname = os.path.splitext(decoded_seqs)[0]
                 metrics.vmaf(video.get_abs_path(),os.path.join(codec.get_decodeds_path(),decoded_seqs), "./output/"+codec.get_codec()+"/metrics/VMAF/" + video.get_name() +"/"+ outputname)    
-
+                metrics.vmaf_parse("./output/"+codec.get_codec()+"/metrics/VMAF/" + video.get_name())
 
 #####
 comp = CodecComparator()

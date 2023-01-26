@@ -1,2 +1,2 @@
 codec,video,resolution,fps,number of frames,qp,ypsnr,upsnr,vpsnr,psnr,bitrate,time(s),optional settings
-VVENC,bowing,352x288,29.97,30,32,47.96,47.98,49.55,48.23,123402.24,0.093,bowing_32qp_30fr_29.97fps_fast-preset_4t
+VVENC,bowing,352x288,29.97,30,32,47.96,47.98,49.55,48.23,123402.24,0.142,bowing_32qp_30fr_29.97fps_fast-preset_4t

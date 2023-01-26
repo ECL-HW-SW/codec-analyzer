@@ -4,6 +4,7 @@ from statistics import mean
 import PIL.Image as im
 import numpy as np
 import os
+import csv
 #import cv2
 
 class MetricsCalculator():
@@ -24,6 +25,26 @@ class MetricsCalculator():
         vmafpath = 'vmaf'
         cmdline = vmafpath + " -r " + videoref + " -d " + videodis + " -o " + output + ".csv --csv"
         os.system(cmdline)
+
+    def vmaf_parse(self, ogcsvpath):
+        data = []
+        for csvfile in os.listdir(ogcsvpath):
+            if csvfile.endswith(".csv"):
+                with open(os.path.join(ogcsvpath,csvfile), newline="") as csv_input:
+                    spamreader = csv.reader(csv_input, delimiter=",", quotechar="|")
+                    next(spamreader)
+                    vmaf_values = []
+                    for row in spamreader:
+                        vmaf_values.append(float(row[-2]))          
+                    avg_vmaf = mean(vmaf_values)
+                    string = os.path.splitext(csvfile)[0]+","+ str(avg_vmaf)
+                    data += [tuple(i.split(",")) for i in string.split("\n") if i]
+                    csv_input.close()
+        with open(ogcsvpath+"/averageVMAFs/pathavg_vmaf.csv", "w", newline="") as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(["name","avg_vmaf"])
+            writer.writerows(data)
+            csvfile.close()    
 
     def lpips(self, videoref: str, videodis: str) -> float:
         cmdline = f"python3.7 ~/VC/tools/PerceptualSimilarity/lpips_2imgs.py \

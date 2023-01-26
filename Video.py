@@ -41,7 +41,6 @@ class Video():
                   -r {self.__fps} \
                   -pix_fmt {self.__format} \
                   -i {vidpath} {output_path} -y'
-        print("LALALALALALALALALAL"+part1+part2)
         os.system(part1+part2)
     
     def parse_y4m(self, file, name):

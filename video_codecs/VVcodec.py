@@ -121,13 +121,13 @@ class VVcodec(Codec):
 
         base_output_name = self.get_unique_config()
         self.__bitstream_path = os.path.join(paths[self._codec]["bitstream_dir"], base_output_name + ".bin")
-        self.__decoded_path = os.path.join(paths[self._codec]["decoded_dir"], base_output_name + ".yuv")
+        self.__decoded_path = os.path.join(paths[self._codec]["decoded_dir"], base_output_name + ".y4m")
 
         if not os.path.exists(self.__bitstream_path):
             log.info("Bitstream path does not exist.")
 
         part1 = f'{self.get_decoder_path()} -b {self.__bitstream_path} '
-        part2 = f'-v 0 -f {self._video.get_framesnumber()} -o {self.__decoded_path}'
+        part2 = f'-v 0 -f {self._video.get_framesnumber()} -o {self.__decoded_path} --y4m'
         cmdline = part1+part2 
 
         os.system(cmdline)
