@@ -78,7 +78,7 @@ class VVcodec(Codec):
     
     ###########################################################################################################
 
-    def encode(self, force_rerun = 0) -> str: 
+    def encode(self, force_rerun = 0, bitdepth = "8") -> str:
         log = Logger()       
         log.info("ENCODING VVCODEC...")
         paths = self.__paths
@@ -105,7 +105,7 @@ class VVcodec(Codec):
                 log.info("Error parsing " + self.__report_path + " re-encoding")
 
 
-        part1 = f'{self.get_encoder_path()} -i {self._video.get_abs_path()} -q {self.get_qp()} {options_str} '
+        part1 = f'{self.get_encoder_path()} -i {self._video.get_abs_path()} -v 6 --internal-bitdepth {bitdepth} -q {self.get_qp()} {options_str} '
         part2 = f'--output {self.__bitstream_path} '
         part3 = f'> {self.__report_path}' # TODO: mudar isso dps (o que?)
         cmdline = part1+part2+part3 

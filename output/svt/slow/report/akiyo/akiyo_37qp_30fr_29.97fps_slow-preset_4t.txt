@@ -1,0 +1,36 @@
+Picture Number:    0	 QP:    9  [ PSNR-Y: 45.32 dB,	PSNR-U: 47.90 dB,	PSNR-V: 49.21 dB,	MSE-Y: 1.91,	MSE-U: 1.06,	MSE-V: 0.78,	SSIM-Y: 0.98703,	SSIM-U: 0.98877,	SSIM-V: 0.99107 ]	   9836 bytes
+Picture Number:    1	 QP:   37  [ PSNR-Y: 45.43 dB,	PSNR-U: 47.93 dB,	PSNR-V: 49.20 dB,	MSE-Y: 1.86,	MSE-U: 1.05,	MSE-V: 0.78,	SSIM-Y: 0.98712,	SSIM-U: 0.98894,	SSIM-V: 0.99106 ]	   1037 bytes
+Picture Number:    2	 QP:   35  [ PSNR-Y: 45.34 dB,	PSNR-U: 47.94 dB,	PSNR-V: 49.24 dB,	MSE-Y: 1.90,	MSE-U: 1.04,	MSE-V: 0.78,	SSIM-Y: 0.98720,	SSIM-U: 0.98893,	SSIM-V: 0.99108 ]	      5 bytes
+Picture Number:    3	 QP:   37  [ PSNR-Y: 45.35 dB,	PSNR-U: 47.93 dB,	PSNR-V: 49.22 dB,	MSE-Y: 1.90,	MSE-U: 1.05,	MSE-V: 0.78,	SSIM-Y: 0.98721,	SSIM-U: 0.98884,	SSIM-V: 0.99106 ]	     27 bytes
+Picture Number:    4	 QP:   33  [ PSNR-Y: 45.18 dB,	PSNR-U: 47.91 dB,	PSNR-V: 49.14 dB,	MSE-Y: 1.97,	MSE-U: 1.05,	MSE-V: 0.79,	SSIM-Y: 0.98703,	SSIM-U: 0.98883,	SSIM-V: 0.99092 ]	      5 bytes
+Picture Number:    5	 QP:   37  [ PSNR-Y: 45.11 dB,	PSNR-U: 47.75 dB,	PSNR-V: 48.94 dB,	MSE-Y: 2.00,	MSE-U: 1.09,	MSE-V: 0.83,	SSIM-Y: 0.98701,	SSIM-U: 0.98827,	SSIM-V: 0.99043 ]	    101 bytes
+Picture Number:    6	 QP:   35  [ PSNR-Y: 45.14 dB,	PSNR-U: 47.78 dB,	PSNR-V: 48.94 dB,	MSE-Y: 1.99,	MSE-U: 1.08,	MSE-V: 0.83,	SSIM-Y: 0.98699,	SSIM-U: 0.98843,	SSIM-V: 0.99044 ]	      5 bytes
+Picture Number:    7	 QP:   37  [ PSNR-Y: 45.00 dB,	PSNR-U: 47.86 dB,	PSNR-V: 49.07 dB,	MSE-Y: 2.06,	MSE-U: 1.06,	MSE-V: 0.80,	SSIM-Y: 0.98701,	SSIM-U: 0.98869,	SSIM-V: 0.99074 ]	     59 bytes
+Picture Number:    8	 QP:   29  [ PSNR-Y: 45.21 dB,	PSNR-U: 47.90 dB,	PSNR-V: 49.11 dB,	MSE-Y: 1.96,	MSE-U: 1.05,	MSE-V: 0.80,	SSIM-Y: 0.98708,	SSIM-U: 0.98874,	SSIM-V: 0.99092 ]	      5 bytes
+Picture Number:    9	 QP:   37  [ PSNR-Y: 44.65 dB,	PSNR-U: 47.91 dB,	PSNR-V: 49.05 dB,	MSE-Y: 2.23,	MSE-U: 1.05,	MSE-V: 0.81,	SSIM-Y: 0.98674,	SSIM-U: 0.98874,	SSIM-V: 0.99088 ]	    256 bytes
+Picture Number:   10	 QP:   35  [ PSNR-Y: 44.56 dB,	PSNR-U: 47.97 dB,	PSNR-V: 48.94 dB,	MSE-Y: 2.28,	MSE-U: 1.04,	MSE-V: 0.83,	SSIM-Y: 0.98661,	SSIM-U: 0.98886,	SSIM-V: 0.99073 ]	      5 bytes
+Picture Number:   11	 QP:   37  [ PSNR-Y: 44.36 dB,	PSNR-U: 47.88 dB,	PSNR-V: 48.71 dB,	MSE-Y: 2.38,	MSE-U: 1.06,	MSE-V: 0.88,	SSIM-Y: 0.98637,	SSIM-U: 0.98864,	SSIM-V: 0.99043 ]	     34 bytes
+Picture Number:   12	 QP:   33  [ PSNR-Y: 44.31 dB,	PSNR-U: 47.77 dB,	PSNR-V: 48.89 dB,	MSE-Y: 2.41,	MSE-U: 1.09,	MSE-V: 0.84,	SSIM-Y: 0.98644,	SSIM-U: 0.98838,	SSIM-V: 0.99066 ]	      5 bytes
+Picture Number:   13	 QP:   37  [ PSNR-Y: 44.06 dB,	PSNR-U: 47.84 dB,	PSNR-V: 48.89 dB,	MSE-Y: 2.55,	MSE-U: 1.07,	MSE-V: 0.84,	SSIM-Y: 0.98617,	SSIM-U: 0.98850,	SSIM-V: 0.99061 ]	    147 bytes
+Picture Number:   14	 QP:   35  [ PSNR-Y: 43.86 dB,	PSNR-U: 47.78 dB,	PSNR-V: 48.90 dB,	MSE-Y: 2.68,	MSE-U: 1.08,	MSE-V: 0.84,	SSIM-Y: 0.98571,	SSIM-U: 0.98845,	SSIM-V: 0.99061 ]	      5 bytes
+Picture Number:   15	 QP:   37  [ PSNR-Y: 43.68 dB,	PSNR-U: 47.73 dB,	PSNR-V: 48.97 dB,	MSE-Y: 2.79,	MSE-U: 1.10,	MSE-V: 0.83,	SSIM-Y: 0.98552,	SSIM-U: 0.98841,	SSIM-V: 0.99073 ]	     44 bytes
+Picture Number:   16	 QP:   20  [ PSNR-Y: 43.95 dB,	PSNR-U: 47.66 dB,	PSNR-V: 48.96 dB,	MSE-Y: 2.62,	MSE-U: 1.11,	MSE-V: 0.83,	SSIM-Y: 0.98569,	SSIM-U: 0.98844,	SSIM-V: 0.99072 ]	      5 bytes
+Picture Number:   17	 QP:   37  [ PSNR-Y: 43.28 dB,	PSNR-U: 47.60 dB,	PSNR-V: 48.89 dB,	MSE-Y: 3.05,	MSE-U: 1.13,	MSE-V: 0.84,	SSIM-Y: 0.98499,	SSIM-U: 0.98832,	SSIM-V: 0.99059 ]	   2056 bytes
+Picture Number:   18	 QP:   33  [ PSNR-Y: 43.31 dB,	PSNR-U: 47.60 dB,	PSNR-V: 48.88 dB,	MSE-Y: 3.04,	MSE-U: 1.13,	MSE-V: 0.84,	SSIM-Y: 0.98487,	SSIM-U: 0.98836,	SSIM-V: 0.99058 ]	      5 bytes
+Picture Number:   19	 QP:   37  [ PSNR-Y: 43.10 dB,	PSNR-U: 47.48 dB,	PSNR-V: 48.81 dB,	MSE-Y: 3.19,	MSE-U: 1.16,	MSE-V: 0.85,	SSIM-Y: 0.98466,	SSIM-U: 0.98801,	SSIM-V: 0.99056 ]	     48 bytes
+Picture Number:   20	 QP:   29  [ PSNR-Y: 43.34 dB,	PSNR-U: 47.38 dB,	PSNR-V: 48.78 dB,	MSE-Y: 3.01,	MSE-U: 1.19,	MSE-V: 0.86,	SSIM-Y: 0.98482,	SSIM-U: 0.98818,	SSIM-V: 0.99060 ]	      5 bytes
+Picture Number:   21	 QP:   37  [ PSNR-Y: 43.20 dB,	PSNR-U: 47.33 dB,	PSNR-V: 48.65 dB,	MSE-Y: 3.11,	MSE-U: 1.20,	MSE-V: 0.89,	SSIM-Y: 0.98456,	SSIM-U: 0.98800,	SSIM-V: 0.99046 ]	    125 bytes
+Picture Number:   22	 QP:   33  [ PSNR-Y: 43.10 dB,	PSNR-U: 47.30 dB,	PSNR-V: 48.68 dB,	MSE-Y: 3.18,	MSE-U: 1.21,	MSE-V: 0.88,	SSIM-Y: 0.98449,	SSIM-U: 0.98802,	SSIM-V: 0.99047 ]	      5 bytes
+Picture Number:   23	 QP:   37  [ PSNR-Y: 43.18 dB,	PSNR-U: 47.36 dB,	PSNR-V: 48.63 dB,	MSE-Y: 3.12,	MSE-U: 1.19,	MSE-V: 0.89,	SSIM-Y: 0.98440,	SSIM-U: 0.98814,	SSIM-V: 0.99042 ]	     42 bytes
+Picture Number:   24	 QP:   18  [ PSNR-Y: 43.55 dB,	PSNR-U: 47.21 dB,	PSNR-V: 48.66 dB,	MSE-Y: 2.87,	MSE-U: 1.24,	MSE-V: 0.88,	SSIM-Y: 0.98484,	SSIM-U: 0.98788,	SSIM-V: 0.99045 ]	      5 bytes
+Picture Number:   25	 QP:   37  [ PSNR-Y: 43.16 dB,	PSNR-U: 47.41 dB,	PSNR-V: 48.53 dB,	MSE-Y: 3.14,	MSE-U: 1.18,	MSE-V: 0.91,	SSIM-Y: 0.98448,	SSIM-U: 0.98824,	SSIM-V: 0.99028 ]	    730 bytes
+Picture Number:   26	 QP:   33  [ PSNR-Y: 43.06 dB,	PSNR-U: 47.36 dB,	PSNR-V: 48.47 dB,	MSE-Y: 3.21,	MSE-U: 1.19,	MSE-V: 0.93,	SSIM-Y: 0.98428,	SSIM-U: 0.98816,	SSIM-V: 0.99024 ]	      5 bytes
+Picture Number:   27	 QP:   37  [ PSNR-Y: 42.77 dB,	PSNR-U: 47.31 dB,	PSNR-V: 48.59 dB,	MSE-Y: 3.44,	MSE-U: 1.21,	MSE-V: 0.90,	SSIM-Y: 0.98356,	SSIM-U: 0.98792,	SSIM-V: 0.99032 ]	     59 bytes
+Picture Number:   28	 QP:   28  [ PSNR-Y: 42.83 dB,	PSNR-U: 47.24 dB,	PSNR-V: 48.50 dB,	MSE-Y: 3.39,	MSE-U: 1.23,	MSE-V: 0.92,	SSIM-Y: 0.98367,	SSIM-U: 0.98775,	SSIM-V: 0.99006 ]	      5 bytes
+Picture Number:   29	 QP:   37  [ PSNR-Y: 41.39 dB,	PSNR-U: 46.97 dB,	PSNR-V: 48.22 dB,	MSE-Y: 4.72,	MSE-U: 1.31,	MSE-V: 0.98,	SSIM-Y: 0.98215,	SSIM-U: 0.98755,	SSIM-V: 0.98971 ]	    117 bytes
+
+SUMMARY ---------------------------------------------------------------------
+
+				Average PSNR (using per-frame PSNR)		|	Overall PSNR (using per-frame MSE)		|	Average SSIM
+Total Frames	Average QP  	Y-PSNR   	U-PSNR   	V-PSNR		| 	Y-PSNR   	U-PSNR   	V-PSNR   	|	Y-SSIM   	U-SSIM   	V-SSIM   	|	Bitrate
+        30  	   33.10    	43.99 dB	47.63 dB	48.86 dB  	|	43.87 dB	47.62 dB	48.85 dB 	|	0.98562 	0.98838 	0.99059		|	118.19 kbps
