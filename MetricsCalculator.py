@@ -16,10 +16,11 @@ class MetricsCalculator():
     def __init__(self):
         pass
 
+#XPSNR CURRENTLY NOT WORKING
     def xpsnr(self, videoref: str, videodis: str, output: str) -> float:
-        ffmpegpath = ''
-        cmdline = ffmpegpath + " -i " + videoref + " -i " + videodis + ' -lavfi xpsnr="stats_file=' + output + '" -f null -'
-        print(cmdline)   
+        ffmpegpath = 'ffmpeg'
+        cmdline = ffmpegpath + " -i " + videoref + " -i " + videodis + ' -lavfi xpsnr="stats_file=' + output + '.log" -f null -'
+        os.system(cmdline)   
 
     def vmaf(self, videoref: str , videodis: str, output: str) -> float:
         vmafpath = 'vmaf'
