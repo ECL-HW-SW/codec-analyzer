@@ -18,7 +18,6 @@ class Codec(ABC):
             self._options_encoder = data['options_encoder']
             self._options_decoder = data['options_decoder']
 
-    # TODO: add hash dos codecs (erro se n tiver)
 
     """GETTERS"""
     def get_codec(self) -> str:
@@ -37,7 +36,27 @@ class Codec(ABC):
         return self._decoder_path
     
 
+    def get_qp(self) -> int:
+        return self._options_encoder["qp"] 
+
+    
+    def get_preset(self) -> str:
+        return self._options_encoder["preset"]
+    
+
+    def get_num_frames(self) -> int:
+        return self._options_encoder["frames"]
+
+
+    def get_video(self):
+        return self._video
+    
+
     """SETTERS"""
+    def set_qp(self, val) -> None:
+        self._options_encoder["qp"] = val
+
+
     def set_encoder_option(self, name, val) -> None:
         self._options_encoder[name] = val
    
@@ -49,18 +68,20 @@ class Codec(ABC):
     def set_commit_hash(self, commit_hash: str) -> None:
         self._commit_hash = commit_hash
 
+    
+    def set_num_frames(self, val) -> None:
+        self._options_encoder["frames"] = val
+    
+
+    def set_preset(self, val) -> None:
+        self._options_encoder["preset"] = val
+
+    
+    def set_video(self, video) -> None:
+        self._video = video
+
 
     """ABSTRACT METHODS"""
-    @abstractmethod
-    def set_qp(self, val):
-        pass
-    
-    
-    @abstractmethod
-    def set_num_frames(self, val):
-        pass
-
-
     @abstractmethod
     def encode(self):
         pass
@@ -82,7 +103,7 @@ class Codec(ABC):
 
 
     @abstractmethod
-    def get_encoding_config(self):
+    def get_unique_attrs(self):
         pass
 
 
