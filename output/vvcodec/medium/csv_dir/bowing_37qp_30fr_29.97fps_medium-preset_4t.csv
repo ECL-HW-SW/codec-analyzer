@@ -1,0 +1,2 @@
+encoder,video,resolution,fps,number of frames,qp,bitrate,psnr,timems,optional settings
+VVENC,bowing,352x288,29.97,30,37,40.9111,44.0241,1.688,"{'threads': '8', 'preset': 'medium', 'frames': 30, '--threads': '4', 'qp': 37}"

@@ -1,0 +1,11 @@
+{
+    "encoder_path" : "vvenc/bin/release-static/vvencapp",
+    "decoder_path" : "vvdec/bin/release-static/vvdecapp",
+    
+    "options_encoder": {
+        "threads": "8",
+        "preset": "faster",
+        "frames": "30"
+    },
+    "options_decoder" : ""
+}
