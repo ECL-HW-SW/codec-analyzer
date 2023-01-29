@@ -1,10 +1,11 @@
 from GlobalPaths import GlobalPaths
-from Video import Video
 from .Codec import Codec
 import os
 from pathlib import Path
 import csv
 from Logger import Logger
+from .EncodingConfig import EncodingConfig
+
 
 
 class VVcodec(Codec):
@@ -12,48 +13,18 @@ class VVcodec(Codec):
     def __init__(self, config_path, commit_hash, video):
         super().__init__("vvcodec", config_path, commit_hash=commit_hash)
         self._video = video
-    
-    
-    # TODO: transfer these getters and setters to the parent class if possible to reduce repetition
+        self._encoding_config = EncodingConfig(27, 300, 29.97, "medium")
 
 
-    def set_qp(self, val) -> None:
-        self._options_encoder["qp"] = val
-    
-
-    def get_qp(self) -> int:
-        return self._options_encoder["qp"] 
-
-
-    def set_num_frames(self, val) -> None:
-        self._options_encoder["frames"] = val
-    
-
-    def set_preset(self, val) -> None:
-        self._options_encoder["preset"] = val
-
-    
-    def get_preset(self) -> str:
-        return self._options_encoder["preset"]
-    
-
-    def get_num_frames(self) -> int:
-        return self._options_encoder["frames"]
-
-
-    def get_unique_config(self) -> str:
-        return "_".join([
-            self._video.get_name(), str(self.get_qp()) + "qp", str(self.get_num_frames()) + "fr",
-            self._video.get_fps() + "fps", self.get_preset() + "-preset", self.get_threads() + "t"
-        ])
-
-    
-    def set_video(self, video) -> None:
-        self._video = video
-
-
-    def get_video(self) -> Video:
-        return self._video
+    # TODO: put in parent class probably
+    # TODO: look into a "Singleton Dataclass" -- check if this would be better and feasible
+    # or if it makes any sense at all really
+    def set_encoding_config(
+        self, config: dict
+    ) -> None:
+        self._encoding_config = EncodingConfig(
+            config["qp"], config["nFrames"], config["fps"],
+            config["preset"], config["nThreads"], config["codecSetAttrs"])
 
 
     def encode(self, force_rerun = 0) -> None: 
@@ -65,11 +36,11 @@ class VVcodec(Codec):
         for key, val in self._options_encoder.items():
             options_str += f"--{key} {val} "
 
-        # This relates to the "uniqueConfig" column in the codec-database
-        # This, together with the commitHash, should be a unique combination that only occurs once in the DB
-        # ex: bowing_22qp_30fr_29.97fps_fast-preset
-        
-        base_output_name = self.get_unique_config()
+
+        # TODO: change the line below -- base_output_name should be different, probably
+        base_output_name = "_".join([self._video.get_name(), str(self._encoding_config.qp) + "qp",
+                                    str(self._encoding_config.nFrames) + "fr"])
+
         log.info(base_output_name)
         self.__bitstream_path = os.path.join(paths[self._codec]["bitstream_dir"], base_output_name + ".bin")
         self.__report_path = os.path.join(paths[self._codec]["report_dir"], base_output_name + ".txt")
@@ -82,19 +53,18 @@ class VVcodec(Codec):
             except:
                 log.info("Error parsing " + self.__report_path + " re-encoding")
 
-
-        part1 = f'{self._encoder_path} -i {self._video.get_abs_path()} -q {self.get_qp()} {options_str} '
-        part2 = f'--output {self.__bitstream_path} '
-        part3 = f'> {self.__report_path}' # TODO: mudar isso dps (o que?) ((ainda não cnosegui lembrar o q estava errado))
-        cmdline = part1+part2+part3 
+        cmdline = f'{self._encoder_path} -i {self._video.get_abs_path()} '
+        cmdline = self.__append_to_cmdline(cmdline)
+        cmdline += f'--output {self.__bitstream_path} '        
+        cmdline += f'> {self.__report_path}'
 
         os.system(cmdline)
-        log.info(cmdline) 
+        log.info("EXECUTED ENCODING COMMAND: " + cmdline) 
 
 
     def decode(self) -> None:
         log = Logger()
-        log.info("\nDECODING VVCODEC...\n")
+        log.info("DECODING VVCODEC...")
 
         p = str(Path('~').expanduser())
 
@@ -111,7 +81,7 @@ class VVcodec(Codec):
         cmdline = part1+part2 
 
         os.system(cmdline)
-        log.info(cmdline) 
+        log.info("EXECUTED DECODING COMMAND: " + cmdline) 
 
 
     def parse(self) -> tuple:
@@ -182,29 +152,16 @@ class VVcodec(Codec):
             metrics_file.close()
 
 
-    def get_encoding_info(self) -> dict:
-        """
-        Creates a dictionary with the same encoding info that is written to the csv file
-        so that it can be sent in an HTTP request and stored into the database
-        """
-
+    def get_results(self) -> dict:
         bitrate, yuvpsnr, timems, ypsnr, upsnr, vpsnr = self.parse_extra()
-        info_vvenc = {
-            "codec": self.get_codec(),
-            "commitHash": self.get_commit_hash(),
-            "uniqueConfig": self.get_unique_config(),
-            "video": self._video.get_name(),
-            "resolution": self._video.get_resolution(),
-            "fps": self._video.get_fps(),
-            "nFrames": self.get_num_frames(),
-            "qp": self.get_qp(),
+        return {
             "ypsnr": ypsnr,
             "upsnr": upsnr,
             "vpsnr": vpsnr,
             "yuvpsnr": yuvpsnr,
             "bitrate": bitrate,
-            "time": timems }
-        return info_vvenc
+            "time": timems,
+            "energyConsumption": 0}
 
 
     def set_threads(self, threads: int):
@@ -218,3 +175,39 @@ class VVcodec(Codec):
 
     def get_csv_path(self):
         return self.__csv_path
+
+
+    """
+    EXPERIMENTAL AND STUFF HOMIE DON'T MIND THIS TOO MUCH, YEAH?
+    """    
+    def __append_to_cmdline(self, cmdline: str) -> str:
+        """
+        This is equivalent to a switch case, which is only introduced in Python3.10 -- a pain to install and use
+        so i'll just let this stay here as a method that can be specified to each codec. It'll probably go into the 
+        parent class soon enough
+        """
+        equivalents = {
+            "qp": f"--qp {self._encoding_config.qp}",
+            "nFrames": f"-f {self._encoding_config.nFrames}",
+            "preset": f"--preset {self._encoding_config.preset}",
+            "fps": f"--fps {self._encoding_config.fps}",
+            "nThreads": f"--threads {self._encoding_config.nThreads}",
+            "codecSetAttrs": f""}
+        attrs = [a for a in dir(self._encoding_config) if not a.startswith("__")]
+        for a in attrs:
+            if a != "uniqueAttrs" and a != "get_unique_attrs":
+                cmdline += equivalents[a] + " "
+        return cmdline
+
+
+    def get_unique_attrs(self) -> str:
+        return self._encoding_config.get_unique_attrs()
+
+    
+    def get_encoding_config(self) -> EncodingConfig:
+        return self._encoding_config
+
+    
+    # TODO: 
+    def get_base_attrs(self) -> str:
+        return ""

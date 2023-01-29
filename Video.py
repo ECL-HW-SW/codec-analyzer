@@ -63,6 +63,13 @@ class Video():
     
     
     """GETTERS AND SETTERS"""
+    def get_unique_attrs(self) -> str:
+        """
+        This is mean to be an unique identifier for each video, used as a foreign key in the database.
+        It may look cryptic to a human, but the machine will understand it.
+        """
+        return f"f{self.__format}fps{self.__fps}n{self.__name}r{self.__resolution}f{self.__framesnumber}"
+
 
     def get_format(self):
         return self.__format

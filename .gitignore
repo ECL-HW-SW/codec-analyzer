@@ -1,3 +1,8 @@
+# IGNORE .TXT, .BIN, .CSV OUTPUTS WHEN COMMITTING
+*.bin
+*.csv
+*.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

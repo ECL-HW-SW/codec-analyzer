@@ -40,9 +40,9 @@ class Logger(object, metaclass=SingletonType):
     def get_logger(self):
         return self._logger
 
-    def info(self, str):
-        self._logger.info(str)
+    def info(self, message):
+        self._logger.info(message)
     
-    def debug(self, str):
-        self._logger.debug(str)
+    def debug(self, message):
+        self._logger.debug(message)
 
