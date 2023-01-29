@@ -3,15 +3,44 @@ import json
 import ast
 
 
-"""
-A Class for handling all the HTTP requests to the Codec Analyzer Database.
-It works by gathering the input in the form of a list and transforming it into a Python dict 
-so that it can then be parsed as JSON and sent.
-"""
+"""A Class for handling all the HTTP requests to the Codec Analyzer Database."""
 class HttpContent:
     
-    def __init__(self, base_url: str) -> None:
+    def __init__(self, base_url: str):
         self.base_url = base_url
+        self.token = None
+
+
+    """
+    Method used for user authentication in the API
+
+    @params credentials: filename where the credentials (email and password) are stored. 
+        |--> can't risk other people seeing credentials on an open source project :P
+             NOTE: must be in JSON format! 
+    """
+    def authenticate(self, credentials: str) -> None:
+        with open(credentials, "r") as creds:
+            json_creds = json.loads(creds.read())
+            self.__POST_auth(json_creds)
+            print("token", self.token)
+
+
+    """
+    Private method used to send the authentication request to the API
+    This is only meant to be used inside `self.authenticate()`
+
+    @params creds: the JSON-style string, read from the credentials file
+    """
+    def __POST_auth(self, creds: dict) -> None:
+        url = f"{self.base_url}/auth/authenticate"
+        payload = json.dumps({
+          "email": creds["email"],
+          "password": creds["password"]
+        })
+        headers = {'Content-Type': 'application/json'}
+        response = requests.request("POST", url, headers=headers, data=payload)       
+        byte_token = response.content
+        self.token = byte_token.decode("utf-8")
 
 
     """
@@ -25,7 +54,8 @@ class HttpContent:
         self, commitHash, uniqueVideoAttrs, uniqueConfigAttrs
     ) -> dict:
         url = f"{self.base_url}/encoding-results/has-entry/{uniqueVideoAttrs}/{uniqueConfigAttrs}/{commitHash}"
-        response = requests.request("GET", url, headers={}, data={})
+        headers = {'Authorization': f'Bearer {self.token}'}
+        response = requests.request("GET", url, headers=headers, data={})
         return json.loads(response.content or 'null')
 
     # NOTE to self:
@@ -74,8 +104,10 @@ class HttpContent:
             "time": results["time"],
             "energyConsumption": results["energyConsumption"] 
         })
-
-        headers = {'Content-Type': 'application/json'}
+        headers = {
+            'Authorization': f'Bearer {self.token}',
+            'Content-Type': 'application/json'
+        }
         response = requests.request("POST", f"{self.base_url}/encoding-results", headers=headers, data=payload)
         return response
 
@@ -86,7 +118,9 @@ class HttpContent:
     @returns list of all available EncodingResults
     """
     def GET_all_encoding_results(self) -> list:
-        response = requests.get(self.base_url)
+        headers = {'Authorization': f'Bearer {self.token}'}
+        response = requests.request("GET", self.base_url, headers=headers)
+        # TODO: fix this abomination. I'm pretty sure json.dumps() can deal with arrays of objects
         return ast.literal_eval(response.text)
     
 
@@ -100,19 +134,22 @@ class HttpContent:
     """
     def DELETE_encoding_result(self, id: str) -> requests.Response:
         url = self.base_url + f"/{id}"
-        headers = {'Content-Type': 'application/json'}
+        headers = {
+            'Authorization': f'Bearer {self.token}',
+            'Content-Type': 'application/json'
+        }
         response = requests.request("DELETE", url, headers=headers)
         return response
     
 
-    """
-    GETTERS AND SETTERS BELOW
-    """
-
-
+    """GETTERS AND SETTERS"""
     def set_base_url(self, base_url: str) -> None:
         self.base_url = base_url
 
 
     def get_base_url(self) -> str:
         return self.base_url
+
+
+    def is_authenticated(self) -> bool:
+        return True if self.token else False
