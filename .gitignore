@@ -2,6 +2,7 @@
 *.bin
 *.csv
 *.txt
+*testing.py
 
 # additions
 perf.data
