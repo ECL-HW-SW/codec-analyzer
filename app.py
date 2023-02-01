@@ -8,6 +8,9 @@ from GlobalPaths import GlobalPaths
 import utils
 import os
 from Video import Video
+from HttpContent import HttpContent
+
+
 
 qps = [22,27,32,37]
 num_frames = 30
@@ -82,8 +85,3 @@ for vid in videos:
 
 
 #####
-
-
-
-
-    

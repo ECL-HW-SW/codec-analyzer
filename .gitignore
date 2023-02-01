@@ -1,3 +1,12 @@
+# IGNORE .TXT, .BIN, .CSV OUTPUTS WHEN COMMITTING
+*.bin
+*.csv
+*.txt
+
+# additions
+perf.data
+gmon.out
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
