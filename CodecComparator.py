@@ -12,7 +12,9 @@ class CodecComparator():
 
     def bdrate(self, input1, input2):
         bitrate1 , psnr1 = self.csv2lists(input1)
+        print("BITRATE1, PSNR1:",bitrate1, psnr1)
         bitrate2, psnr2 = self.csv2lists(input2)
+        print("BITRATE2, PSNR2:",bitrate2, psnr2)        
         bdrate = self.BD_RATE(bitrate1,psnr1,bitrate2,psnr2)
         return bdrate
 

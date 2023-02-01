@@ -4,5 +4,5 @@
     "resolution": "352x288",
     "fps": "29.97",
     "framesnumber": "300",
-    "format": "YUV420"
+    "format": "yuv420p"
 }

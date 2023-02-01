@@ -8,8 +8,9 @@ from .EncodingConfig import EncodingConfig
 
 
 
+
 class VVcodec(Codec):
-    
+
     def __init__(self, config_path, commit_hash, video):
         super().__init__("vvcodec", config_path, commit_hash=commit_hash)
         self._video = video
@@ -27,15 +28,14 @@ class VVcodec(Codec):
             config["preset"], config["nThreads"], config["codecSetAttrs"])
 
 
-    def encode(self, force_rerun = 0) -> None: 
+  def encode(self, force_rerun = 0, bitdepth = "8") -> str:
         log = Logger()       
         log.info("ENCODING VVCODEC...")
-        paths = GlobalPaths().get_paths()
+        paths = self.__paths
 
         options_str = ''
         for key, val in self._options_encoder.items():
             options_str += f"--{key} {val} "
-
 
         # TODO: change the line below -- base_output_name should be different, probably
         base_output_name = "_".join([self._video.get_name(), str(self._encoding_config.qp) + "qp",
@@ -53,7 +53,9 @@ class VVcodec(Codec):
             except:
                 log.info("Error parsing " + self.__report_path + " re-encoding")
 
-        cmdline = f'{self._encoder_path} -i {self._video.get_abs_path()} '
+
+        # FIXME: --internal-bitdepth cannot be hardcoded here. It should be within append_to_cmdline() or something like that
+        cmdline = f'{self._encoder_path} -i {self._video.get_abs_path()} -v 6 --internal-bitdepth {bitdepth} '
         cmdline = self.__append_to_cmdline(cmdline)
         cmdline += f'--output {self.__bitstream_path} '        
         cmdline += f'> {self.__report_path}'
@@ -62,35 +64,33 @@ class VVcodec(Codec):
         log.info("EXECUTED ENCODING COMMAND: " + cmdline) 
 
 
-    def decode(self) -> None:
+    def decode(self):
         log = Logger()
-        log.info("DECODING VVCODEC...")
+        log.info("\nDECODING VVCODEC...\n")
+        paths = GlobalPaths().get_paths()
 
-        p = str(Path('~').expanduser())
-
-        decoded_path = self.get_decoded()
-        decoded_path = decoded_path.replace('~', p)
+        base_output_name = self.get_unique_config()
+        self.__bitstream_path = os.path.join(paths[self._codec]["bitstream_dir"], base_output_name + ".bin")
+        self.__decoded_path = os.path.join(paths[self._codec]["decoded_dir"], base_output_name + ".y4m")
 
         bitstream_path = self.get_bitstream()
         bitstream_path = bitstream_path.replace('~', p)
         if not os.path.exists(bitstream_path):
             log.info("Bitstream path does not exist.")
 
-        part1 = f'{self.get_decoder()} -b {bitstream_path}/vvcodec_{self.get_videoname()}_{self.get_qp()} {self.get_options_decoder()} '
-        part2 = f'-v 0 -f {self.get_framesnumber()} -o {decoded_path}/vvcodec_{self.get_videoname()}_{self.get_qp()}'
+        part1 = f'{self.get_decoder_path()} -b {self.__bitstream_path} '
+        part2 = f'-v 0 -f {self._video.get_framesnumber()} -o {self.__decoded_path} --y4m'
         cmdline = part1+part2 
 
         os.system(cmdline)
-        log.info("EXECUTED DECODING COMMAND: " + cmdline) 
+        log.info("EXECUTED DECODING COMMAND: " + cmdline)
 
+    """
+    Parses the txt output from the encode() method.
 
+    @returns (bitrate, psnr, total time taken to encode)
+    """
     def parse(self) -> tuple:
-        """
-        Parses the txt output from the encode() method.
-
-        @returns (bitrate, psnr, total time taken to encode)
-        """
-
         with open(self.__report_path, 'r') as txt:
             text = txt.read().split("\n")
             for line in text:
@@ -105,14 +105,12 @@ class VVcodec(Codec):
 
         return bitrate, psnr, total_time
 
-    
-    def parse_extra(self) -> tuple:
-        """
-        Parses the .txt output from the encode() method and returns more information than the usual parse()
+    """
+    Parses the .txt output from the encode() method and returns more information than the usual parse()
 
-        @returns (bitrate, yuvpsnr, total time taken to encode, ypsnr, upsnr, vpsnr)
-        """
-        
+    @returns (bitrate, yuvpsnr, total time taken to encode, ypsnr, upsnr, vpsnr)
+    """
+    def parse_extra(self) -> tuple:        
         with open(self.__report_path, 'r') as txt:
             text = txt.read().split("\n")
             for line in text:
@@ -120,7 +118,7 @@ class VVcodec(Codec):
                     data_line = text[text.index(line)+1].split()
                     break
             txt.close()
-            bitrate = data_line[2]
+            bitrate = float(data_line[2])*1024
             yuvpsnr = data_line[6]
             ypsnr = data_line[3]
             upsnr = data_line[4]
@@ -130,27 +128,23 @@ class VVcodec(Codec):
 
         return bitrate, yuvpsnr, total_time, ypsnr, upsnr, vpsnr
     
-
+     """
+    Adds to csv: 
+    encoder name | video name | video resolution | fps | frame count | qp | bitrate | PSNR | time taken to encode | optional settings
+    """
     def add_to_csv(self, video) -> None:
-        """
-        Adds to csv: 
-        encoder name | video name | video resolution | fps | frame count | qp | bitrate | PSNR | time taken to encode | optional settings
-
-        These csvs are stored in /VC/data/vvcodec-output/csv/{videoname}/
-        """
-
-
-        bitrate, psnr, timems = self.parse()
+        bitrate, psnr, timems, ypsnr, upsnr, vpsnr = self.parse_extra()
 
         with open(self.__csv_path, 'w', newline='') as metrics_file:
             metrics_writer = csv.writer(metrics_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            metrics_writer.writerow(['encoder','video','resolution','fps','number of frames','qp','bitrate', 'psnr', 'timems','optional settings'])
+            metrics_writer.writerow(['codec','video','resolution','fps','number of frames','qp','ypsnr','upsnr','vpsnr', 'psnr','bitrate', 'time(s)','optional settings'])
             metrics_writer.writerow(["VVENC",video.get_name(),video.get_resolution(),video.get_fps(),
-                                        self.get_num_frames(),self.get_qp(),bitrate,psnr,timems,self._options_encoder])
+                                        self.get_num_frames(),self.get_qp(),ypsnr,upsnr,vpsnr,psnr,bitrate,timems,self.get_unique_config()])
+
             # TODO: I CHANGED video.get_framesnumber() ABOVE TO self.get_num_frames() --
             # CHECK IF THIS IS THE RIGHT THING TO DO OR NOT (I THINK IT IS)
             metrics_file.close()
-
+            
 
     def get_results(self) -> dict:
         bitrate, yuvpsnr, timems, ypsnr, upsnr, vpsnr = self.parse_extra()

@@ -1,0 +1,11 @@
+{
+    "encoder_path" : "xeveb_app",
+    "decoder_path" : "/home/edulodi/appfiles/xevevc/xevd/build/bin/xevd_app",
+    
+    "options_encoder": {
+        "threads": "8",
+        "preset": "faster",
+        "frames": "30"
+    },
+    "options_decoder" : ""
+}

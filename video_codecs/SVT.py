@@ -1,96 +1,152 @@
+from GlobalPaths import GlobalPaths
 import os
-import json
 import csv
-from pathlib import Path
 from .Codec import Codec
+from Logger import Logger
 
 class svt_codec(Codec):
 
-    def __init__(self):
-        super().__init__('svt')
+    def __init__(self, config_path, commit_hash, video):
+        super().__init__('svt', config_path, commit_hash=commit_hash)
+        self._video = video
+        self.__threads = self._options_encoder["threads"]
+        self.__paths = GlobalPaths().get_paths()
+
+    #############################GETTERS & SETTERS###########################################
+    def get_threads(self) -> str:
+        return self.__threads
+
+    def set_threads(self, threads: int):
+        self.__threads = str(threads)
+        self._options_encoder["threads"] = str(threads)
+    
+    def get_qp(self):
+        return self._options_encoder["qp"] 
+
+    def set_qp(self, val):
+        self._options_encoder["qp"] = val
+
+    def get_csv_path(self):
+        return self.__csv_path          
+
+    def get_decodeds_path(self):
+        return os.path.join(self.__paths[self._codec]["decoded_dir"])
+
+    def get_csvs_path(self):
+        self.__csvs_path = os.path.join(self.__paths[self._codec]["csv_dir"])
+        return self.__csvs_path
+
+    def get_preset(self) -> str:
+        return self._options_encoder["preset"]
         
-        self.__passes = self._options_encoder["--passes"]
-        self.__rc = self._options_encoder["--rc"]
+    def set_preset(self, val):
+        self._options_encoder["preset"] = val
 
-        svt_path = '~/VC/codec-research/code/codecs/JSON_files/paths.JSON'
-        p = Path('~').expanduser()
-        svt_path = svt_path.replace('~', str(p))
+    def get_num_frames(self):
+        return self._options_encoder["frames"]
 
-        with open(svt_path) as json_file:
-            data = json.load(json_file)
-            self.__decoder = data['svt']['decoder']
-            self.__outtime = data['svt']['outtime']
+    def set_num_frames(self, val):
+        self._options_encoder["frames"] = val
 
-    def get_outtime(self):
-        return self.__outtime
+    def get_unique_config(self) -> str:
+        return "_".join([
+            self._video.get_name(), str(self.get_qp()) + "qp", str(self.get_num_frames()) + "fr",
+            self._video.get_fps() + "fps", self.get_preset() + "-preset", self.get_threads() + "t"
+        ])
 
-    def encode(self):
-        print("\nENCODING  SVT...\n")
-                
-        bitstream_path = self.get_bitstream()
-        p = Path('~').expanduser()
-        bitstream_path = bitstream_path.replace("~",str(p))
-        if not(os.path.exists(bitstream_path)):
-            os.mkdir(bitstream_path)
+    def set_video(self, video) -> None:
+        self._video = video
+
+    def get_video(self):
+        return self._video
+    ####################################################################################################
+
+    def encode(self, force_rerun = 0) -> str:
+        log = Logger()
+        log.info("ENCODING SVTAV1...")
+        paths = GlobalPaths().get_paths()
+
+
+        ##############SETTING PATHS VARIABLES################
+        base_output_name = self.get_unique_config()
+        log.info(base_output_name)
+        self.__bitstream_path = os.path.join(paths[self._codec]["bitstream_dir"], base_output_name + ".bin")
+        self.__report_path = os.path.join(paths[self._codec]["report_dir"], base_output_name + ".txt")
+        self.__report_path_time = os.path.join(paths[self._codec]["report_dir"], base_output_name + "_time.txt")
+        self.__csv_path = os.path.join(paths[self._codec]["csv_dir"], base_output_name + ".csv")
+        self.__decoded_path = os.path.join(paths[self._codec]["decoded_dir"], base_output_name + ".yuv")
+        ######################################################
+
+        ####################CHECK RERUN#######################
+        if not force_rerun and os.path.isfile(self.__report_path):
+            try:
+                self.parse()
+                return
+            except:
+                log.info("Error parsing " + self.__report_path + " re-encoding")
+        #######################################################
         
-        options_encoder = ""
-        for flag, val in self.get_options_encoder().items():
-            options_encoder += f"{flag} {val} "
+        ##############ENCODER OPTIONS##########################
+        frames = self._options_encoder["frames"]
+        threads = self._options_encoder["threads"]
+        preset = {
+            "slower" : lambda x: 1,
+            "slow" : lambda x: 4,
+            "medium" : lambda x: 7,
+            "fast" : lambda x: 10,
+            "faster" : lambda x: 12,
+        }[self._options_encoder["preset"]](self._options_encoder["preset"])
+        #########################################################
 
-        # TODO: fix part 4 to be up to standard with the others        
-        part1 = f"{self.get_encoder()} --enable-stat-report 1 --stat-file {self.get_txts()}/{self.get_videoname()}.txt "
-        part2 = f"--crf {self.get_qp()} {options_encoder} -i {self.get_videopath()} "
-        part3 = f"--output {self.get_bitstream()}/svt_{self.get_videoname()}_{self.get_qp()} 2>"
-        part4 = f"{self.get_outtime()}/{self.get_videoname()}_time.txt" # TODO: fix this
-        cmdline = part1+part2+part3+part4
+        ###########COMMAND LINE ASSEMBLY##########################
+        part1 = f"{self.get_encoder_path()} --enable-stat-report 1 --stat-file {self.__report_path} "
+        part2 = f"--crf {self.get_qp()} --lp {threads} -n {frames} --preset {preset} -i {self._video.get_abs_path()} "
+        part3 = f"--output {self.__bitstream_path} 2> {self.__report_path_time}"
+        cmdline = part1+part2+part3
+        ##########################################################
 
-        print(cmdline)    #@fix
-        os.system(cmdline)    #@fix
+        ####################CALLING OS TO ENCODE##################
+        print(cmdline)
+        os.system(cmdline)
+        log.info(cmdline) 
+        ##########################################################
 
     def decode(self):     
-        print("\nDECODING SVT...\n")
+        log = Logger()
+        log.info("\nDECODING VVCODEC...\n")
+        paths = GlobalPaths().get_paths()
 
-        decoded_path = self.get_decoded()
-        p1 = Path('~').expanduser()
-        decoded_path = decoded_path.replace('~', str(p1))
+        base_output_name = self.get_unique_config()
+        self.__bitstream_path = os.path.join(paths[self._codec]["bitstream_dir"], base_output_name + ".bin")
+        self.__decoded_path = os.path.join(paths[self._codec]["decoded_dir"], base_output_name +".yuv")
 
-        bitstream_path = self.get_bitstream()
-        p2 = Path('~').expanduser()
-        bitstream_path = bitstream_path.replace('~', str(p2))
+        bitstream_path = self.__bitstream_path
         if not os.path.exists(bitstream_path):
-            print("Bitstream path does not exist.")
+            log.info("Bitstream path does not exist.")
 
-        part1 = f"{self.get_decoder()} {self.get_options_decoder()} -i {self.get_bitstream()}/svt_{self.get_videoname()}_{self.get_qp()} "
-        part2 = f"-o {decoded_path}/svt_{self.get_videoname()}_{self.get_qp()}"
+        part1 = f"{self.get_decoder_path()} {self._options_decoder} -i {bitstream_path} " #@TODO fix options encoder
+        part2 = f"-o {self.__decoded_path}"
         cmdline = part1+part2
 
-        print(cmdline)
-        os.system(cmdline)  
+        os.system(cmdline)
+        return self.__decoded_path
 
-    def parse(self):
-        outgen = f"{self.get_txts()}/{self.get_videoname()}.txt"
-        outtime = f"{self.get_outtime()}/{self.get_videoname()}_time.txt"
-
-        p = Path('~').expanduser()
-        outgen=outgen.replace("~",str(p))
-        outtime=outtime.replace("~",str(p))
+    def parse(self) -> tuple:
+        outgen = self.__report_path
+        outtime = self.__report_path_time
         
-        bitrate, psnr, timems = self._parse_svt_output(outgen,outtime)
-        return bitrate, psnr, timems/1000
+        bitrate, psnryuv, psnry, psnru, psnrv, timems = self._parse_svt_output(outgen,outtime)
+        return bitrate, psnryuv, psnry, psnru, psnrv, timems/1000
 
     def add_to_csv(self):
-        outputcsvpath = self.get_csvs()
-        p = Path('~').expanduser()
-        outputcsvpath = outputcsvpath.replace("~",str(p))
-        if not(os.path.exists(outputcsvpath)):
-            os.mkdir(outputcsvpath)
-        outputcsv = outputcsvpath + '/' + self.get_videoname() +'_'+ self.get_qp() + ".csv"
-        bitrate,psnr,timems = self.parse()
-        outputcsv = outputcsv.replace("~",str(p))
-        with open(outputcsv, 'w', newline='') as metrics_file:
+
+        bitrate, psnryuv, psnry, psnru, psnrv, time_s = self.parse()
+
+        with open(self.__csv_path, 'w', newline='') as metrics_file:
             metrics_writer = csv.writer(metrics_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            metrics_writer.writerow(['encoder','video','resolution','fps','number of frames','qp','bitrate', 'psnr', 'timems','optional settings'])
-            metrics_writer.writerow(["SVT-AV1",self.get_videoname(),self.get_resolution(),self.get_fps(),self.get_framesnumber(),self.get_qp(),bitrate,psnr,timems,self.get_options_encoder()])
+            metrics_writer.writerow(['codec','video','resolution','fps','number of frames','qp','ypsnr','upsnr','vpsnr', 'psnr','bitrate', 'time(s)','optional settings'])
+            metrics_writer.writerow(["VVENC",self._video.get_name(),self._video.get_resolution(),self._video.get_fps(),
+                                        self.get_num_frames(),self.get_qp(),psnry,psnru,psnrv,psnryuv,bitrate,time_s,self.get_unique_config()])
             metrics_file.close()
 
     def _parse_svt_output(self,pt1,pt2):
@@ -99,20 +155,16 @@ class svt_codec(Codec):
         with open(pt1, 'r') as output_text:
             out_string = output_text.readlines()
             results_index = (out_string.index(BR_STRING) + 1)
-            bitrate_string = out_string[results_index].split()[20]
-            psnr_string = out_string[results_index].split()[2]
+            bitrate = float(out_string[results_index].split()[20])
+            psnry = float(out_string[results_index].split()[2])
+            psnru = float(out_string[results_index].split()[4])
+            psnrv = float(out_string[results_index].split()[6])
+            psnryuv = float("{:.2f}".format((4*psnry + psnru +psnrv)/6))
+
         with open(pt2, 'rt') as outtime_text:
             outtime_string = outtime_text.readlines()
         for strtime in outtime_string:
             if not strtime.startswith("Total Encoding Time"):
                 continue
-            timems_string = strtime.split()[3]
-        return float(bitrate_string)*1024, float(psnr_string) , float(timems_string)
-
-    def set_threads(self, threads: int):
-        self.__threads = str(threads)
-        self._options_encoder["--lp"] = str(threads)
-
-    def get_threads(self) -> str: # TODO: arrumar isso dps
-        return self.__threads
-
+            timems = float(strtime.split()[3])
+        return bitrate*1024, psnryuv, psnry, psnru, psnrv, timems
