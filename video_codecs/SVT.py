@@ -159,7 +159,7 @@ class svt_codec(Codec):
             psnry = float(out_string[results_index].split()[2])
             psnru = float(out_string[results_index].split()[4])
             psnrv = float(out_string[results_index].split()[6])
-            psnryuv = float("{:.2f}".format((4*psnry + psnru +psnrv)/6))
+            psnryuv = float("{:.2f}".format((6*psnry + psnru +psnrv)/8))
 
         with open(pt2, 'rt') as outtime_text:
             outtime_string = outtime_text.readlines()
