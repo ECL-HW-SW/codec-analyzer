@@ -11,6 +11,16 @@ class EncodingConfig:
     codecSetAttrs: str = ""
 
 
+    def to_dict(self):
+        return {
+            "uniqueAttrs": self.get_unique_attrs(),
+            "qp": self.qp,
+            "nFrames": self.nFrames,
+            "nThreads": self.nThreads,
+            "codecAttrs": self.codecSetAttrs,
+            "preset": self.preset
+        }
+
     def get_unique_attrs(self) -> str:
         """
         There probably is another way of doing this

@@ -19,6 +19,13 @@ class Codec(ABC):
             self._options_decoder = data['options_decoder']
 
 
+    def to_dict(self):
+        return {
+            "name": self.get_codec(),
+            "commitHash": self.get_commit_hash(),
+            "codecAttrs": self.get_base_attrs(),
+        }
+
     """GETTERS"""
     def get_codec(self) -> str:
         return self._codec

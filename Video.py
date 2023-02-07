@@ -18,6 +18,16 @@ class Video():
         self.__abs_path = os.path.join(paths["raw_videos_path"], self.__rel_path)
 
 
+    def to_dict(self):
+        return {
+            "name": self.get_name(),
+            "resolution": self.get_resolution(),
+            "fps": self.get_fps(),
+            "nFrames": self.get_framesnumber(),
+            "format": self.get_format(),
+            "uniqueAttrs": self.get_unique_attrs() 
+        }
+
     def to_y4m(self) -> None:
         output_path = self.__abs_path.replace(".yuv", ".y4m")
         part1 = 'ffmpeg -hide_banner -loglevel error -f rawvideo -vcodec rawvideo '
