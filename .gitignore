@@ -2,6 +2,11 @@
 *.bin
 *.csv
 *.txt
+*testing.py
+
+# additions
+perf.data
+gmon.out
 
 # IGNORE CREDENTIALS -- DO NOT REMOVE! 
 creds.json

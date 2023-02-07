@@ -1,0 +1,98 @@
+vvencapp: Fraunhofer VVC Encoder ver. 1.7.0 [Linux][GCC 11.3.0][64 bit][SIMD=AVX2]
+Input          File                    : /home/edulodi/videocoding/videos/akiyo_cif.y4m
+Bitstream      File                    : ./output/vvcodec/fast/bitstream/akiyo/akiyo_22qp_30fr_29.97fps_fast-preset_8t.bin
+Reconstruction File                    : 
+RC Statistics  File                    : 
+Real     Format                        : 352x288 29.97Hz SDR
+Internal Format                        : 352x288 29.97Hz SDR
+Sequence PSNR output                   : Linear average only
+Hexadecimal PSNR output                : Disabled
+Sequence MSE output                    : Disabled
+Frame MSE output                       : Disabled
+Cabac-zero-word-padding                : Enabled
+Frame index                            : 30 frames
+Profile                                : main_10
+Level                                  : 2
+CU size / total-depth                  : 64 / 4
+Max TB size                            : 64
+Min CB size                            : 4
+Motion search range                    : 128
+Intra period                           : 32
+Decoding refresh type                  : 1
+QP                                     : 22
+Percept QPA                            : 1
+Max dQP signaling subdiv               : 2
+Cb QP Offset (dual tree)               : 0 (0)
+Cr QP Offset (dual tree)               : 0 (0)
+GOP size                               : 32
+PicReordering                          : 1
+Input bit depth                        : (Y:8, C:8)
+MSB-extended bit depth                 : (Y:8, C:8)
+Internal bit depth                     : (Y:8, C:8)
+cu_chroma_qp_offset_subdiv             : -1
+log2_sao_offset_scale_luma             : 0
+log2_sao_offset_scale_chroma           : 0
+Cost function:                         : Lossy coding
+
+CODING TOOL CFG: CTU64 QT44BTT10 IBD:0 SAO:1 ALF:1 (NonLinLuma:0 NonLinChr:0) CCALF:1 Tiles:1x1 Slices:1 WPP:0 WPP-Substreams:1 TMVP:1 DQ:1 SDH:0 CST:1 BDOF:1 DMVR:1 MTSImplicit:1 SBT:0 JCbCr:0 CabacInitPresent:0 AMVR:5 SMVD:0 LMCS:2 (Signal:SDR Opt:0) CIIP:0 MIP:0 AFFINE:2 (PROF:1, Type:1) MMVD:3 DisFracMMVD:1 SbTMVP:1 GPM:0 LFNST:1 MTS:0 ISP:0 TS:2 TSLog2MaxSize:4 useChromaTS:0 BDPCM:2 IBC:2 BCW:0 
+ENC. ALG. CFG: QPA:1 HAD:1 RDQ:1 RDQTS:1 ASR:1 MinSearchWindow:96 EDO:0 MCTF:2 BIM:1 
+PRE-ANALYSIS CFG: STA:1 LeadFrames:0 TrailFrames:0 
+FAST TOOL CFG: ECU:1 FEN:3 FDM:1 FastSearch:4 (SCC:2) LCTUFast:1 FastMrg:2 PBIntraFast:1 AMaxBT:0 FastQtBtEnc:1 ContentBasedFastQtbt:1 FastIntraTools:0 IntraEstDecBit:2 FastLocalDualTree:1 IntegerET:0 FastSubPel:1 ReduceFilterME:2 QtbttExtraFast:7 FastTTSplit:0 IBCFastMethod:4 FIM:3 (27) ALFSpeed:1 QuantThr: 4 
+RATE CONTROL CFG: RateControl:0 LookAhead:0 
+PARALLEL PROCESSING CFG: NumThreads:8 MaxParallelFrames:4 WppBitEqual:1 WF:0 
+
+started @ Fri Jan 27 19:31:44 2023
+
+POC     0 TId: 0 (  IDR_N_LP, I-SLICE, QP 11, TF 3)     194568 bits [Y 51.4650 dB    U 51.2392 dB    V 51.8563 dB] [ET     2 ] [L0 ] [L1 ]
+POC    16 TId: 1 (      STSA, B-SLICE, QP 14, TF 2)      29848 bits [Y 49.2351 dB    U 50.1346 dB    V 50.9632 dB] [ET     0 ] [L0 0 ] [L1 0 ]
+POC     8 TId: 2 (      STSA, B-SLICE, QP 15, TF 1)      12224 bits [Y 48.8311 dB    U 50.3423 dB    V 51.1063 dB] [ET     0 ] [L0 0 16 ] [L1 16 0 ]
+POC     4 TId: 3 (      STSA, B-SLICE, QP 18, TF 0)       2424 bits [Y 48.2530 dB    U 50.2128 dB    V 51.0583 dB] [ET     0 ] [L0 0 8 ] [L1 8 16 ]
+POC     2 TId: 4 (      STSA, B-SLICE, QP 20)              880 bits [Y 48.1400 dB    U 50.2817 dB    V 51.0415 dB] [ET     0 ] [L0 0 4 ] [L1 4 8 ]
+POC     1 TId: 5 (      STSA, B-SLICE, QP 21)              464 bits [Y 48.2024 dB    U 50.2738 dB    V 51.1257 dB] [ET     0 ] [L0 0 2 ] [L1 2 4 ]
+POC     3 TId: 5 (      STSA, B-SLICE, QP 21)              400 bits [Y 48.0994 dB    U 50.3065 dB    V 51.0829 dB] [ET     0 ] [L0 2 0 ] [L1 4 8 ]
+POC     6 TId: 4 (      STSA, B-SLICE, QP 20)             2016 bits [Y 47.9346 dB    U 50.2261 dB    V 50.9569 dB] [ET     0 ] [L0 4 0 ] [L1 8 16 ]
+POC     5 TId: 5 (      STSA, B-SLICE, QP 21)              616 bits [Y 48.0917 dB    U 50.1976 dB    V 51.0038 dB] [ET     0 ] [L0 4 0 ] [L1 6 8 ]
+POC     7 TId: 5 (      STSA, B-SLICE, QP 21)             1064 bits [Y 47.8225 dB    U 50.2517 dB    V 51.1182 dB] [ET     0 ] [L0 6 4 ] [L1 8 16 ]
+POC    12 TId: 3 (      STSA, B-SLICE, QP 18, TF 0)       6344 bits [Y 47.7212 dB    U 50.0018 dB    V 50.8498 dB] [ET     0 ] [L0 8 0 ] [L1 16 8 ]
+POC    10 TId: 4 (      STSA, B-SLICE, QP 20)             2112 bits [Y 47.7768 dB    U 50.1769 dB    V 50.8966 dB] [ET     0 ] [L0 8 0 ] [L1 12 16 ]
+POC     9 TId: 5 (      STSA, B-SLICE, QP 21)              608 bits [Y 47.6428 dB    U 50.2214 dB    V 51.0184 dB] [ET     0 ] [L0 8 0 ] [L1 10 12 ]
+POC    11 TId: 5 (      STSA, B-SLICE, QP 21)              672 bits [Y 47.5348 dB    U 50.0386 dB    V 50.7588 dB] [ET     0 ] [L0 10 8 ] [L1 12 16 ]
+POC    14 TId: 4 (      STSA, B-SLICE, QP 20)             3168 bits [Y 47.0524 dB    U 49.9559 dB    V 50.8746 dB] [ET     0 ] [L0 12 8 ] [L1 16 12 ]
+POC    13 TId: 5 (      STSA, B-SLICE, QP 21)              592 bits [Y 47.0529 dB    U 49.9729 dB    V 50.7689 dB] [ET     0 ] [L0 12 8 ] [L1 14 16 ]
+POC    15 TId: 5 (      STSA, B-SLICE, QP 21)              672 bits [Y 46.5102 dB    U 49.9250 dB    V 50.7812 dB] [ET     0 ] [L0 14 12 ] [L1 16 14 ]
+POC    24 TId: 2 (      STSA, B-SLICE, QP 15, TF 1)      33360 bits [Y 48.6863 dB    U 49.8873 dB    V 50.6384 dB] [ET     0 ] [L0 16 0 ] [L1 16 0 ]
+POC    20 TId: 3 (      STSA, B-SLICE, QP 18, TF 0)      10488 bits [Y 47.2020 dB    U 49.6024 dB    V 50.6025 dB] [ET     0 ] [L0 16 0 ] [L1 24 16 ]
+POC    18 TId: 4 (      STSA, B-SLICE, QP 20)             3688 bits [Y 46.7622 dB    U 49.7137 dB    V 50.6138 dB] [ET     0 ] [L0 16 0 ] [L1 20 24 ]
+POC    17 TId: 5 (      STSA, B-SLICE, QP 21)              960 bits [Y 46.4910 dB    U 49.7474 dB    V 50.6755 dB] [ET     0 ] [L0 16 0 ] [L1 18 20 ]
+POC    19 TId: 5 (      STSA, B-SLICE, QP 21)              824 bits [Y 46.0354 dB    U 49.5408 dB    V 50.4488 dB] [ET     0 ] [L0 18 16 ] [L1 20 24 ]
+POC    22 TId: 4 (      STSA, B-SLICE, QP 20)             3488 bits [Y 46.6176 dB    U 49.5131 dB    V 50.4828 dB] [ET     0 ] [L0 20 16 ] [L1 24 20 ]
+POC    21 TId: 5 (      STSA, B-SLICE, QP 21)              488 bits [Y 46.3146 dB    U 49.5349 dB    V 50.4383 dB] [ET     0 ] [L0 20 16 ] [L1 22 24 ]
+POC    23 TId: 5 (      STSA, B-SLICE, QP 21)              768 bits [Y 46.5651 dB    U 49.6751 dB    V 50.4760 dB] [ET     0 ] [L0 22 20 ] [L1 24 22 ]
+POC    28 TId: 3 (      STSA, B-SLICE, QP 18, TF 0)      14832 bits [Y 46.9268 dB    U 49.5607 dB    V 50.3446 dB] [ET     0 ] [L0 24 16 ] [L1 24 16 ]
+POC    26 TId: 4 (      STSA, B-SLICE, QP 20)             4504 bits [Y 46.6776 dB    U 49.7347 dB    V 50.4327 dB] [ET     0 ] [L0 24 16 ] [L1 28 24 ]
+POC    25 TId: 5 (      STSA, B-SLICE, QP 21)              872 bits [Y 46.6429 dB    U 49.7994 dB    V 50.3534 dB] [ET     0 ] [L0 24 16 ] [L1 26 28 ]
+POC    27 TId: 5 (      STSA, B-SLICE, QP 21)             1584 bits [Y 46.1590 dB    U 49.5875 dB    V 50.3979 dB] [ET     0 ] [L0 26 24 ] [L1 28 26 ]
+POC    29 TId: 5 (      STSA, B-SLICE, QP 21)             3992 bits [Y 45.3874 dB    U 49.3974 dB    V 49.9908 dB] [ET     0 ] [L0 28 16 ] [L1 28 16 ]
+
+
+SUMMARY --------------------------------------------------------
+	Total Frames |   Bitrate     Y-PSNR    U-PSNR    V-PSNR    YUV-PSNR   
+	       30    a     338.1818   47.4611   49.9684   50.7719   48.1124
+
+
+I Slices--------------------------------------------------------
+	Total Frames |   Bitrate     Y-PSNR    U-PSNR    V-PSNR    YUV-PSNR   
+	        1    i    5831.2088   51.4650   51.2392   51.8563   51.4888
+
+
+P Slices--------------------------------------------------------
+	Total Frames |   Bitrate     Y-PSNR    U-PSNR    V-PSNR    YUV-PSNR   
+	        0    p         -nan      -nan      -nan      -nan      -nan
+
+
+B Slices--------------------------------------------------------
+	Total Frames |   Bitrate     Y-PSNR    U-PSNR    V-PSNR    YUV-PSNR   
+	       29    b     148.7671   47.3231   49.9246   50.7345   48.0323
+finished @ Fri Jan 27 19:31:48 2023
+
+Total Time: 3.474 sec. Fps(avg): 8.636 encoded Frames 30
