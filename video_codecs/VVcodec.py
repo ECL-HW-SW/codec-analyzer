@@ -12,6 +12,7 @@ class VVcodec(Codec):
     def __init__(self, config_path, commit_hash, video):
         super().__init__("vvcodec", config_path, commit_hash=commit_hash)
         self._video = video
+        # TODO: fix the initialization below
         self._encoding_config = EncodingConfig(27, 300, 29.97, "medium")
 
 
@@ -19,17 +20,15 @@ class VVcodec(Codec):
     # TODO: look into a "Singleton Dataclass" -- check if this would be better and feasible
     # or if it makes any sense at all really
     def set_encoding_config(
-        self, config: dict
+        self, config: EncodingConfig
     ) -> None:
-        self._encoding_config = EncodingConfig(
-            config["qp"], config["nFrames"], config["fps"],
-            config["preset"], config["nThreads"], config["codecSetAttrs"])
+        self._encoding_config = config
 
 
-  def encode(self, force_rerun = 0, bitdepth = "8") -> str:
+    def encode(self, force_rerun = 0, bitdepth = "8") -> str:
         log = Logger()       
         log.info("ENCODING VVCODEC...")
-        paths = self.__paths
+        paths = GlobalPaths().get_paths()
 
         options_str = ''
         for key, val in self._options_encoder.items():
@@ -117,7 +116,6 @@ class VVcodec(Codec):
                 if "YUV-PSNR" in line.split():
                     data_line = text[text.index(line)+1].split()
                     break
-            txt.close()
             bitrate = float(data_line[2])*1024
             yuvpsnr = data_line[6]
             ypsnr = data_line[3]
@@ -136,7 +134,7 @@ class VVcodec(Codec):
     These csvs are stored in /VC/data/vvcodec-output/csv/{videoname}/
     """
     def add_to_csv(self, video) -> None:
-        bitrate, psnr, timems = self.parse()
+        bitrate, psnr, timems, ypsnr, upsnr, vpsnr = self.parse_extra()
         with open(self.__csv_path, 'w', newline='') as metrics_file:
             metrics_writer = csv.writer(metrics_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             metrics_writer.writerow(['codec','video','resolution','fps','number of frames','qp','ypsnr','upsnr','vpsnr', 'psnr','bitrate', 'time(s)','optional settings'])
@@ -179,6 +177,8 @@ class VVcodec(Codec):
         so i'll just let this stay here as a method that can be specified to each codec. It'll probably go into the 
         parent class soon enough
         """
+
+        # TODO: this is not scalable and needs to be fixed properly.
         equivalents = {
             "qp": f"--qp {self._encoding_config.qp}",
             "nFrames": f"-f {self._encoding_config.nFrames}",
