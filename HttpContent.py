@@ -3,12 +3,24 @@ import json
 import ast
 
 
-"""A Class for handling all the HTTP requests to the Codec Analyzer Database."""
+"""A Class for handling all the HTTP requests to the Codec Analyzer Server"""
 class HttpContent:
     
     def __init__(self, base_url: str):
         self.base_url = base_url
-        self.token = None
+        self.access_token = None
+        self.refresh_token = None
+
+
+    """
+    Logs out of the server. Must be used after all the other methods, to ensure safety and functionality.
+
+    @returns a requests.Response object
+    """
+    def logout(self) -> requests.Response:
+        headers = {'Content-Type': 'application/json'}
+        response = requests.request("POST", "http://localhost:8080/logout", headers=headers)
+        return response      
 
 
     """
@@ -22,7 +34,6 @@ class HttpContent:
         with open(credentials, "r") as creds:
             json_creds = json.loads(creds.read())
             self.__POST_auth(json_creds)
-            print("token", self.token)
 
 
     """
@@ -32,15 +43,16 @@ class HttpContent:
     @params creds: the JSON-style string, read from the credentials file
     """
     def __POST_auth(self, creds: dict) -> None:
-        url = f"{self.base_url}/auth/authenticate"
+        url = f"http://localhost:8080/login"
         payload = json.dumps({
           "email": creds["email"],
           "password": creds["password"]
         })
         headers = {'Content-Type': 'application/json'}
         response = requests.request("POST", url, headers=headers, data=payload)       
-        byte_token = response.content
-        self.token = byte_token.decode("utf-8")
+        response = json.loads(response.content)
+        self.access_token = response["token"]
+        self.refresh_token = response["refreshToken"]
 
 
     """

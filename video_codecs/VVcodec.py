@@ -7,8 +7,6 @@ from Logger import Logger
 from .EncodingConfig import EncodingConfig
 
 
-
-
 class VVcodec(Codec):
 
     def __init__(self, config_path, commit_hash, video):
@@ -85,9 +83,10 @@ class VVcodec(Codec):
         os.system(cmdline)
         log.info("EXECUTED DECODING COMMAND: " + cmdline)
 
+
     """
     Parses the txt output from the encode() method.
-
+      
     @returns (bitrate, psnr, total time taken to encode)
     """
     def parse(self) -> tuple:
@@ -104,6 +103,7 @@ class VVcodec(Codec):
             total_time = line_time[2]
 
         return bitrate, psnr, total_time
+
 
     """
     Parses the .txt output from the encode() method and returns more information than the usual parse()
@@ -128,21 +128,20 @@ class VVcodec(Codec):
 
         return bitrate, yuvpsnr, total_time, ypsnr, upsnr, vpsnr
     
-     """
+
+    """
     Adds to csv: 
     encoder name | video name | video resolution | fps | frame count | qp | bitrate | PSNR | time taken to encode | optional settings
+
+    These csvs are stored in /VC/data/vvcodec-output/csv/{videoname}/
     """
     def add_to_csv(self, video) -> None:
-        bitrate, psnr, timems, ypsnr, upsnr, vpsnr = self.parse_extra()
-
+        bitrate, psnr, timems = self.parse()
         with open(self.__csv_path, 'w', newline='') as metrics_file:
             metrics_writer = csv.writer(metrics_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             metrics_writer.writerow(['codec','video','resolution','fps','number of frames','qp','ypsnr','upsnr','vpsnr', 'psnr','bitrate', 'time(s)','optional settings'])
             metrics_writer.writerow(["VVENC",video.get_name(),video.get_resolution(),video.get_fps(),
                                         self.get_num_frames(),self.get_qp(),ypsnr,upsnr,vpsnr,psnr,bitrate,timems,self.get_unique_config()])
-
-            # TODO: I CHANGED video.get_framesnumber() ABOVE TO self.get_num_frames() --
-            # CHECK IF THIS IS THE RIGHT THING TO DO OR NOT (I THINK IT IS)
             metrics_file.close()
             
 

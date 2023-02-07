@@ -8,6 +8,9 @@
 perf.data
 gmon.out
 
+# IGNORE CREDENTIALS -- DO NOT REMOVE! 
+creds.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
