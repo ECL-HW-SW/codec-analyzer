@@ -3,6 +3,9 @@
 *.csv
 *.txt
 
+# IGNORE CREDENTIALS -- DO NOT REMOVE! 
+creds.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

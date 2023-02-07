@@ -7,7 +7,6 @@ from Logger import Logger
 from .EncodingConfig import EncodingConfig
 
 
-
 class VVcodec(Codec):
     
     def __init__(self, config_path, commit_hash, video):
@@ -35,7 +34,6 @@ class VVcodec(Codec):
         options_str = ''
         for key, val in self._options_encoder.items():
             options_str += f"--{key} {val} "
-
 
         # TODO: change the line below -- base_output_name should be different, probably
         base_output_name = "_".join([self._video.get_name(), str(self._encoding_config.qp) + "qp",
@@ -84,13 +82,12 @@ class VVcodec(Codec):
         log.info("EXECUTED DECODING COMMAND: " + cmdline) 
 
 
+    """
+    Parses the txt output from the encode() method.
+      
+    @returns (bitrate, psnr, total time taken to encode)
+    """
     def parse(self) -> tuple:
-        """
-        Parses the txt output from the encode() method.
-
-        @returns (bitrate, psnr, total time taken to encode)
-        """
-
         with open(self.__report_path, 'r') as txt:
             text = txt.read().split("\n")
             for line in text:
@@ -106,13 +103,12 @@ class VVcodec(Codec):
         return bitrate, psnr, total_time
 
     
-    def parse_extra(self) -> tuple:
-        """
-        Parses the .txt output from the encode() method and returns more information than the usual parse()
+    """
+    Parses the .txt output from the encode() method and returns more information than the usual parse()
 
-        @returns (bitrate, yuvpsnr, total time taken to encode, ypsnr, upsnr, vpsnr)
-        """
-        
+    @returns (bitrate, yuvpsnr, total time taken to encode, ypsnr, upsnr, vpsnr)
+    """
+    def parse_extra(self) -> tuple:        
         with open(self.__report_path, 'r') as txt:
             text = txt.read().split("\n")
             for line in text:
@@ -131,15 +127,13 @@ class VVcodec(Codec):
         return bitrate, yuvpsnr, total_time, ypsnr, upsnr, vpsnr
     
 
+    """
+    Adds to csv: 
+    encoder name | video name | video resolution | fps | frame count | qp | bitrate | PSNR | time taken to encode | optional settings
+
+    These csvs are stored in /VC/data/vvcodec-output/csv/{videoname}/
+    """
     def add_to_csv(self, video) -> None:
-        """
-        Adds to csv: 
-        encoder name | video name | video resolution | fps | frame count | qp | bitrate | PSNR | time taken to encode | optional settings
-
-        These csvs are stored in /VC/data/vvcodec-output/csv/{videoname}/
-        """
-
-
         bitrate, psnr, timems = self.parse()
 
         with open(self.__csv_path, 'w', newline='') as metrics_file:
@@ -147,8 +141,6 @@ class VVcodec(Codec):
             metrics_writer.writerow(['encoder','video','resolution','fps','number of frames','qp','bitrate', 'psnr', 'timems','optional settings'])
             metrics_writer.writerow(["VVENC",video.get_name(),video.get_resolution(),video.get_fps(),
                                         self.get_num_frames(),self.get_qp(),bitrate,psnr,timems,self._options_encoder])
-            # TODO: I CHANGED video.get_framesnumber() ABOVE TO self.get_num_frames() --
-            # CHECK IF THIS IS THE RIGHT THING TO DO OR NOT (I THINK IT IS)
             metrics_file.close()
 
 
