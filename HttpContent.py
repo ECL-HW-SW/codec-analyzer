@@ -8,21 +8,36 @@ class HttpContent:
     
     def __init__(self, base_url: str):
         self.base_url = base_url
-        self.access_token = None
-        self.refresh_token = None
+        self.__access_token = None
+        self.__refresh_token = None
 
 
     """
     Logs out of the server. Must be used after all the other methods, to ensure safety and functionality.
 
-    @returns a requests.Response object
+    @returns the request status code (204 if successful)
     """
-    def logout(self) -> requests.Response:
+    def logout(self) -> int:
         headers = {'Content-Type': 'application/json'}
         response = requests.request("POST", "http://localhost:8080/logout", headers=headers)
-        return response      
+        return response.status_code 
 
 
+    """
+    Refreshes the access token using the refresh token
+
+    @returns the request status code (200 if successful)
+    """
+    def refresh_token(self) -> int:
+        headers = {'Content-Type': 'application/json'}
+        payload = {'refreshToken': self.__refresh_token}
+        response = requests.request("POST", f"{self.base_url}/auth/refresh", headers=headers, data=payload)
+        json_response = json.loads(response.content)
+        self.__refresh_token = json_response["refreshToken"]
+        self.__access_token = json_response["token"]
+        return response.status_code
+
+    
     """
     Method used for user authentication in the API
 
@@ -51,8 +66,8 @@ class HttpContent:
         headers = {'Content-Type': 'application/json'}
         response = requests.request("POST", url, headers=headers, data=payload)       
         response = json.loads(response.content)
-        self.access_token = response["token"]
-        self.refresh_token = response["refreshToken"]
+        self.__access_token = response["token"]
+        self.__refresh_token = response["refreshToken"]
 
 
     """
@@ -66,7 +81,7 @@ class HttpContent:
         self, commitHash, uniqueVideoAttrs, uniqueConfigAttrs
     ) -> dict:
         url = f"{self.base_url}/encoding-results/has-entry/{uniqueVideoAttrs}/{uniqueConfigAttrs}/{commitHash}"
-        headers = {'Authorization': f'Bearer {self.token}'}
+        headers = {'Authorization': f'Bearer {self.__access_token}'}
         response = requests.request("GET", url, headers=headers, data={})
         return json.loads(response.content or 'null')
 
@@ -80,34 +95,16 @@ class HttpContent:
 
     @params codec: Codec
     @params results: EncodingResult
-    @returns requesst.Response 
+    @returns requests.Response 
     """
     def POST_encoding_result(self, codec, results) -> requests.Response: 
         video = codec.get_video()
         encoding_config = codec.get_encoding_config()
 
         payload = json.dumps({
-            "codec": {
-                "name": codec.get_codec(),
-                "commitHash": codec.get_commit_hash(),
-                "codecAttrs": codec.get_base_attrs(),
-            },
-            "video": {
-                "name": video.get_name(),
-                "resolution": video.get_resolution(),
-                "fps": video.get_fps(),
-                "nFrames": video.get_framesnumber(),
-                "format": video.get_format(),
-                "uniqueAttrs": video.get_unique_attrs() 
-            },
-            "encodingConfig": {
-                "uniqueAttrs": encoding_config.get_unique_attrs(),
-                "qp": encoding_config.qp,
-                "nFrames": encoding_config.nFrames,
-                "nThreads": encoding_config.nThreads,
-                "codecAttrs": encoding_config.codecSetAttrs,
-                "preset": encoding_config.preset
-            },
+            "codec": codec.to_dict(),
+            "video": encoding_config.to_dict(),
+            "encodingConfig": encoding_config.to_dict(),
             "ypsnr": results["ypsnr"],
             "upsnr": results["upsnr"],
             "vpsnr": results["vpsnr"],
@@ -117,7 +114,7 @@ class HttpContent:
             "energyConsumption": results["energyConsumption"] 
         })
         headers = {
-            'Authorization': f'Bearer {self.token}',
+            'Authorization': f'Bearer {self.__access_token}',
             'Content-Type': 'application/json'
         }
         response = requests.request("POST", f"{self.base_url}/encoding-results", headers=headers, data=payload)
@@ -130,10 +127,9 @@ class HttpContent:
     @returns list of all available EncodingResults
     """
     def GET_all_encoding_results(self) -> list:
-        headers = {'Authorization': f'Bearer {self.token}'}
-        response = requests.request("GET", self.base_url, headers=headers)
-        # TODO: fix this abomination. I'm pretty sure json.dumps() can deal with arrays of objects
-        return ast.literal_eval(response.text)
+        headers = {'Authorization': f'Bearer {self.__access_token}'}
+        response = requests.request("GET", f"{self.base_url}/encoding-results", headers=headers)
+        return json.loads(response.text)
     
 
     """
@@ -142,16 +138,16 @@ class HttpContent:
     so that the data goes unaldutered. 
 
     @param id: the specific EncoidngResult ID, generated by the server
-    @returns requests.Response
+    @returns the status code of the response 
     """
-    def DELETE_encoding_result(self, id: str) -> requests.Response:
+    def DELETE_encoding_result(self, id: str) -> int:
         url = self.base_url + f"/{id}"
         headers = {
-            'Authorization': f'Bearer {self.token}',
+            'Authorization': f'Bearer {self.__access_token}',
             'Content-Type': 'application/json'
         }
         response = requests.request("DELETE", url, headers=headers)
-        return response
+        return response.status_code
     
 
     """GETTERS AND SETTERS"""
@@ -164,4 +160,4 @@ class HttpContent:
 
 
     def is_authenticated(self) -> bool:
-        return True if self.token else False
+        return True if self.__access_token else False
