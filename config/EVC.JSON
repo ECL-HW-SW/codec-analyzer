@@ -7,5 +7,7 @@
         "preset": "faster",
         "frames": "30"
     },
-    "options_decoder" : ""
+    "options_decoder" : "",
+    "base_attrs_encoder": "",
+    "set_attrs_encoder": ""
 }

@@ -1,5 +1,5 @@
 {
-    "encoder_path" : "vvencapp",
+    "encoder_path" : "/home/art/video-coding/tools/vvenc/bin/release-static/vvencapp",
     "decoder_path" : "/home/edulodi/appfiles/vvdec/bin/release-static/vvdecapp",
     
     "options_encoder": {
@@ -7,5 +7,7 @@
         "preset": "faster",
         "frames": "30"
     },
-    "options_decoder" : ""
+    "options_decoder" : "",
+    "base_attrs_encoder": "",
+    "set_attrs_encoder": ""
 }

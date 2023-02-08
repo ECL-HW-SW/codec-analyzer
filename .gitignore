@@ -11,6 +11,9 @@ gmon.out
 # IGNORE CREDENTIALS -- DO NOT REMOVE! 
 creds.json
 
+# I like making annotations in a TODO.md file, but I don't want it being mistakenly committed 
+TODO.md
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
