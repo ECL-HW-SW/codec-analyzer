@@ -4,121 +4,61 @@ import csv
 from .Codec import Codec
 from Logger import Logger
 
-class svt_codec(Codec):
 
-    def __init__(self, config_path, commit_hash, video):
-        super().__init__('svt', config_path, commit_hash=commit_hash)
+class SVT(Codec):
+
+    def __init__(self, codec_config, commit_hash, encoding_config, video):
+        super().__init__("svt-av1", codec_config, commit_hash, encoding_config)
         self._video = video
-        self.__threads = self._options_encoder["threads"]
         self.__paths = GlobalPaths().get_paths()
 
-    #############################GETTERS & SETTERS###########################################
-    def get_threads(self) -> str:
-        return self.__threads
-
-    def set_threads(self, threads: int):
-        self.__threads = str(threads)
-        self._options_encoder["threads"] = str(threads)
-    
-    def get_qp(self):
-        return self._options_encoder["qp"] 
-
-    def set_qp(self, val):
-        self._options_encoder["qp"] = val
-
-    def get_csv_path(self):
-        return self.__csv_path          
-
-    def get_decodeds_path(self):
-        return os.path.join(self.__paths[self._codec]["decoded_dir"])
-
-    def get_csvs_path(self):
-        self.__csvs_path = os.path.join(self.__paths[self._codec]["csv_dir"])
-        return self.__csvs_path
-
-    def get_preset(self) -> str:
-        return self._options_encoder["preset"]
-        
-    def set_preset(self, val):
-        self._options_encoder["preset"] = val
-
-    def get_num_frames(self):
-        return self._options_encoder["frames"]
-
-    def set_num_frames(self, val):
-        self._options_encoder["frames"] = val
-
-    def get_unique_config(self) -> str:
-        return "_".join([
-            self._video.get_name(), str(self.get_qp()) + "qp", str(self.get_num_frames()) + "fr",
-            self._video.get_fps() + "fps", self.get_preset() + "-preset", self.get_threads() + "t"
-        ])
-
-    def set_video(self, video) -> None:
-        self._video = video
-
-    def get_video(self):
-        return self._video
-    ####################################################################################################
 
     def encode(self, force_rerun = 0) -> str:
         log = Logger()
         log.info("ENCODING SVTAV1...")
         paths = GlobalPaths().get_paths()
 
-
-        ##############SETTING PATHS VARIABLES################
-        base_output_name = self.get_unique_config()
-        log.info(base_output_name)
+        # setting the relevant paths 
+        base_output_name = "_".join([
+            self._video.get_name(), str(self.encoding_config.qp) + "qp", str(self._encoding_config.nFrames) + "fr",
+            self._encoding_config.fps + "fps", self.encoding_config.preset + "-preset", self._encoding_config.nThreads + "t"
+        ]); log.debug("base output name (encode):", base_output_name)
         self.__bitstream_path = os.path.join(paths[self._codec]["bitstream_dir"], base_output_name + ".bin")
         self.__report_path = os.path.join(paths[self._codec]["report_dir"], base_output_name + ".txt")
         self.__report_path_time = os.path.join(paths[self._codec]["report_dir"], base_output_name + "_time.txt")
         self.__csv_path = os.path.join(paths[self._codec]["csv_dir"], base_output_name + ".csv")
         self.__decoded_path = os.path.join(paths[self._codec]["decoded_dir"], base_output_name + ".yuv")
-        ######################################################
 
-        ####################CHECK RERUN#######################
+        # used to check whether the encoding process should rerun
         if not force_rerun and os.path.isfile(self.__report_path):
             try:
                 self.parse()
                 return
             except:
                 log.info("Error parsing " + self.__report_path + " re-encoding")
-        #######################################################
         
-        ##############ENCODER OPTIONS##########################
-        frames = self._options_encoder["frames"]
-        threads = self._options_encoder["threads"]
-        preset = {
-            "slower" : lambda x: 1,
-            "slow" : lambda x: 4,
-            "medium" : lambda x: 7,
-            "fast" : lambda x: 10,
-            "faster" : lambda x: 12,
-        }[self._options_encoder["preset"]](self._options_encoder["preset"])
-        #########################################################
+        # setting up command line 
+        cmdline = f'{self._encoder_path} -i {self._video.get_abs_path()} --enable-stat-report 1 '
+        cmdline += f'--stat-file {self.__report_path} ' + self.__append_to_cmdline()
+        cmdline += f'--output {self.__bitstream_path} 2> {self.__report_path_time} '
 
-        ###########COMMAND LINE ASSEMBLY##########################
-        part1 = f"{self.get_encoder_path()} --enable-stat-report 1 --stat-file {self.__report_path} "
-        part2 = f"--crf {self.get_qp()} --lp {threads} -n {frames} --preset {preset} -i {self._video.get_abs_path()} "
-        part3 = f"--output {self.__bitstream_path} 2> {self.__report_path_time}"
-        cmdline = part1+part2+part3
-        ##########################################################
-
-        ####################CALLING OS TO ENCODE##################
-        print(cmdline)
+        # finally, encoding
         os.system(cmdline)
-        log.info(cmdline) 
-        ##########################################################
+        log.debug(cmdline) 
+
 
     def decode(self):     
         log = Logger()
-        log.info("\nDECODING VVCODEC...\n")
+        log.info("DECODING VVCODEC...")
         paths = GlobalPaths().get_paths()
 
-        base_output_name = self.get_unique_config()
+        base_output_name = "_".join([
+            self._video.get_name(), str(self.encoding_config.qp) + "qp", str(self._encoding_config.nFrames) + "fr",
+            self._encoding_config.fps + "fps", self.encoding_config.preset + "-preset", self._encoding_config.nThreads + "t"
+        ]); log.debug("base output name (encode):", base_output_name)
         self.__bitstream_path = os.path.join(paths[self._codec]["bitstream_dir"], base_output_name + ".bin")
         self.__decoded_path = os.path.join(paths[self._codec]["decoded_dir"], base_output_name +".yuv")
+        
 
         bitstream_path = self.__bitstream_path
         if not os.path.exists(bitstream_path):
@@ -131,16 +71,20 @@ class svt_codec(Codec):
         os.system(cmdline)
         return self.__decoded_path
 
+
     def parse(self) -> tuple:
         outgen = self.__report_path
         outtime = self.__report_path_time
         
         bitrate, psnryuv, psnry, psnru, psnrv, timems = self._parse_svt_output(outgen,outtime)
-        return bitrate, psnryuv, psnry, psnru, psnrv, timems/1000
+        # FIXME: the last return is supposed to be the energyConsumption, not yet implemented
+        return bitrate, psnryuv, psnry, psnru, psnrv, timems/1000, 0
 
+    
+    #FIXME: this method, as it stands, is currently is deprecated and not updated
     def add_to_csv(self):
 
-        bitrate, psnryuv, psnry, psnru, psnrv, time_s = self.parse()
+        bitrate, psnryuv, psnry, psnru, psnrv, time_s, _ = self.parse()
 
         with open(self.__csv_path, 'w', newline='') as metrics_file:
             metrics_writer = csv.writer(metrics_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
@@ -148,6 +92,7 @@ class svt_codec(Codec):
             metrics_writer.writerow(["VVENC",self._video.get_name(),self._video.get_resolution(),self._video.get_fps(),
                                         self.get_num_frames(),self.get_qp(),psnry,psnru,psnrv,psnryuv,bitrate,time_s,self.get_unique_config()])
             metrics_file.close()
+
 
     def _parse_svt_output(self,pt1,pt2):
 
@@ -168,3 +113,38 @@ class svt_codec(Codec):
                 continue
             timems = float(strtime.split()[3])
         return bitrate*1024, psnryuv, psnry, psnru, psnrv, timems
+
+
+    def __append_to_cmdline(self) -> str:
+        """
+        This is equivalent to a switch case, which is only introduced in Python3.10 -- a pain to install and use
+        so i'll just let this stay here as a method that can be specified to each codec. It'll probably go into the 
+        parent class soon enough
+        """
+
+        # FIXME: this is not scalable and needs to be fixed properly.
+        equivalents = {
+            "qp": f"--crf {self._encoding_config.qp}",
+            "nFrames": f"-n {self._encoding_config.nFrames}",
+            "preset": f"--preset {self._encoding_config.preset}",
+            "fps": f"--fps {self._encoding_config.fps}",
+            "nThreads": f"--lp {self._encoding_config.nThreads}",
+            "codecSetAttrs": f"{self._encoding_config.codecSetAttrs}"}
+        attrs = [a for a in dir(self._encoding_config) if not a.startswith("__")]
+        for a in attrs:
+            if a != "uniqueAttrs" and a != "get_unique_attrs" and a != "to_dict":
+                cmdline += equivalents[a] + " "
+        return cmdline
+
+
+    def get_csv_path(self):
+        return self.__csv_path    
+
+
+    def get_decodeds_path(self):
+        return os.path.join(self.__paths[self._codec]["decoded_dir"])
+
+
+    def get_csvs_path(self):
+        return self.__csvs_path
+

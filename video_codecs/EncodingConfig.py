@@ -18,8 +18,10 @@ class EncodingConfig:
             "nFrames": self.nFrames,
             "nThreads": self.nThreads,
             "codecAttrs": self.codecSetAttrs,
-            "preset": self.preset
+            "preset": self.preset,
+            "fps": self.fps
         }
+        
 
     def get_unique_attrs(self) -> str:
         """
