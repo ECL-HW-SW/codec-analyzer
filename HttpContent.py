@@ -104,15 +104,8 @@ class HttpContent:
         payload = json.dumps({
             "codec": codec.to_dict(),
             "video": encoding_config.to_dict(),
-            "encodingConfig": encoding_config.to_dict(),
-            "ypsnr": results["ypsnr"],
-            "upsnr": results["upsnr"],
-            "vpsnr": results["vpsnr"],
-            "yuvpsnr": results["yuvpsnr"],
-            "bitrate": results["bitrate"],
-            "time": results["time"],
-            "energyConsumption": results["energyConsumption"] 
-        })
+            "encodingConfig": encoding_config.to_dict()
+        } + results)
         headers = {
             'Authorization': f'Bearer {self.__access_token}',
             'Content-Type': 'application/json'
