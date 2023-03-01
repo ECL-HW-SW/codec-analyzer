@@ -96,6 +96,8 @@ class EVC(Codec):
         part2 = f'--output {self.__bitstream_path} '
         part3 = f'> {self.__report_path}'
         cmdline  = part1+part2+part3 
+        if "--frames 0" in cmdline:
+            cmdline = cmdline.replace("--frames 0", "")
 
         print(cmdline)
         os.system(cmdline)

@@ -10,17 +10,17 @@ import os
 from Video import Video
 
 qps = [32]
-num_frames = 600
+num_frames = 0
 paths = GlobalPaths("config/Paths.JSON").get_paths()
 metrics = MetricsCalculator()
 
-videos = ["config/beauty8b4k.JSON"]
+videos = ["config/videosjson/icecif.JSON","config/videosjson/duckstakeoff720p.JSON"]
 video = Video(videos[0])
 svt = svt_codec("config/SVT.JSON","COMMIT_HASH", video)
 evc = EVC("config/EVC.JSON", "COMMIT_HASH", video)
 vvenc = VVcodec("config/VVEnc.JSON","COMMIT_HASH",video)
 
-codecs = [svt]
+codecs = [evc,svt,vvenc]
 presetsevc = ["fast"]
 presetssvt = ["10"]
 presetsvvenc = ["faster"]

@@ -1,0 +1,8 @@
+{
+    "rel_path": "icecif.y4m",
+    "name": "icecif",
+    "resolution": "352x288",
+    "fps": "30",
+    "framesnumber": "480",
+    "format": "yuv420p"
+}

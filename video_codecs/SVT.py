@@ -101,7 +101,10 @@ class svt_codec(Codec):
 
         ###########COMMAND LINE ASSEMBLY##########################
         part1 = f"{self.get_encoder_path()} --enable-stat-report 1 --stat-file {self.__report_path} "
-        part2 = f"--crf {self.get_qp()} --color-format 3 --lp {threads} -n {frames} --preset {preset} -i {self._video.get_abs_path()} "
+        if frames == 0:
+            part2 = f"--crf {self.get_qp()} --lp {threads} --preset {preset} -i {self._video.get_abs_path()} "
+        else:
+            part2 = f"--crf {self.get_qp()} --lp {threads} -n {frames} --preset {preset} -i {self._video.get_abs_path()} "   
         part3 = f"--output {self.__bitstream_path} 2> {self.__report_path_time}"
         cmdline = part1+part2+part3
         ##########################################################

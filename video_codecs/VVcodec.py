@@ -109,6 +109,8 @@ class VVcodec(Codec):
         part2 = f'--output {self.__bitstream_path} '
         part3 = f'> {self.__report_path}' # TODO: mudar isso dps (o que?)
         cmdline = part1+part2+part3 
+        if "--frames 0" in cmdline:
+            cmdline = cmdline.replace("--frames 0", "")
 
         os.system(cmdline)
         log.info(cmdline)
@@ -128,7 +130,7 @@ class VVcodec(Codec):
 
         part1 = f'{self.get_decoder_path()} -b {self.__bitstream_path} '
         part2 = f'-v 0 -f {self._video.get_framesnumber()} -o {self.__decoded_path} --y4m'
-        cmdline = part1+part2 
+        cmdline = part1+part2
 
         os.system(cmdline)
         log.info(cmdline)
