@@ -3,7 +3,7 @@
     "decoder_path" : "SvtAv1DecApp",
     
     "options_encoder": {
-        "threads": "4",
+        "threads": "8",
         "preset": "faster",
         "frames": "30"
     },

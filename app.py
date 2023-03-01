@@ -9,19 +9,21 @@ import utils
 import os
 from Video import Video
 
-qps = [22,27,32,37]
-num_frames = 30
+qps = [32]
+num_frames = 600
 paths = GlobalPaths("config/Paths.JSON").get_paths()
 metrics = MetricsCalculator()
 
-videos = ["config/Bowing.JSON", "config/akiyo.JSON"]
+videos = ["config/beauty8b4k.JSON"]
 video = Video(videos[0])
 svt = svt_codec("config/SVT.JSON","COMMIT_HASH", video)
 evc = EVC("config/EVC.JSON", "COMMIT_HASH", video)
 vvenc = VVcodec("config/VVEnc.JSON","COMMIT_HASH",video)
 
-codecs = [vvenc, svt, evc]
-
+codecs = [svt]
+presetsevc = ["fast"]
+presetssvt = ["10"]
+presetsvvenc = ["faster"]
 metrics2calculate = ["VMAF","BDBR","BDPSNR"]
 
 
@@ -40,7 +42,15 @@ for vid in videos:
         #creates the output directories for the metrics from the MetricsCalculator
         utils.create_output_dirs(paths, codec.get_codec(), video.get_name(),"metrics")
 
-        for preset in ["fast", "medium", "slow"]:
+        if codec == svt:
+            presets = presetssvt
+        else: 
+            if codec == vvenc:
+                presets = presetsvvenc
+            else:
+                presets = presetsevc
+
+        for preset in presets:
             #creates output dirs for each preset and video
             utils.create_output_dirs(paths, codec.get_codec(), video.get_name(),"", preset)
             tests[preset] = {}
@@ -53,7 +63,7 @@ for vid in videos:
                 codec.set_preset(preset)
 
                 #encode and parse the results into a csv file
-                codec.encode()
+                codec.encode(1)
                 codec.add_to_csv()
 
                 #decode the video, returns into decoded_video the full path of the decoded video file. 
@@ -76,9 +86,9 @@ for vid in videos:
                     metrics.vmaf_parse("./output/"+codec.get_codec()+"/metrics/VMAF/" + video.get_name())
 
     comp = CodecComparator()
-    print("VVENC-EVC BDRATE:", comp.bdrate(vvenc.get_csvs_path(), evc.get_csvs_path()))
-    print("SVT-EVC BDRATE:", comp.bdrate(svt.get_csvs_path(), evc.get_csvs_path()))
-    print("VVENC-SVT BDRATE:", comp.bdrate(vvenc.get_csvs_path(), svt.get_csvs_path()))
+    #print("VVENC-EVC BDRATE:", comp.bdrate(vvenc.get_csvs_path(), evc.get_csvs_path()))
+    #print("SVT-EVC BDRATE:", comp.bdrate(svt.get_csvs_path(), evc.get_csvs_path()))
+    #print("VVENC-SVT BDRATE:", comp.bdrate(vvenc.get_csvs_path(), svt.get_csvs_path()))
 
 
 #####

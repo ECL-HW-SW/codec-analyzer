@@ -1,5 +1,5 @@
 {
-    "encoder_path" : "vvencapp",
+    "encoder_path" : "/home/edulodi/appfiles/vvenc/bin/release-static/vvencapp",
     "decoder_path" : "/home/edulodi/appfiles/vvdec/bin/release-static/vvdecapp",
     
     "options_encoder": {

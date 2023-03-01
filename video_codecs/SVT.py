@@ -89,18 +89,19 @@ class svt_codec(Codec):
         ##############ENCODER OPTIONS##########################
         frames = self._options_encoder["frames"]
         threads = self._options_encoder["threads"]
-        preset = {
-            "slower" : lambda x: 1,
-            "slow" : lambda x: 4,
-            "medium" : lambda x: 7,
-            "fast" : lambda x: 10,
-            "faster" : lambda x: 12,
-        }[self._options_encoder["preset"]](self._options_encoder["preset"])
+        #preset = {
+        #    "slower" : lambda x: 1,
+        #    "slow" : lambda x: 4,
+        #    "medium" : lambda x: 7,
+        #    "fast" : lambda x: 10,
+        #    "faster" : lambda x: 12,
+        #}[self._options_encoder["preset"]](self._options_encoder["preset"])
+        preset = self._options_encoder["preset"]
         #########################################################
 
         ###########COMMAND LINE ASSEMBLY##########################
         part1 = f"{self.get_encoder_path()} --enable-stat-report 1 --stat-file {self.__report_path} "
-        part2 = f"--crf {self.get_qp()} --lp {threads} -n {frames} --preset {preset} -i {self._video.get_abs_path()} "
+        part2 = f"--crf {self.get_qp()} --color-format 3 --lp {threads} -n {frames} --preset {preset} -i {self._video.get_abs_path()} "
         part3 = f"--output {self.__bitstream_path} 2> {self.__report_path_time}"
         cmdline = part1+part2+part3
         ##########################################################
@@ -159,7 +160,7 @@ class svt_codec(Codec):
             psnry = float(out_string[results_index].split()[2])
             psnru = float(out_string[results_index].split()[4])
             psnrv = float(out_string[results_index].split()[6])
-            psnryuv = float("{:.2f}".format((4*psnry + psnru +psnrv)/6))
+            psnryuv = float("{:.2f}".format((6*psnry + psnru +psnrv)/8))
 
         with open(pt2, 'rt') as outtime_text:
             outtime_string = outtime_text.readlines()

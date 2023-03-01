@@ -1,2 +1,0 @@
-codec,video,resolution,fps,number of frames,qp,ypsnr,upsnr,vpsnr,psnr,bitrate,time(s),optional settings
-EVC,akiyo,352x288,29.97,30,27,40.981,44.7912,46.0664,42.4636,108052.4800,1.251,akiyo_27qp_30fr_29.97fps_fast-preset_8t

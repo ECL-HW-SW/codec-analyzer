@@ -1,6 +1,6 @@
 {
-    "raw_videos_path": "/home/edulodi/videocoding/videos",
-    "proj_root": "home/edulodi/videocoding/codec-research",
+    "raw_videos_path": "/home/edulodi/video-coding/videos/",
+    "proj_root": "/home/edulodi/video-coding/codec-research",
     "codecs_path": "",
    
     "output_dir": "output",

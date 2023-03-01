@@ -161,7 +161,7 @@ class EVC(Codec):
             PSNR_Y_fullvideo = float(text[-12].split()[3])
             PSNR_U_fullvideo = float(text[-11].split()[3])
             PSNR_V_fullvideo = float(text[-10].split()[3])
-            psnr = ((4*PSNR_Y_fullvideo)+(PSNR_U_fullvideo)+(PSNR_V_fullvideo))/6
+            psnr = ((6*PSNR_Y_fullvideo)+(PSNR_U_fullvideo)+(PSNR_V_fullvideo))/8
             psnr = float(f'{psnr:.4f}')
             Brate_fullvideo = float(text[-6].split()[2])*1024
             Brate_fullvideo = f'{Brate_fullvideo:.4f}'
